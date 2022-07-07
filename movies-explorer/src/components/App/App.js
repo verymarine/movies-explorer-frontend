@@ -17,6 +17,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
 import FilterCheckbox from "../Movies/FilterCheckbox/FilterCheckbox";
+import SavedMovies from "../SavedMovies/SavedMovies";
 
 // import ProtectedRoute from "./ProtectedRoute";
 
@@ -42,6 +43,10 @@ function App() {
                 {/* <Header /> */}
                 <Route path="/movies">
                     <Movies />
+                </Route>
+
+                <Route path="/saved-movies">
+                    <SavedMovies />
                 </Route>
 
                 <Route path="signup">

@@ -1,4 +1,5 @@
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import SearchForm from "./SearchForm/SearchForm";
@@ -6,12 +7,16 @@ import SearchForm from "./SearchForm/SearchForm";
 
 function Movies(props) {
     return (
-        <div>
+        <>
             <Header />
-            <SearchForm />
-            <FilterCheckbox />
-            <MoviesCardList />
-        </div>
+            <main className="main">
+                <SearchForm />
+                <FilterCheckbox />
+                <MoviesCardList />
+            </main>
+            <Footer />
+
+        </>
     )
 }
 

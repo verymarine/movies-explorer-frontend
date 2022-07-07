@@ -1,3 +1,4 @@
+import Footer from "../Footer/Footer.js";
 import Header from "../Header/Header.js";
 import AboutMe from "./AboutMe/AboutMe.js";
 import AboutProject from "./AboutProject/AboutProject.js";
@@ -14,6 +15,7 @@ function Main(props) {
             <Techs />
             <AboutMe />
             <Portfolio />
+            <Footer />
         </div>
 
     );
