@@ -1,11 +1,11 @@
 .register {
-    margin: 70px auto 0 auto;
+    margin: 0 auto 0 auto;
     padding: 0;
     max-width: 396px;
 
 }
 
-.register__logo {
+/* .register__logo {
     margin: 0;
     padding: 0;
     width: 38px;
@@ -23,8 +23,8 @@
     /* identical to box height */
 
 
-    color: #000000;
-}
+    /* color: #000000; */
+/* } */
 
 .register__form {
     margin: 40px 0 0 0;

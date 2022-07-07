@@ -1,5 +1,5 @@
 .header {
-    background-color: #F3C1F8;
+    background-color: #FFFFFF;
     margin: 0;
     padding: 0;
     display: flex;
@@ -7,10 +7,60 @@
 }
 
 .logo {
-    margin: 18px auto 18px 70px;
+    margin: 18px 0 18px 70px;
     height: 38px;
     width: 38px;
     color: black;
+}
+
+.header__movies-block {
+    /* margin: 28px 0 0 0; */
+    padding: 0;
+}
+
+.header__movies {
+    margin: 28px 16px 0 44px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height, or 138% */
+    text-decoration: none;
+    text-align: right;
+
+    color: #000000;
+}
+
+.header__saved-movies {
+    margin: 28px 0 0 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height, or 138% */
+    text-decoration: none;
+    text-align: right;
+
+    color: #000000;
+}
+
+.header__profile {
+    margin: 21px 70px 0 0;
+    width: 100px;
+    height: 32px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    /* identical to box height, or 114% */
+    text-decoration: none;
+    background: #F9F9F9;
+    border-radius: 20px;
+    text-align: center;
+    color: #000000;
 }
 
 .header__register {
@@ -28,7 +78,7 @@
 
 .header__register:hover {
     opacity: .6;
-  }
+}
 
 .header__login {
     margin: 21px 70px 21px 0;
@@ -49,4 +99,4 @@
 
 .header__login:hover {
     opacity: .6;
-  }
+}
