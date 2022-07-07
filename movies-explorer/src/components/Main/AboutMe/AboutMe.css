@@ -1,0 +1,110 @@
+.about-me {
+    margin: 0;
+    padding: 0;
+
+}
+
+.about-me__title {
+    margin: 0 auto 23px 70px;
+    padding: 110px 0 0 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+}
+
+.about-me__line {
+    margin: 0 70px;
+    padding: 0;
+    border-bottom: 1px solid #000000;
+}
+
+.about-me__block-info {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-rows: repeat(4, minmax(18px, 1fr)); */
+
+    /* grid-template-columns: repeat(2, minmax(min-content, max-content)); */
+    grid-template-areas: "name photo"
+        "about photo"
+        "text photo"
+        "link photo";
+}
+
+.about-me__name {
+    margin: 66px 0 0 70px;
+    padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    /* identical to box height, or 116% */
+
+    letter-spacing: -0.04em;
+    grid-area: name;
+}
+
+.about-me__about {
+    margin: 18px 0 0 70px;
+    padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    /* identical to box height, or 111% */
+    grid-area: about;
+}
+
+.about-me__text {
+    margin: 26px 0 0 70px;
+    padding: 0;
+    width: 600px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: justify;
+    /* or 157% */
+    grid-area: text;
+}
+
+.about-me__photo {
+    margin: 66px 70px 0 auto;
+    padding: 0;
+    width: 270px;
+    height: 327px;
+    object-fit: cover;
+    border-radius: 10px;
+    /* display: inline; */
+    grid-area: photo;
+}
+
+.about-me__link-area {
+    margin: 99px 0 0 70px;
+    padding: 0;
+    /* display: block; */
+    grid-area: link;
+}
+
+.about-me__link {
+    margin: 0;
+    padding: 0;
+    /* display: block; */
+    /* grid-area: link; */
+}
+
+.about-me__link:hover {
+
+    cursor: pointer;
+    opacity: .5;
+}
+
+.about-me__link:last-of-type {
+    margin-left: 20px;
+}
