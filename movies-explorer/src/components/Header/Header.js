@@ -7,13 +7,13 @@ function Header(props) {
     <header className="header">
 
       {/* <p className={`${props.userEmail && "header__email"}`}>{props.userEmail}</p> */}
-      <div className="header__movies-block">
+      {/* <div className="header__movies-block"> */}
         <Link to="/">
         <img className="logo" src={logo} alt="Логотип сайта в виде круга" />
         </Link>
         <Link to="/movies" className="header__movies">Фильмы</Link>
         <Link to="/saved-movies" className="header__saved-movies">Сохранённые фильмы</Link>
-      </div>
+      {/* </div> */}
       <Link to="/profile" className="header__profile">Аккаунт</Link>
       {/* <Link
         to='/signup' className="header__register" onClick={props.exit}>Регистрация

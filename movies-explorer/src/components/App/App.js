@@ -16,7 +16,6 @@ import Movies from "../Movies/Movies";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
-import FilterCheckbox from "../Movies/FilterCheckbox/FilterCheckbox";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 

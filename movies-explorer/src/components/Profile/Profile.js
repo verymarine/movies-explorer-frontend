@@ -10,22 +10,22 @@ function Profile(props) {
                 <h2 className="profile__title">Привет, Марина!</h2>
                 <form className="profile__form">
                     <label className="profile__label">
-                        E-mail
+                        Имя
                         <input
                             className="profile__input"
-                            id="email"
-                            name="email"
-                            type="email"
-                        >Марина</input>
+                            name="name"
+                            type="text"
+                            defaultValue="Марина"
+                        />
                     </label>
 
                     <label className="profile__label">
                         E-mail
                         <input
                             className="profile__input"
-                            id="email"
                             name="email"
                             type="email"
+                            defaultValue="test@test.ru"
                         />
                     </label>
 
@@ -40,7 +40,7 @@ function Profile(props) {
             </section>
         </>
 
-    );
+    )
 }
 
 export default Profile;
