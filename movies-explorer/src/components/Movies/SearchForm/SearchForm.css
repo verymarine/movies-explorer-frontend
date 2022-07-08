@@ -47,3 +47,29 @@
     background: #000000;
     border-radius: 40px;
 }
+
+@media screen and (max-width: 1023px) {
+    .search-form__input {
+        max-width: 628px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .search-form__form {
+        margin: 81px auto 44px 14px;
+    }
+    
+    .search-form__input {
+        width: 212px;
+        height: 44px;
+    }
+    
+    .search-form__input::placeholder {
+        font-size: 12px;
+    }
+    
+    .search-form__button {
+        margin: 0 0 0 15px;
+    }
+}

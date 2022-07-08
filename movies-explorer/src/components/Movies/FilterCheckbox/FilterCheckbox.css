@@ -54,3 +54,11 @@ input:checked[type="checkbox"]:before {
     line-height: 18px;
     color: #000000;
 }
+
+@media screen and (max-width: 767px) {
+    .checkbox__title {
+        margin-left: 13px;
+        font-size: 11px;
+        line-height: 18px;
+    }
+}

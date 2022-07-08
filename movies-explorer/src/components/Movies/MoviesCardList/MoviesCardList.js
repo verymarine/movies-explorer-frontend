@@ -55,7 +55,7 @@ function MoviesCardList(props) {
                     className="movies-card__delete"
                 />
             </section>
-            <button className="movies-list__button-more">Ещё</button>
+            {/* <button className="movies-list__button-more">Ещё</button> */}
         </>
 
 

@@ -75,7 +75,8 @@
     background-image: url('../../../images/like.svg');
     background-size: 16px 16px;
     background-color: transparent;
-    background-repeat: no-repeat;;
+    background-repeat: no-repeat;
+    ;
     width: 16px;
     height: 16px;
     background: #2BE080;
@@ -90,8 +91,35 @@
     background-image: url('../../../images/delete.svg');
     background-size: 16px 16px;
     background-color: transparent;
-    background-repeat: no-repeat;;
+    background-repeat: no-repeat;
+    ;
     width: 16px;
     height: 16px;
     border: none;
+}
+
+@media screen and (max-width: 1023px) {
+    .movies-card {
+        width: 339px;
+        height: 257px;
+    }
+
+    .movies-card__video {
+        margin: 0;
+        padding: 0;
+        width: 339px;
+        height: 190px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .movies-card {
+        width: 300px;
+        height: 235px;
+    }
+
+    .movies-card__video {
+        width: 300px;
+        height: 168px;
+    }
 }
