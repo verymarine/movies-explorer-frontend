@@ -29,9 +29,9 @@ function App() {
     return (
         <div className="page">
             <Switch>
-                {/* {/* <Route exact path="/">
+                <Route exact path="/">
                     <Main />
-                </Route> 
+                </Route>
 
                 <Route path="/movies">
                     <Movies />
@@ -55,7 +55,7 @@ function App() {
 
                 <Route path="*">
                     <NotFound />
-                </Route> */}
+                </Route>
 
                 <Navigation />
             </Switch>
