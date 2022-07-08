@@ -1,4 +1,7 @@
-.portfolio {}
+.portfolio {
+    margin: 0;
+    padding: 0;
+}
 
 .portfolio__title {
     margin: 100px 0 0 70px;
@@ -8,38 +11,73 @@
     font-weight: 400;
     font-size: 18px;
     line-height: 20px;
-    /* identical to box height, or 111% */
-
     color: #A0A0A0;
 }
 
-.portfolio__link {
-margin: 50px 0 0 70px;
-padding: 0;
-width: 1140px;
-display: block;
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 30px;
-line-height: 50px;
-/* identical to box height, or 167% */
-color: #000000;
-letter-spacing: -0.04em;
-text-decoration: none;
-background-image: url('../../../images/link.svg');
-background-repeat: no-repeat;
-background-position: right;
-background-size: 29px;
+.portfolio__list {
+    margin: 0 0 125px 70px;
+    padding: 0;
+}
 
+.portfolio__list-item {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.portfolio__link {
+    margin: 50px 0 0 0;
+    padding: 0 0 19px 0;
+    max-width: 1140px;
+    display: block;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 50px;
+    color: #000000;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+    background-image: url('../../../images/link.svg');
+    background-repeat: no-repeat;
+    background-position: right;
 }
 
 .portfolio__link:hover {
-    opacity: .5;
+    opacity: .6;
 }
 
-.portfolio__line {
-    margin: 0 70px;
-    padding: 0;
-    border-bottom: 1px solid #E8E8E8;
+@media screen and (max-width: 1023px) {
+    .portfolio__title {
+        margin: 90px 0 0 50px;
+    }
+
+    .portfolio__list {
+        margin: 0 50px 90px 50px;
+    }
+
+    .portfolio__link {
+        margin-top: 50px;
+        font-size: 28px;
+        line-height: 50px;
+    }
+}
+
+
+@media screen and (max-width: 767px) {
+    .portfolio__title {
+        margin: 70px 0 0 14px;
+        font-size: 14px;
+    }
+
+    .portfolio__list {
+        margin: 0 14px 70px 14px;
+    }
+
+    .portfolio__link {
+        margin: 40px 0 0 0;
+        font-size: 18px;
+        line-height: 28px;
+    }
 }

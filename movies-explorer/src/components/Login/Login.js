@@ -1,5 +1,4 @@
 import "./Login.css";
-import logo from "../../images/logo.svg";
 import { Link, Route } from "react-router-dom";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
 
@@ -8,14 +7,11 @@ function Login(props) {
         <>
             <HeaderAuth />
             <div className="login">
-                {/* <img className="login__logo" src={logo} alt="логотип в виде круга" />
-            <h2 className="login__title">Рады видеть!</h2> */}
                 <form className="login__form">
                     <label className="login__label">
                         E-mail
                         <input
                             className="login__input"
-                            // placeholder="E-mail"
                             id="email"
                             name="email"
                             type="email"
@@ -26,7 +22,6 @@ function Login(props) {
                         Пароль
                         <input
                             className="login__input"
-                            // placeholder="Пароль"
                             id="password"
                             name="password"
                             type="password"

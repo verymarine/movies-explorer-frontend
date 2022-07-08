@@ -18,6 +18,7 @@ import Login from "../Login/Login";
 import NotFound from "../NotFound/NotFound";
 import FilterCheckbox from "../Movies/FilterCheckbox/FilterCheckbox";
 import SavedMovies from "../SavedMovies/SavedMovies";
+import Profile from "../Profile/Profile";
 
 // import ProtectedRoute from "./ProtectedRoute";
 
@@ -27,44 +28,34 @@ function App() {
 
     return (
         <div className="page">
-
             <Switch>
                 <Route exact path="/">
                     <Main />
                 </Route>
-                {/* <ProtectedRoute component={Main}  path="/main" /> */}
-                {/* <Route path="/signup"> <Register /></Route> */}
-                {/* <Route path="/signin"> <Login />  </Route> */}
-                {/* <Route exact path="/">{loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}</Route> */}
-                {/* <Route path="*">{<Redirect to="/" />}</Route> */}
 
-
-
-                {/* <Header /> */}
                 <Route path="/movies">
                     <Movies />
+                </Route>
+
+                <Route path="/profile">
+                    <Profile />
                 </Route>
 
                 <Route path="/saved-movies">
                     <SavedMovies />
                 </Route>
 
-                <Route path="signup">
-
-
-                </Route>
                 <Route path="/signin">
                     <Login />
                 </Route>
+
                 <Route path="/signup">
                     <Register />
                 </Route>
-                {/* <Footer /> */}
-                {/* <NotFound /> */}
 
-
-                {/* <Footer /> */}
-                {/* </CurrentUserContext.Provider> */}
+                <Route path="*">
+                    <NotFound />
+                </Route>
             </Switch>
         </div>
     );

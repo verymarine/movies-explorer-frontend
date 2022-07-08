@@ -1,5 +1,6 @@
 .header {
     background-color: #FFFFFF;
+    max-width: 1280px;
     margin: 0;
     padding: 0;
     display: flex;
@@ -11,6 +12,11 @@
     height: 38px;
     width: 38px;
     color: black;
+    cursor: pointer;
+}
+
+.logo:hover {
+    opacity: .6;
 }
 
 .header__movies-block {
@@ -100,3 +106,94 @@
 .header__login:hover {
     opacity: .6;
 }
+
+@media screen and (max-width: 768px) {
+
+    .header__movies-block {
+        /* margin: 28px 0 0 0; */
+        padding: 0;
+    }
+    
+    .header__movies {
+        margin: 28px 16px 0 44px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 18px;
+        /* identical to box height, or 138% */
+        text-decoration: none;
+        text-align: right;
+    
+        color: #000000;
+    }
+    
+    .header__saved-movies {
+        margin: 28px 0 0 0;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 18px;
+        /* identical to box height, or 138% */
+        text-decoration: none;
+        text-align: right;
+    
+        color: #000000;
+    }
+    
+    .header__profile {
+        margin: 21px 70px 0 0;
+        width: 100px;
+        height: 32px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        /* identical to box height, or 114% */
+        text-decoration: none;
+        background: #F9F9F9;
+        border-radius: 20px;
+        text-align: center;
+        color: #000000;
+    }
+    
+    .header__register {
+        margin: 29px 30px 29px auto;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: none;
+        color: #000000;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+    }
+    
+    .header__register:hover {
+        opacity: .6;
+    }
+    
+    .header__login {
+        margin: 21px 70px 21px 0;
+        padding: 8px 20px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #FFFFFF;
+        background-color: #000000;
+        border-radius: 3px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+    
+    
+    }
+    
+    .header__login:hover {
+        opacity: .6;
+    }
+  }

@@ -1,8 +1,8 @@
-import logo from "../../images/logo.svg";
-import "./Header.css";
+import logo from "../../../images/logo.svg";
+import "./HeaderMain.css";
 import { Link } from "react-router-dom";
 
-function Header(props) {
+function HeaderMain(props) {
   return (
     <header className="header">
       <img className="logo" src={logo} alt="Логотип сайта в виде круга" />
@@ -16,4 +16,4 @@ function Header(props) {
     </header>
   );
 }
-export default Header;
+export default HeaderMain;

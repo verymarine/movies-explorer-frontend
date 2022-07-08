@@ -1,5 +1,5 @@
 import Footer from "../Footer/Footer.js";
-import Header from "../Header/Header.js";
+import Header from "./HeaderMain/HeaderMain.js";
 import AboutMe from "./AboutMe/AboutMe.js";
 import AboutProject from "./AboutProject/AboutProject.js";
 import Portfolio from "./Portfolio/Portfolio.js";

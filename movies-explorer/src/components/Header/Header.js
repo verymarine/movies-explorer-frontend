@@ -8,7 +8,9 @@ function Header(props) {
 
       {/* <p className={`${props.userEmail && "header__email"}`}>{props.userEmail}</p> */}
       <div className="header__movies-block">
-      <img className="logo" src={logo} alt="Логотип сайта в виде круга" />
+        <Link to="/">
+        <img className="logo" src={logo} alt="Логотип сайта в виде круга" />
+        </Link>
         <Link to="/movies" className="header__movies">Фильмы</Link>
         <Link to="/saved-movies" className="header__saved-movies">Сохранённые фильмы</Link>
       </div>

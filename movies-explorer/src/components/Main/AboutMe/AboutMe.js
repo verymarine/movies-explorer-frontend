@@ -10,15 +10,15 @@ function AboutMe(props) {
                 <h3 className="about-me__name">Марина</h3>
                 <h4 className="about-me__about">Фронтенд-разработчица, 27 лет</h4>
                 <p className="about-me__text">
-                    Проживаю в Санкт-Петербурге 8 лет.
-                    В свободное время люблю снимать на пленочный фотоаппарат, играть в пинг-понг, кататься на велосипеде. Год назад занялась изучением
-                    Веб-разработка,это то направление где я хочу развиваться и прикладывать услия для усовершенствования своих знаний и умений.
+                    Проживаю в Санкт-Петербурге.
+                    В свободное время люблю снимать на пленочный фотоаппарат, кататься на велосипеде, играть в пинг-понг (｡･ω･)ρ┳┷┳ﾟσ(･ω･*). Год назад начала путь изучения
+                    Веб-разработки, это то направлени, где я хочу развиваться и прикладывать услия для усовершенствования своих знаний и умений.
                 </p>
 
                 <img className="about-me__photo" src={photo} alt="Фото Марины" />
                 <div className="about-me__link-area">
-                    <a className="about-me__link">Facebook</a>
-                    <a className="about-me__link">Github</a>
+                    <a className="about-me__link" href="https://ru.wikipedia.org/wiki/Facebook#Блокировки_сервиса">Facebook</a>
+                    <a className="about-me__link" href="https://github.com/verymarine">Github</a>
                 </div>
 
             </div>

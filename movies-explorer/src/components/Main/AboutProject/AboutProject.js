@@ -15,10 +15,13 @@ function AboutProject(props) {
                     У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.
                 </p>
             </div>
-            <p className="about-project__stage-period">1 неделя</p>
-            <p className="about-project__stage-period">4 недели</p>
-            <p className="about-project__stage-text">Back-end</p>
-            <p className="about-project__stage-text">Front-end</p>
+            <div className="about-project__stages">
+                <p className="about-project__stage-period">1 неделя</p>
+                <p className="about-project__stage-period">4 недели</p>
+                <p className="about-project__stage-text">Back-end</p>
+                <p className="about-project__stage-text">Front-end</p>
+            </div>
+
         </section>
     )
 }
