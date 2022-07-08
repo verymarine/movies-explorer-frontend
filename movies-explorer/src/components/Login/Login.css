@@ -107,25 +107,18 @@
 
 .login__text {
     margin: 16px 6px 0 0;
-    /* margin: 0; */
     padding: 0;
-    /* max-width: 169px; */
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
     display: block;
-    /* identical to box height */
-
-    /* text-align: center; */
-
     color: #A0A0A0;
 }
 
 .login__link {
     margin: 16px 0 0 0;
-    /* margin: 0; */
     padding: 0;
     max-width: 42px;
     display: block;
@@ -134,9 +127,45 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-    /* identical to box height */
 text-decoration: none;
-    /* text-align: center; */
-
     color: #000000;
+}
+
+@media screen and (max-width: 767px) {
+
+    .login {
+        max-width: 260px;
+    }
+
+    .login__form {
+        margin: 80px auto 0 auto;
+    }
+
+    .login__input {
+        margin: 5px 0 0 0;
+        padding: 0 0 10px 0;
+        width: 260px;
+    }
+
+    .login__button {
+        padding: 0;
+        margin: 309px auto 0 auto;
+        width: 260px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .login__text {
+        margin: 14px 7px 0 0;
+        max-width: 163px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .login__link {
+        margin: 14px 0 0 0;
+        max-width: 76px;
+        font-size: 12px;
+        line-height: 15px;
+    }
 }
