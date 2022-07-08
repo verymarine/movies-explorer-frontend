@@ -44,3 +44,28 @@
 .not-found__button:hover {
     opacity: .6;
 }
+
+@media screen and (max-width: 1023px) {
+    .not-found__title {
+        margin-top: 408px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .not-found__title {
+        margin-top: 329px;
+        font-size: 80px;
+        line-height: 97px;
+    }
+
+    .not-found__text {
+        margin-top: 10px;
+        line-height: 15px;
+    }
+
+    .not-found__button {
+        margin-top: 284px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
