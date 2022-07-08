@@ -9,6 +9,7 @@
     padding: 0;
     width: 38px;
     height: 38px;
+    display: block;
 }
 
 .header-auth__title {
@@ -20,4 +21,26 @@
     font-size: 24px;
     line-height: 29px;
     color: #000000;
+}
+
+@media screen and (max-width: 1023px) {
+    .header-auth {
+        margin-top: 232px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .header-auth {
+        margin: 56px auto 0 auto;
+        max-width: 320px;
+    }
+
+    .header-auth__logo {
+        margin: 0 auto 0 auto;
+    }
+    
+    .header-auth__title {
+        margin: 50px auto 0 auto;
+        text-align: center;
+    }
 }
