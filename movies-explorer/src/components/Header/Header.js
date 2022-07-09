@@ -15,6 +15,7 @@ function Header(props) {
         <Link to="/saved-movies" className="header__saved-movies">Сохранённые фильмы</Link>
       {/* </div> */}
       <Link to="/profile" className="header__profile">Аккаунт</Link>
+      <button className="header__navigation" type="button"></button>
       {/* <Link
         to='/signup' className="header__register" onClick={props.exit}>Регистрация
       </Link>

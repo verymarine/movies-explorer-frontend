@@ -103,12 +103,46 @@
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
-
-
 }
 
 .header__login:hover {
     opacity: .6;
+}
+
+.header__navigation {
+    margin: 15px 30px 15px auto;
+    padding: 0;
+    display: none;
+    background-image: url("../../images/navigation.svg");
+    background-repeat: no-repeat;
+    background-size: 40px 43px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 43px;
+    border: none;
+}
+
+@media screen and (max-width: 1023px) {
+    .logo {
+        margin-left: 14px;
+    }
+
+    .header__movies {
+        display: none;
+    }
+
+    .header__saved-movies {
+        display: none;
+    }
+
+    .header__profile {
+        display: none;
+    }
+
+    .header__navigation {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -116,12 +150,19 @@
         margin-left: 14px;
     }
 
-    /* .header-main__register {
-        font-size: 10px;
+    .header__movies {
+        display: none;
     }
 
-    .header-main__login {
-        margin-right: 14px;
-        font-size: 10px;
-    } */
+    .header__saved-movies {
+        display: none;
+    }
+
+    .header__profile {
+        display: none;
+    }
+
+    .header__navigation {
+        display: block;
+    }
 }
