@@ -108,3 +108,56 @@
     color: #000000;
     cursor: pointer;
 }
+
+@media screen and (max-width: 767px) {
+    
+    .navigation {
+        padding: 0;
+        margin: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 1s, opacity 0.3s ease-in-out;
+        justify-content: center;
+        align-items: center;
+    
+    }
+    
+    .navigation__opened {
+        display: flex;
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s, opacity 0.7s ease-in-out;
+    }
+    
+    .navigation__close {
+        top: 13px;
+        right: 13px;
+    }
+    
+    .navigation__block {
+        min-width: 320px;
+    }
+    
+    .navigation__main {
+        margin-top: 144px;
+    }
+    
+    .navigation__movies {
+        margin-top: 24px;
+    }
+    
+    .navigation__saved-movies {
+        margin-top: 24px;
+    }
+    
+    .navigation__profile {
+        margin: 444px auto 46px auto;
+    }
+}
