@@ -8,7 +8,9 @@ import "./SavedMovies.css";
 function SavedMovies(props) {
     return (
         <>
-            <Header />
+            <Header
+                openNavigation={props.onClick}
+            />
             <main className="main">
                 <SearchForm />
                 <FilterCheckbox />
