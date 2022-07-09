@@ -136,6 +136,10 @@
 }
 
 @media screen and (max-width: 1023px) {
+    .header {
+        display: flex;
+    }
+
     .logo {
         margin-left: 14px;
     }
@@ -158,6 +162,9 @@
 }
 
 @media screen and (max-width: 767px) {
+    .header {
+        display: flex;
+    }
     .logo {
         margin-left: 14px;
     }
@@ -175,6 +182,7 @@
     }
 
     .header__navigation {
+        margin: 15px 16px 14px auto;
         display: block;
     }
 }
