@@ -3,6 +3,7 @@
 .search-form__form {
     margin: 80px auto 30px 70px;
     padding: 0;
+    display: flex;
 }
 
 .search-form__input {
@@ -54,6 +55,12 @@
 }
 
 @media screen and (max-width: 1023px) {
+    .search-form__form {
+        margin-left: auto;
+        display: flex;
+        justify-content: center;
+    }
+
     .search-form__input {
         max-width: 628px;
     }
