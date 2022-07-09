@@ -79,6 +79,10 @@
     cursor: pointer;
 }
 
+.profile__button:hover {
+    opacity: .6;
+}
+
 .profile__link {
     margin: 16px auto 0 auto;
     padding: 0;
@@ -92,4 +96,8 @@
     text-align: center;
     color: #FF4062;
     cursor: pointer;
+}
+
+.profile__link:hover {
+    opacity: .6;
 }
