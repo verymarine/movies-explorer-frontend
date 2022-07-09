@@ -17,8 +17,8 @@ function AboutMe(props) {
 
                 <img className="about-me__photo" src={photo} alt="Фото Марины" />
                 <div className="about-me__link-area">
-                    <a className="about-me__link" href="https://ru.wikipedia.org/wiki/Facebook#Блокировки_сервиса">Facebook</a>
-                    <a className="about-me__link" href="https://github.com/verymarine">Github</a>
+                    <a className="about-me__link" href="https://ru.wikipedia.org/wiki/Facebook#Блокировки_сервиса" target="blank">Facebook</a>
+                    <a className="about-me__link" href="https://github.com/verymarine" target="blank">Github</a>
                 </div>
 
             </div>

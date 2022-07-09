@@ -7,15 +7,15 @@ function Portfolio(props) {
             <ul className="portfolio__list">
 
                 <li className="portfolio__list-item">
-                    <a className="portfolio__link" href="*">Статичный сайт</a>
+                    <a className="portfolio__link" href="https://verymarine.github.io/how-to-learn/" target="blank">Статичный сайт</a>
                 </li>
 
                 <li className="portfolio__list-item">
-                    <a className="portfolio__link" href="https://verymarine.github.io/russian-travel/">Адаптивный сайт</a>
+                    <a className="portfolio__link" href="https://verymarine.github.io/russian-travel/" target="blank">Адаптивный сайт</a>
                 </li>
 
                 <li className="portfolio__list-item">
-                    <a className="portfolio__link" href="https://verymarine.github.io/mesto/">Одностраничное приложение</a>
+                    <a className="portfolio__link" href="https://verymarine.github.io/mesto/" target="blank">Одностраничное приложение</a>
                 </li>
             </ul>
         </section>
