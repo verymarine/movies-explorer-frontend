@@ -24,7 +24,20 @@ import Navigation from "../Navigation/Navigation";
 
 
 
+
 function App() {
+
+    // Стейт, в котором содержится значение навигации
+    const [isNavigationOpen, setIsNavigationOpen] = React.useState(false);
+
+    // Обработчик открытия попапа Редактирование профиля обновляет стейт
+    function handleNavigationClick() {
+        setIsNavigationOpen(true);
+    }
+
+    function closeNavigation() {
+        setIsNavigationOpen(false);
+    }
 
     return (
         <div className="page">
@@ -34,7 +47,9 @@ function App() {
                 </Route>
 
                 <Route path="/movies">
-                    <Movies />
+                    <Movies
+                        onClick={handleNavigationClick}
+                    />
                 </Route>
 
                 <Route path="/profile">
@@ -42,7 +57,9 @@ function App() {
                 </Route>
 
                 <Route path="/saved-movies">
-                    <SavedMovies />
+                    <SavedMovies
+                        onClick={handleNavigationClick}
+                    />
                 </Route>
 
                 <Route path="/signin">
@@ -59,6 +76,10 @@ function App() {
 
                 <Navigation />
             </Switch>
+            <Navigation
+                isOpen={isNavigationOpen}
+                onClose={closeNavigation}
+            />
         </div>
     );
 }

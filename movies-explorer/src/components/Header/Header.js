@@ -8,14 +8,14 @@ function Header(props) {
 
       {/* <p className={`${props.userEmail && "header__email"}`}>{props.userEmail}</p> */}
       {/* <div className="header__movies-block"> */}
-        <Link to="/">
+      <Link to="/">
         <img className="logo" src={logo} alt="Логотип сайта в виде круга" />
-        </Link>
-        <Link to="/movies" className="header__movies">Фильмы</Link>
-        <Link to="/saved-movies" className="header__saved-movies">Сохранённые фильмы</Link>
+      </Link>
+      <Link to="/movies" className="header__movies">Фильмы</Link>
+      <Link to="/saved-movies" className="header__saved-movies">Сохранённые фильмы</Link>
       {/* </div> */}
       <Link to="/profile" className="header__profile">Аккаунт</Link>
-      <button className="header__navigation" type="button"></button>
+      <button className="header__navigation" type="button" onClick={props.openNavigation}></button>
       {/* <Link
         to='/signup' className="header__register" onClick={props.exit}>Регистрация
       </Link>

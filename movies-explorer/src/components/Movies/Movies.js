@@ -8,7 +8,9 @@ import SearchForm from "./SearchForm/SearchForm";
 function Movies(props) {
     return (
         <>
-            <Header />
+            <Header 
+            openNavigation={props.onClick}
+            />
             <main className="main">
                 <SearchForm />
                 <FilterCheckbox />
