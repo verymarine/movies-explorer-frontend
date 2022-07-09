@@ -27,6 +27,11 @@
     outline: none;
     border: none;
     color: #000000;
+    cursor: pointer;
+}
+
+.movies-list__button-more:hover {
+    opacity: .6;
 }
 
 @media screen and (max-width: 1023px) {
