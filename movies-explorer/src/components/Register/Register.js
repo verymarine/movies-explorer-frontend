@@ -19,6 +19,7 @@ function Register(props) {
                             id="name"
                             name="name"
                             type="text"
+                            required
                         />
                     </label>
                     <label className="register__label">
@@ -29,6 +30,7 @@ function Register(props) {
                             id="email"
                             name="email"
                             type="email"
+                            required
                         />
                     </label>
 
@@ -40,6 +42,7 @@ function Register(props) {
                             id="password"
                             name="password"
                             type="password"
+                            required
                         />
                     </label>
 

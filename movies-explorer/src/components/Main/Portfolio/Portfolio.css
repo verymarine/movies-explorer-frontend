@@ -1,6 +1,7 @@
 .portfolio {
     margin: 0;
     padding: 0;
+    /* width: calc(100% - 2*70px); */
 }
 
 .portfolio__title {
@@ -15,8 +16,9 @@
 }
 
 .portfolio__list {
-    margin: 0 0 125px 70px;
+    margin: 0 auto 125px auto;
     padding: 0;
+    width: calc(100% - 2*70px);
 }
 
 .portfolio__list-item {
@@ -29,7 +31,7 @@
 .portfolio__link {
     margin: 50px 0 0 0;
     padding: 0 0 19px 0;
-    max-width: 1140px;
+    /* max-width: 1140px; */
     display: block;
     font-family: 'Inter';
     font-style: normal;
@@ -55,6 +57,7 @@
 
     .portfolio__list {
         margin: 0 50px 90px 50px;
+        width: calc(100% - 2*50px);
     }
 
     .portfolio__link {
@@ -73,6 +76,7 @@
 
     .portfolio__list {
         margin: 0 14px 70px 14px;
+        width: calc(100% - 2*14px);
     }
 
     .portfolio__link {

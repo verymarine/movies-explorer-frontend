@@ -10,11 +10,13 @@ function Main(props) {
     return (
         <div >
             <Header />
-            <Promo />
-            <AboutProject />
-            <Techs />
-            <AboutMe />
-            <Portfolio />
+            <section className="main">
+                <Promo />
+                <AboutProject />
+                <Techs />
+                <AboutMe />
+                <Portfolio />
+            </section>
             <Footer />
         </div>
 

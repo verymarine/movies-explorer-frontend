@@ -120,6 +120,7 @@
 @media screen and (max-width: 767px) {
     .techs {
         height: 651px;
+        background-color: #FFFFFF;
     }
 
     .techs__title {

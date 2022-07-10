@@ -15,6 +15,7 @@ function Login(props) {
                             id="email"
                             name="email"
                             type="email"
+                            required
                         />
                     </label>
 
@@ -25,6 +26,7 @@ function Login(props) {
                             id="password"
                             name="password"
                             type="password"
+                            required
                         />
                     </label>
 
