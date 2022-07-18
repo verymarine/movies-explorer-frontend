@@ -1,0 +1,188 @@
+.header {
+    background-color: #FFFFFF;
+    max-width: 1280px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    margin: 18px 0 18px 70px;
+    height: 38px;
+    width: 38px;
+    color: black;
+    cursor: pointer;
+}
+
+.logo:hover {
+    opacity: .6;
+}
+
+.header__movies-block {
+    /* margin: 28px 0 0 0; */
+    padding: 0;
+}
+
+.header__movies {
+    margin: 28px 16px 0 44px;
+    padding: 0;
+    display: inline-block;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.header__movies:hover {
+    opacity: .6;
+}
+
+.header__saved-movies {
+    margin: 28px 0 0 0;
+    padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-decoration: none;
+    text-align: right;
+    display: inline-block;
+    color: #000000;
+}
+
+.header__saved-movies:hover {
+    opacity: .6;
+}
+
+.header__profile {
+    margin: 21px 70px 21px auto;
+    padding: 8px 20px;
+    /* margin: 21px 70px 0 0; */
+    /* padding: 8px 0 8px 0; */
+    /* width: 100px;
+    height: 32px; */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    /* identical to box height, or 114% */
+    text-decoration: none;
+    background: #F9F9F9;
+    border-radius: 20px;
+    text-align: center;
+    color: #000000;
+    float: right;
+    cursor: pointer;
+}
+
+.header__profile:hover {
+    opacity: .6;
+}
+
+.header__register {
+    margin: 29px 30px 29px auto;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000000;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.header__register:hover {
+    opacity: .6;
+}
+
+.header__login {
+    margin: 21px 70px 21px 0;
+    padding: 8px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #FFFFFF;
+    background-color: #000000;
+    border-radius: 3px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.header__login:hover {
+    opacity: .6;
+}
+
+.header__navigation {
+    margin: 15px 30px 15px auto;
+    padding: 0;
+    display: none;
+    background-image: url("../../images/navigation.svg");
+    background-repeat: no-repeat;
+    background-size: 40px 43px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 43px;
+    border: none;
+}
+
+@media screen and (max-width: 1023px) {
+    .header {
+        display: flex;
+    }
+
+    .logo {
+        margin-left: 14px;
+    }
+
+    .header__movies {
+        display: none;
+    }
+
+    .header__saved-movies {
+        display: none;
+    }
+
+    .header__profile {
+        display: none;
+    }
+
+    .header__navigation {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .header {
+        display: flex;
+    }
+    .logo {
+        margin-left: 14px;
+    }
+
+    .header__movies {
+        display: none;
+    }
+
+    .header__saved-movies {
+        display: none;
+    }
+
+    .header__profile {
+        display: none;
+    }
+
+    .header__navigation {
+        margin: 15px 16px 14px auto;
+        display: block;
+    }
+}

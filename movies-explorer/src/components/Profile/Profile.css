@@ -1,0 +1,103 @@
+.profile {
+    margin: 0;
+    padding: 0;
+}
+
+.profile__title {
+    margin: 74px auto 0 auto;
+    padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+}
+
+.profile__form {
+    margin: 40px auto 0 auto;
+    padding: 0;
+    width: 410px;
+}
+
+.profile__label {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    color: #000000;
+}
+
+.profile__label:first-child {
+    margin-top: 40px;
+}
+
+.profile__input {
+    margin: 0 0 16px 0;
+    padding: 0 0 10px 0;
+    width: 396px;
+    /* height: 32px; */
+    border: none;
+    display: block;
+    border-bottom: 1px solid #E8E8E8;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    text-align: right;
+    /*      color: #FF4062; ПРИ ОШИБКИ ВЫВЕСТИ ДРУГОЙ ЦВЕТ */
+}
+
+.profile__input:focus {
+    outline: none;
+    border-bottom: 1px solid #000000;
+}
+
+.profile__input_check_invalid {
+    color: #FF4062;
+}
+
+.profile__button {
+    padding: 0;
+    margin: 221px auto 0 auto;
+    display: block;
+    border: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    background-color: transparent;
+    color: #000000;
+    cursor: pointer;
+}
+
+.profile__button:hover {
+    opacity: .6;
+}
+
+.profile__link {
+    margin: 16px auto 0 auto;
+    padding: 0;
+    display: block;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    text-decoration: none;
+    text-align: center;
+    color: #FF4062;
+    cursor: pointer;
+}
+
+.profile__link:hover {
+    opacity: .6;
+}

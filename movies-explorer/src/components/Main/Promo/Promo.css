@@ -1,0 +1,64 @@
+.promo {
+    margin: 0;
+    padding: 0;
+    height: 560px;
+    background-color: #F3C1F8;
+}
+
+.promo__title {
+    margin: 0;
+    padding: 50px 0 0 70px;
+    max-width: 626px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -0.04em;
+}
+
+.promo__logo {
+    margin: 70px 102px 60px auto;
+    width: 722px;
+    height: 244px;
+    display: block;
+
+}
+
+@media screen and (max-width: 1023px) {
+    .promo {
+        height: 844px;
+    }
+
+    .promo__title {
+        margin: 0 auto 0 auto;
+        padding: 300px 0 0 0;
+        max-width: 680px;
+        text-align: center;
+    }
+
+    .promo__logo {
+        margin: 140px auto 70px auto;
+        width: 680px;
+        height: 230px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .promo {
+        height: 704px;
+    }
+
+    .promo__title {
+        padding: 183px 0 0 0;
+        max-width: 300px;
+        font-size: 31px;
+        line-height: 39px;
+    }
+
+    .promo__logo {
+        margin: 60px auto 40px auto;
+        width: 100%;
+        object-fit: cover;
+    }
+}

@@ -1,0 +1,136 @@
+.footer {
+    margin: 0;
+    padding: 0;
+}
+
+.footer__title {
+    margin: 0;
+    padding: 79px 0 20px 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #A0A0A0;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.footer__info {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer__year {
+    margin: 20px 0 20px 70px;
+    padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    display: block;
+    color: #000000;
+}
+
+.footer__links {
+    margin: 20px 70px 0 0;
+    padding: 0;
+    display: flex;
+    max-width: 283px;
+    justify-content: space-between;
+}
+
+.footer__item {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.footer__link {
+    margin: 20px 0 20px 20px;
+    padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: right;
+    color: #000000;
+    text-decoration: none;
+}
+
+.footer__link:hover {
+    cursor: pointer;
+    opacity: .6;
+}
+
+@media screen and (max-width: 1023px) {
+    
+    .footer__year {
+        margin-left: 30px;
+    }
+    
+    .footer__links {
+        margin-right: 30px;
+    }
+    
+    .footer__item {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    
+}
+
+
+@media screen and (max-width: 767px) {
+    .footer__title {
+        padding-bottom: 21px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+    
+    .footer__info {
+        align-items: center;
+        flex-direction: column-reverse;
+    }
+    
+    .footer__year {
+        margin: 30px auto 10px auto;
+        font-size: 12px;
+        line-height: 15px;
+        align-self: center;
+    }
+    
+    .footer__links {
+        margin: 30px auto 0 auto;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer__item {
+        margin-top: 12px;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .footer__item:first-of-type {
+        margin-top: 0;
+    }
+    
+    .footer__link {
+        margin: 0 auto 0 auto;
+        font-size: 12px;
+        line-height: 15px;
+        text-align: center;
+    }
+    
+    .footer__link:hover {
+        cursor: pointer;
+        opacity: .6;
+    }
+    
+}
