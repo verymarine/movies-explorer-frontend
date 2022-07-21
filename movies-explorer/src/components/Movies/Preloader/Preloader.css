@@ -87,3 +87,14 @@
     background: #F3C1F8;
     animation: preloader-inside-red 1s ease-in-out infinite;
 }
+
+.preloader__error {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #000000;
+    ;
+    border-radius: 50px;
+}

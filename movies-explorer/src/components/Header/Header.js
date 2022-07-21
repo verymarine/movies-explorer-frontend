@@ -1,10 +1,11 @@
 import logo from "../../images/logo.svg";
 import "./Header.css";
+import "../Main/HeaderMain/HeaderMain.css"
 import { Link } from "react-router-dom";
 
 function Header(props) {
   return (
-    <header className="header">
+    <header className={`${props.className}`}>
 
       {/* <p className={`${props.userEmail && "header__email"}`}>{props.userEmail}</p> */}
       {/* <div className="header__movies-block"> */}

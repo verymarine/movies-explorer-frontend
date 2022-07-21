@@ -1,17 +1,12 @@
-import React from "react";
-// import {
-//     Route,
-//     Switch,
-//     Redirect,
-//     withRouter,
-//     // useHistory,
-// } from "react-router-dom";
-import { Route, Switch, withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+    Route,
+    Switch,
+    withRouter,
+    useHistory,
+} from "react-router-dom";
 import "./App.css";
-
-import Header from "../Header/Header";
 import Main from "../Main/Main";
-import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
@@ -19,16 +14,260 @@ import NotFound from "../NotFound/NotFound";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import Navigation from "../Navigation/Navigation";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
-// import ProtectedRoute from "./ProtectedRoute";
-
-
-
+import * as auth from "../../utils/Auth.js";
+import api from "../../utils/MainApi";
+import ProtectedRoute from "../ProtectedRoute";
+import moviesApi from "../../utils/MoviesApi";
 
 function App() {
 
+    // Стейт, в котором содержится значение Пользователя
+    const [currentUser, setCurrentUser] = useState({}); // data:{}
+
+    // Стейт, в котором содержится значение Фильмов
+    const [movies, setMovies] = React.useState([]); // 1
+
+    // Стейт, в котором содержится значение текста поиска
+    const [searchQuery, setSearchQuery] = React.useState(''); // 2
+
+    // Стейт, в котором содержится значение состояния Прелоудера
+    const [isLoadding, setIsLoadding] = React.useState(false); // 3
+
+    // Стейт, в котором содержится значение состояния Чекбокса Короткометражек
+    const [isChecked, setIsChecked] = React.useState(false); // 4
+
+    // Стейт, в котором содержится значение состояния кнопки поиска
+    const [buttonSearch, setButtonSearch] = React.useState(false);
+
     // Стейт, в котором содержится значение навигации
-    const [isNavigationOpen, setIsNavigationOpen] = React.useState(false);
+    const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+
+    // Стейт, в котором содержится значение Email Пользователя
+    // const [userEmail, setUserEmail] = useState('');
+
+    // Стейт, в котором содержится значение loggin
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    // Стейт, в котором содержится значение Любимых фильмов Пользователя
+    const [favourites, setFavourites] = useState([]);
+
+    // Стейт, в котором содержится значение изменения профиля
+    const [isUpdate, setIsUpdate] = useState(false);
+
+    // Стейт, в котором содержится значение состояния кнопки редактирования
+    const [buttonUpdate, setButtonUpdate] = useState(false);
+
+    // Стейт, в котором содержится значение неактивной кнопки
+    const [unactiveButton, setUnactiveButton] = useState(false);
+
+    // const debouncedSearch = useCallback()
+
+    // используем для сохранения/удаления данных об вошедшем пользователе
+    const history = useHistory();
+
+    // получаем значения пользователя 
+    // React.useEffect(() => {
+    //     if (loggedIn) {
+    //         Promise.all([api.getUserInfo(), api.getFavoriteMovies()])
+    //             .then(([userData, movieList,]) => {
+    //                 setCurrentUser(userData);
+    //                 setFavourites(movieList);
+    //             })
+    //             .catch((err) => console.log("Ошибка", err));
+    //     }
+    // }, [loggedIn]); // loggedIn, currentUser
+
+    useEffect(() => {
+        if (loggedIn) {
+            api.getUserInfo()
+                .then(data => {
+                    setCurrentUser(data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }, [loggedIn]);
+
+    useEffect(() => {
+        if (!loggedIn) {
+            return;
+        }
+
+        api.getFavoriteMovies()
+            .then(data => {
+                setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
+                // setFavourites(data);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [currentUser, loggedIn]);
+
+    //   useEffect(() => {
+    //     const result = favourites.map(movie => {
+    //       const favouriteMovie = favourites.find(favourite => movie.id === favourite.movieId);
+    //       movie.movieId = movie.id;
+    //       movie._id = favouriteMovie?._id;
+    //       movie.saved = !!favouriteMovie;
+    //       return movie;
+    //     });
+
+    //     setFavourites(result);
+    //   }, [favourites]);
+
+
+    function handleLogin() {
+        // setLoggedIn(true);
+        handleTokenCheck();
+    }
+
+    const handleTokenCheck = () => {
+        // достаем инфо из локалсторедж
+        const jwt = localStorage.getItem("jwt");
+        // const jwt = {withCredentials: true};
+
+        if (jwt) {
+            // проверяем токен пользователя
+            auth
+                .checkToken(jwt)
+                .then(() => {
+                    setLoggedIn(true);
+                    history.push("/movies");
+                })
+                .catch((err) => console.log(err));
+        }
+    };
+
+    React.useEffect(() => {
+        handleTokenCheck();
+    }, []);
+
+    function handleLogout(evt) {
+        // evt.preventDefault();
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("checkedFilter");
+        localStorage.removeItem("searchResult");
+        setLoggedIn(false);
+        setCurrentUser({});
+        history.push("/");
+    }
+
+    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
+    useEffect(() => {
+        setButtonSearch(true);
+        if (searchQuery !== '') {
+            setButtonSearch(false);
+            setIsLoadding(true);
+            moviesApi.getMovies()
+                .then(data => {
+                    const movies = data.map(item => {
+                        return {
+                            country: item.country,
+                            director: item.director,
+                            duration: item.duration,
+                            year: item.year,
+                            description: item.description,
+                            image: item.image.url,
+                            nameRU: item.nameRU,
+                            nameEN: item.nameEN,
+                            thumbnail: item.image.formats.thumbnail.url,
+                            movieId: item.id,
+                            trailerLink: item.trailerLink
+                        }
+                    })
+                    setMovies(movies);
+                    localStorage.setItem('searchResult', searchQuery);
+                    if (isChecked) {
+                        const checkedFilter = movies.filter((movie) => movie.duration <= 40);
+                        setMovies(checkedFilter);
+                        localStorage.setItem('checkedFilter', isChecked);
+                        return;
+                    }
+                })
+                .catch((err) => console.log(err.status))
+                .finally(() => setIsLoadding(false))
+        } else if (searchQuery === '') {
+            setMovies([]);
+            setButtonSearch(true);
+
+        }
+    }, [searchQuery, isChecked]);
+
+
+    function handleInputChange(e) {
+        e.preventDefault();
+        console.log(e.target.value);
+        // debouncedSearch(e.target.value)
+        setSearchQuery(e.target.value);
+    }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+    }
+
+    const filteredMovies = movies.filter(movie => {
+        return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+    })
+
+    // console.log(filteredMovies);
+    // console.log(movies);
+
+    // const moviesList = showMore === true  ? movies.slice(0, showMovies) : movies;
+
+    function handleCheckbox(e) {
+        //  e.target.checked
+        // console.log(e.target.value);
+        // setShortFilmsFilter(movies.filter((movie) => movie.duration <= 40));
+        // // setSearchQuery(e.target.value);
+        setIsChecked(e.target.checked);
+    }
+
+    // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
+    function addFavouriteMovie(movie) {
+        api.postFavoriteMovie(movie)
+            .then(newFavouriteList => {
+
+                setFavourites([...favourites, newFavouriteList])
+            })
+            .catch((err) => console.log("Ошибка", err));
+    }
+
+    // useEffect(() => {
+    //     setFavourites([...favourites])
+    // }, [favourites])
+
+    function removeFavouriteMovie(movie) {
+        api.deleteFavoriteMovie(movie._id)
+            .then(() => {
+                setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
+            })
+            .catch((err) => console.log("Ошибка", err));
+    }
+
+    // useEffect(() => {
+    //     removeFavouriteMovie(favourites)
+    // }, [favourites])
+
+    function handleUpdateProfile(user) {
+        api.patchUserInfo(user).then((userData) => {
+            setButtonUpdate(true);
+            setCurrentUser(userData);
+            setTimeout(setIsUpdate(true), 5000);
+
+        })
+            .catch((err) => {
+                setButtonUpdate(false);
+                setIsUpdate(false);
+                console.log("ERORR", err)
+            });
+    }
+
+    // useEffect(() => {
+    //     handleUpdateProfile(currentUser)
+    // }, [isUpdate, currentUser])
 
     // Обработчик открытия попапа Редактирование профиля обновляет стейт
     function handleNavigationClick() {
@@ -39,47 +278,91 @@ function App() {
         setIsNavigationOpen(false);
     }
 
+    setTimeout(closeNavigation, 10000);
+
     return (
         <div className="page">
-            <Switch>
-                <Route exact path="/">
-                    <Main />
-                </Route>
-
-                <Route path="/movies">
-                    <Movies
+            <CurrentUserContext.Provider value={currentUser}>
+                <Switch>
+                    <Route exact path="/">
+                        <Main
+                            loggedIn={loggedIn}
+                            onClick={handleNavigationClick}
+                        />
+                    </Route>
+                    <ProtectedRoute loggedIn={loggedIn}
+                        component={Movies}
+                        path="/movies"
+                        movies={movies}
+                        buttonSearch={buttonSearch}
+                        isChecked={isChecked}
+                        isLoadding={isLoadding}
+                        filteredMovies={filteredMovies}
+                        handleFormSubmit={handleFormSubmit}
+                        handleCheckbox={handleCheckbox}
+                        handleInputChange={handleInputChange}
                         onClick={handleNavigationClick}
+                        handleFouviretsClick={addFavouriteMovie}
+                        removeFavouriteMovie={removeFavouriteMovie}
                     />
-                </Route>
 
-                <Route path="/profile">
-                    <Profile />
-                </Route>
-
-                <Route path="/saved-movies">
-                    <SavedMovies
+                    <ProtectedRoute loggedIn={loggedIn}
+                        component={Profile}
+                        path="/profile"
+                        exit={handleLogout}
                         onClick={handleNavigationClick}
+                        onUpdateProfile={handleUpdateProfile}
+                        isUpdate={isUpdate}
+                        buttonUpdate={buttonUpdate}
+                        setCurrentUser={setCurrentUser}
+                        handleUpdateProfile={handleUpdateProfile}
+                        unactiveButton={unactiveButton}
+                        setUnactiveButton={setUnactiveButton}
                     />
-                </Route>
 
-                <Route path="/signin">
-                    <Login />
-                </Route>
+                    <ProtectedRoute loggedIn={loggedIn}
+                        component={SavedMovies}
+                        path="/saved-movies"
+                        favourites={favourites}
+                        setFavourites={setFavourites}
+                        filteredMovies={filteredMovies}
+                        buttonSearch={buttonSearch}
+                        isChecked={isChecked}
+                        isLoadding={isLoadding}
+                        handleFormSubmit={handleFormSubmit}
+                        handleCheckbox={handleCheckbox}
+                        handleInputChange={handleInputChange}
+                        onClick={handleNavigationClick}
+                        removeFavouriteMovie={removeFavouriteMovie}
+                    />
 
-                <Route path="/signup">
-                    <Register />
-                </Route>
+                    <Route path="/signin">
+                        <Login
+                            handleLogin={handleLogin}
+                            unactiveButton={unactiveButton}
+                            setUnactiveButton={setUnactiveButton}
+                        />
+                    </Route>
 
-                <Route path="*">
-                    <NotFound />
-                </Route>
+                    <Route path="/signup">
+                        <Register
+                            handleLogin={handleLogin}
+                            unactiveButton={unactiveButton}
+                            setUnactiveButton={setUnactiveButton}
+                        />
+                    </Route>
 
-                <Navigation />
-            </Switch>
-            <Navigation
-                isOpen={isNavigationOpen}
-                onClose={closeNavigation}
-            />
+                    <Route path="*">
+                        <NotFound />
+                    </Route>
+
+                    {/* <Navigation /> */}
+                </Switch>
+                <Navigation
+                    isOpen={isNavigationOpen}
+                    onClose={closeNavigation}
+                />
+            </CurrentUserContext.Provider>
         </div>
     );
 }

@@ -70,6 +70,24 @@ input[type="search"] {
     cursor: pointer;
 }
 
+.search-form__button-unactive {
+    margin: 0 0 0 10px;
+    padding: 13px 5px;
+    width: 70px;
+    height: 44px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    border: none;
+    text-align: center;
+    border-radius: 40px;
+    cursor: pointer;
+    background: #F2F2F2;
+    color: #A0A0A0;
+}
+
 .search-form__button:hover {
     opacity: .6;
 }
@@ -115,6 +133,10 @@ input[type="search"] {
     }
 
     .search-form__button {
+        margin: 0 0 0 15px;
+    }
+
+    .search-form__button-unactive {
         margin: 0 0 0 15px;
     }
 }

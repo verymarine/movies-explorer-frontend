@@ -77,6 +77,17 @@
     color: #FF4062;
   }
 
+  .login__errors {
+    color: rgb(255, 64, 98);
+    display: block;
+    top: 50px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+}
+
 .login__button {
     padding: 0;
     margin: 221px auto 0 auto;
@@ -92,10 +103,31 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
-    /* identical to box height */
-
     text-align: center;
     color: #ffffff;
+}
+
+.login__button:hover {
+    opacity: .6;
+}
+
+.login__button-unactive {
+    padding: 0;
+    margin: 134px auto 0 auto;
+    cursor: pointer;
+    display: block;
+    width: 396px;
+    height: 45px;
+    border: none;
+    border-radius: 2px;
+    background: #F2F2F2;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #A0A0A0;
 }
 
 .login__signup {

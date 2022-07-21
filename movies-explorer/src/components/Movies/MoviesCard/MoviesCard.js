@@ -1,29 +1,59 @@
+import React from "react";
+import { Route } from "react-router-dom";
 import "./MoviesCard.css";
-import video from "../../../images/video.svg";
 
 function MoviesCard(props) {
-    return (
-        <article className="movies-card">
+  const [like, setLike] = React.useState(false);
+
+console.log(props.movie, "movie");
+
+  return (
+    <article className="movies-card">
+      <a className="movies-card__video-link"
+        href={props.trailerLink}
+        target="blank"
+      >
         <img
           className="movies-card__video"
-          src={video}
+          src={`https://api.nomoreparties.co/${props.image}`}
           alt="картинка промо видео"
         />
-        <div className="movies-card__info">
-          <div className="movies-card__test">
+      </a>
 
-          <h2 className="movies-card__title">33 слова о дизайне</h2>
-          <h3 className="movies-card__duration">1ч42м</h3>
-          </div>
-          <div className="movies-card__like-area">
+      <div className="movies-card__info">
+        <div className="movies-card__test">
+
+          <h2 className="movies-card__title">{props.nameRU}</h2>
+          <h3 className="movies-card__duration">{props.duration}</h3>
+        </div>
+        <div className="movies-card__like-area">
+          <Route path="/movies">
+            {like === true
+              ? <button
+                className="movies-card__liked"
+                onClick={()=> props.removeFavouriteMovie(props.movie, setLike(false))}
+                type="button"
+              ></button>
+              : <button
+                className="movies-card__like"
+                onClick={()=> props.handleFouviretsClick(props.movie, setLike(true))}
+                type="button"
+              ></button>
+            }
+          </Route>
+
+          <Route path="/saved-movies">
             <button
-              className={props.className}
+              className="movies-card__delete"
+              onClick={()=> props.removeFavouriteMovie(props.movie)}
               type="button"
             ></button>
-          </div>
+          </Route>
+
         </div>
-      </article>
-    );
+      </div>
+    </article>
+  );
 }
 
 export default MoviesCard;
