@@ -5,7 +5,6 @@ import Preloader from "../Preloader/Preloader";
 import "./MoviesCardList.css";
 
 function MoviesCardList(props) {
-
     return (
         <>
             <Switch>
@@ -31,11 +30,13 @@ function MoviesCardList(props) {
                                     trailerLink={item.trailerLink}
                                     handleFouviretsClick={props.handleFouviretsClick}
                                     removeFavouriteMovie={props.removeFavouriteMovie}
-                                // className="movies-card__like"
                                 />
                             )}
                         </section>
                     }
+                    {(props.result !== 0 && props.result <= props.moviesLength)
+                        ? <button className="movies-list__button-more" onClick={props.handleShowMoreMovies}>Ещё</button>
+                        : <></>}
                 </Route>
                 <Route path="/saved-movies">
                     {props.isLoadding
@@ -59,18 +60,18 @@ function MoviesCardList(props) {
                                     trailerLink={item.trailerLink}
                                     handleFouviretsClick={props.handleFouviretsClick}
                                     removeFavouriteMovie={props.removeFavouriteMovie}
-                                // className="movies-card__like"
                                 />
                             )}
                         </section>
                     }
+                    {(props.result <= props.favouritesLength && props.result !== 0)
+                        ? <button className="movies-list__button-more" onClick={props.handleShowMoreMovies}>Ещё</button>
+                        : <></>}
                 </Route>
             </Switch>
-            <button className="movies-list__button-more" onClick={props.handleShowMoreMovies}>Ещё</button>
         </>
-
-
     );
 }
 
 export default MoviesCardList;
+

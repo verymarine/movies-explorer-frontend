@@ -67,18 +67,7 @@ function App() {
     // используем для сохранения/удаления данных об вошедшем пользователе
     const history = useHistory();
 
-    // получаем значения пользователя 
-    // React.useEffect(() => {
-    //     if (loggedIn) {
-    //         Promise.all([api.getUserInfo(), api.getFavoriteMovies()])
-    //             .then(([userData, movieList,]) => {
-    //                 setCurrentUser(userData);
-    //                 setFavourites(movieList);
-    //             })
-    //             .catch((err) => console.log("Ошибка", err));
-    //     }
-    // }, [loggedIn]); // loggedIn, currentUser
-
+    // получаем информацию о текущем пользователе
     useEffect(() => {
         if (loggedIn) {
             api.getUserInfo()
@@ -91,15 +80,14 @@ function App() {
         }
     }, [loggedIn]);
 
+    // получаем ифнормацию о любимых фильмах залогиненного пользователя
     useEffect(() => {
         if (!loggedIn) {
             return;
         }
-
         api.getFavoriteMovies()
             .then(data => {
                 setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
-                // setFavourites(data);
             })
             .catch((err) => {
                 console.log(err)
@@ -114,10 +102,8 @@ function App() {
     //       movie.saved = !!favouriteMovie;
     //       return movie;
     //     });
-
     //     setFavourites(result);
     //   }, [favourites]);
-
 
     function handleLogin() {
         // setLoggedIn(true);
@@ -125,12 +111,8 @@ function App() {
     }
 
     const handleTokenCheck = () => {
-        // достаем инфо из локалсторедж
         const jwt = localStorage.getItem("jwt");
-        // const jwt = {withCredentials: true};
-
         if (jwt) {
-            // проверяем токен пользователя
             auth
                 .checkToken(jwt)
                 .then(() => {
@@ -141,10 +123,12 @@ function App() {
         }
     };
 
-    React.useEffect(() => {
+    //
+    useEffect(() => {
         handleTokenCheck();
     }, []);
 
+    // ф-я выхода 
     function handleLogout(evt) {
         // evt.preventDefault();
         localStorage.removeItem("jwt");
@@ -196,14 +180,14 @@ function App() {
         }
     }, [searchQuery, isChecked]);
 
-
+    // ф-я поиска фильмов
     function handleInputChange(e) {
         e.preventDefault();
         console.log(e.target.value);
-        // debouncedSearch(e.target.value)
         setSearchQuery(e.target.value);
     }
 
+    // ф-я сабмита поиска фильмов
     function handleFormSubmit(e) {
         e.preventDefault();
     }
@@ -212,11 +196,7 @@ function App() {
         return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
     })
 
-    // console.log(filteredMovies);
-    // console.log(movies);
-
-    // const moviesList = showMore === true  ? movies.slice(0, showMovies) : movies;
-
+    // ф-я чекида короткометражек
     function handleCheckbox(e) {
         //  e.target.checked
         // console.log(e.target.value);
@@ -229,7 +209,6 @@ function App() {
     function addFavouriteMovie(movie) {
         api.postFavoriteMovie(movie)
             .then(newFavouriteList => {
-
                 setFavourites([...favourites, newFavouriteList])
             })
             .catch((err) => console.log("Ошибка", err));
@@ -248,15 +227,15 @@ function App() {
     }
 
     // useEffect(() => {
-    //     removeFavouriteMovie(favourites)
+    //     removeFavouriteMovie()
     // }, [favourites])
 
+    // ф-я редактирования профиля
     function handleUpdateProfile(user) {
         api.patchUserInfo(user).then((userData) => {
             setButtonUpdate(true);
             setCurrentUser(userData);
-            setTimeout(setIsUpdate(true), 5000);
-
+            setTimeout(setIsUpdate(true), 4000);
         })
             .catch((err) => {
                 setButtonUpdate(false);
@@ -269,7 +248,7 @@ function App() {
     //     handleUpdateProfile(currentUser)
     // }, [isUpdate, currentUser])
 
-    // Обработчик открытия попапа Редактирование профиля обновляет стейт
+    // Обработчик открытия навигации
     function handleNavigationClick() {
         setIsNavigationOpen(true);
     }
@@ -278,7 +257,7 @@ function App() {
         setIsNavigationOpen(false);
     }
 
-    setTimeout(closeNavigation, 10000);
+    setTimeout(closeNavigation, 7000);
 
     return (
         <div className="page">
@@ -355,8 +334,6 @@ function App() {
                     <Route path="*">
                         <NotFound />
                     </Route>
-
-                    {/* <Navigation /> */}
                 </Switch>
                 <Navigation
                     isOpen={isNavigationOpen}

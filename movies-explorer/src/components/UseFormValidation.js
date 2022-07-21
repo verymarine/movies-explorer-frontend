@@ -10,8 +10,8 @@ export function useFormValidation() {
         const value = target.value;
         const name = target.name;
 
-        setValues(prevState =>({...prevState, [name]: value}));
-        setErrors({ ...errors, [name]: target.validationMessage });//(prevState=>({...prevState, [name]: input.validationMessage}));
+        setValues(prevState => ({ ...prevState, [name]: value }));
+        setErrors({ ...errors, [name]: target.validationMessage });
         setIsValid(e.target.closest("form").checkValidity());
     };
 
@@ -24,5 +24,5 @@ export function useFormValidation() {
         [setValues, setErrors, setIsValid]
     );
 
-    return { values, handleChange, errors, isValid, resetForm, setValues}
+    return { values, handleChange, errors, isValid, resetForm, setValues }
 }

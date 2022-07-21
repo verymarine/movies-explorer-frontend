@@ -7,8 +7,6 @@ function FilterCheckbox(props) {
                 <input onChange={props.handleCheckbox} type="checkbox" value="shortfilms" checked={props.isChecked}/>
                 <label htmlFor="checkbox"><span className="checkbox__title">Короткометражки</span></label>
             </div>
-
-
         </>
     );
 }

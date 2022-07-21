@@ -1,30 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import FilterCheckbox from "../Movies/FilterCheckbox/FilterCheckbox";
-import Movies from "../Movies/Movies";
 import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 import SearchForm from "../Movies/SearchForm/SearchForm";
 import "./SavedMovies.css";
 
 function SavedMovies(props) {
-    //
-    const [showMovies, setShowMovies] = React.useState(16);
+    const [showMovies, setShowMovies] = useState(16);
 
-    //
-    const [moreMovies, setMoreMovies] = React.useState(4);
+    const [moreMovies, setMoreMovies] = useState(4);
 
-    //
-    const [width, setWidth] = React.useState(window.innerWidth);
-
-    // useEffect(() => {
-    //     props.setFavourites([...props.favourites])
-    // }, [])
+    const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
-
         if (width >= 1023) {
-            // onSubscribe();
             setShowMovies(16);
             setMoreMovies(4);
         } else if (width >= 768) {
@@ -50,15 +40,18 @@ function SavedMovies(props) {
         )
     };
 
-    const favouritesList = props.favourites.slice(0, showMovies);
-
     function handleShowMoreMovies() {
         setShowMovies(showMovies + moreMovies);
     }
 
+    const favouritesList = props.favourites.slice(0, showMovies);
+
+    const result = favouritesList;
+
+    const favouritesLength = favouritesList.length;
+
     return (
         <>
-
             <Header
                 openNavigation={props.onClick}
                 className="header"
@@ -66,7 +59,6 @@ function SavedMovies(props) {
             <main className="main">
                 <SearchForm
                     handleInputChange={props.handleInputChange}
-                    // handleClick={handleClick}
                     handleFormSubmit={props.handleFormSubmit}
                     buttonSearch={props.buttonSearch}
                 />
@@ -75,22 +67,16 @@ function SavedMovies(props) {
                     isChecked={props.isChecked}
                 />
                 <MoviesCardList
-
                     handleShowMoreMovies={handleShowMoreMovies}
                     isLoadding={props.isLoadding}
                     favourites={favouritesList}
+                    favouritesLength={favouritesLength}
+                    result={result}
                     filteredMovies={props.filteredMovies}
-                    // handleShowMoreMovies={handleShowMoreMovies}
                     removeFavouriteMovie={props.removeFavouriteMovie}
-
                 />
             </main>
             <Footer />
-            {/* <Movies
-                handleNavigationClick={props.handleNavigationClick}
-                movies={props.movies}
-            /> */}
-
         </>
     );
 }

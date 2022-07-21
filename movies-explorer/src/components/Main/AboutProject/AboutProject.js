@@ -21,7 +21,6 @@ function AboutProject(props) {
                 <p className="about-project__stage-text">Back-end</p>
                 <p className="about-project__stage-text">Front-end</p>
             </div>
-
         </section>
     )
 }

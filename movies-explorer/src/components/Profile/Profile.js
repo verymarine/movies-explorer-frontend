@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Header from "../Header/Header";
@@ -6,7 +6,7 @@ import "./Profile.css";
 import { useFormValidation } from "../UseFormValidation";
 
 function Profile(props) {
-    const currentUser = React.useContext(CurrentUserContext);
+    const currentUser = useContext(CurrentUserContext);
 
     const nameRef = useRef("")
     const emailRef = useRef("")
@@ -43,7 +43,6 @@ function Profile(props) {
                 <h2 className="profile__title">Привет, {currentUser.name}!</h2>
                 <form className="profile__form"
                     onSubmit={handleSubmit}
-
                 >
 
                     <label className="profile__label">
@@ -54,8 +53,6 @@ function Profile(props) {
                             type="text"
                             defaultValue={currentUser.name}
                             ref={nameRef}
-                            // value={values.name || ''}
-                            // value={name || ""}
                             onChange={handleChange}
                         />
                     </label>
@@ -69,13 +66,10 @@ function Profile(props) {
                             type="email"
                             defaultValue={currentUser.email}
                             ref={emailRef}
-                            // value={values.email || ''}
-                            // value={email || ""}
                             onChange={handleChange}
                         />
                     </label>
                     <span className="profile__errors">{errors.email}</span>
-
 
                     {props.isUpdate
                         ? <p className="profile__edited">Данные профиля обновлены&#10003;</p>
@@ -93,7 +87,6 @@ function Profile(props) {
                 <Link to="/" className="profile__link" onClick={props.exit}>Выйти из аккаунта</Link>
             </section>
         </>
-
     )
 }
 

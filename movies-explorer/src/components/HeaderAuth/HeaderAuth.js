@@ -2,7 +2,6 @@ import { Link, Route, Switch } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import "./HeaderAuth.css";
 
-
 function HeaderAuth(props) {
     return (
         <header className="header-auth">
@@ -20,9 +19,6 @@ function HeaderAuth(props) {
                     <h2 className="header-auth__title">Рады видеть!</h2>
                 </Route>
             </Switch>
-
-
-
         </header>
     );
 }

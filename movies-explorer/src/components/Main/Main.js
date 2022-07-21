@@ -14,7 +14,7 @@ function Main(props) {
         <div >
             {props.loggedIn
                 ? <Header className="header-main" openNavigation={props.onClick} />
-                : <HeaderMain  />
+                : <HeaderMain />
             }
             <section className="main">
                 <Promo />
@@ -25,7 +25,6 @@ function Main(props) {
             </section>
             <Footer />
         </div>
-
     );
 }
 export default Main;

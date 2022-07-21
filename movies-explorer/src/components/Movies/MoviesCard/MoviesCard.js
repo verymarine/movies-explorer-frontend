@@ -3,9 +3,9 @@ import { Route } from "react-router-dom";
 import "./MoviesCard.css";
 
 function MoviesCard(props) {
-  const [like, setLike] = React.useState(false);
 
-console.log(props.movie, "movie");
+  // стейт в котором меняется значения лайка
+  const [like, setLike] = React.useState(false);
 
   return (
     <article className="movies-card">
@@ -19,10 +19,8 @@ console.log(props.movie, "movie");
           alt="картинка промо видео"
         />
       </a>
-
       <div className="movies-card__info">
         <div className="movies-card__test">
-
           <h2 className="movies-card__title">{props.nameRU}</h2>
           <h3 className="movies-card__duration">{props.duration}</h3>
         </div>
@@ -31,12 +29,12 @@ console.log(props.movie, "movie");
             {like === true
               ? <button
                 className="movies-card__liked"
-                onClick={()=> props.removeFavouriteMovie(props.movie, setLike(false))}
+                onClick={() => props.removeFavouriteMovie(props.movie, setLike(false))}
                 type="button"
               ></button>
               : <button
                 className="movies-card__like"
-                onClick={()=> props.handleFouviretsClick(props.movie, setLike(true))}
+                onClick={() => props.handleFouviretsClick(props.movie, setLike(true))}
                 type="button"
               ></button>
             }
@@ -45,7 +43,7 @@ console.log(props.movie, "movie");
           <Route path="/saved-movies">
             <button
               className="movies-card__delete"
-              onClick={()=> props.removeFavouriteMovie(props.movie)}
+              onClick={() => props.removeFavouriteMovie(props.movie)}
               type="button"
             ></button>
           </Route>

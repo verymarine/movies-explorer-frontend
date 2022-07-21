@@ -12,17 +12,14 @@ function AboutMe(props) {
                 <p className="about-me__text">
                     Проживаю в Санкт-Петербурге.
                     В свободное время люблю снимать на пленочный фотоаппарат, кататься на велосипеде, играть в пинг-понг (｡･ω･)ρ┳┷┳ﾟσ(･ω･*). Год назад начала путь изучения
-                    Веб-разработки, это то направлени, где я хочу развиваться и прикладывать услия для усовершенствования своих знаний и умений.
+                    Веб-разработки, это то направлени, где я хочу развиваться и прикладывать усилия для усовершенствования своих знаний и умений.
                 </p>
-
                 <img className="about-me__photo" src={photo} alt="Фото Марины" />
                 <div className="about-me__link-area">
                     <a className="about-me__link" href="https://ru.wikipedia.org/wiki/Facebook#Блокировки_сервиса" target="blank">Facebook</a>
                     <a className="about-me__link" href="https://github.com/verymarine" target="blank">Github</a>
                 </div>
-
             </div>
-
         </section>
     )
 }

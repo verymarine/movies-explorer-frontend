@@ -3,32 +3,17 @@ import Footer from "../Footer/Footer";
 import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import SearchForm from "./SearchForm/SearchForm";
-import moviesApi from "../../utils/MoviesApi";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Movies.css";
-// import useDebounce from "../../hooks/useDebounce";
-
 
 function Movies(props) {
 
-    //
-    const [showMovies, setShowMovies] = React.useState(16);
+    const [showMovies, setShowMovies] = useState(0);
+    const [moreMovies, setMoreMovies] = useState(0);
+    const [width, setWidth] = useState(window.innerWidth);
 
-    //
-    const [moreMovies, setMoreMovies] = React.useState(4);
-
-    //
-    const [width, setWidth] = React.useState(window.innerWidth);
-
-    // const debouncedSearch = useDebounce(searchQuery, 1000);
-    // const [page, setPage] = React.useState(1);
-    // const limit = 16;
-
-    //
     useEffect(() => {
-
         if (width >= 1023) {
-            // onSubscribe();
             setShowMovies(16);
             setMoreMovies(4);
         } else if (width >= 768) {
@@ -39,8 +24,6 @@ function Movies(props) {
             setMoreMovies(2);
         }
     }, [width]);
-
-
 
     // const onSubscribe = () => {
     //     window.addEventListener('resize', setwidth)
@@ -63,16 +46,16 @@ function Movies(props) {
         )
     };
 
-    // const moviesList = props.showMore ? props.movies.slice(0, showMovies) : props.movies;
-    const moviesList = props.filteredMovies.slice(0, showMovies);
-
-    // function handleShowMoreMovies() {
-    //     setMoreMovies(prevState => prevState + moreMovies);
-    // }
-
     function handleShowMoreMovies() {
         setShowMovies(showMovies + moreMovies);
     }
+
+    const moviesList = props.filteredMovies.slice(0, showMovies);
+
+    const moviesLength = moviesList.length;
+
+    const result = props.movies.slice(0, showMovies).length;
+
     return (
         <>
             <Header
@@ -82,7 +65,6 @@ function Movies(props) {
             <main className="main">
                 <SearchForm
                     handleInputChange={props.handleInputChange}
-                    // handleClick={handleClick}
                     handleFormSubmit={props.handleFormSubmit}
                     buttonSearch={props.buttonSearch}
                 />
@@ -91,18 +73,17 @@ function Movies(props) {
                     isChecked={props.isChecked}
                 />
                 <MoviesCardList
-                
                     isLoadding={props.isLoadding}
                     movies={moviesList}
+                    moviesLength={moviesLength}
+                    result={result}
                     filteredMovies={props.filteredMovies}
                     handleShowMoreMovies={handleShowMoreMovies}
                     handleFouviretsClick={props.handleFouviretsClick}
                     removeFavouriteMovie={props.removeFavouriteMovie}
-
                 />
             </main>
             <Footer />
-
         </>
     )
 }

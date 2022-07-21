@@ -6,22 +6,9 @@ import React from "react";
 import { useFormValidation } from "../UseFormValidation";
 
 function Login(props) {
-const { values, handleChange, errors, isValid, setValues } = useFormValidation();
-
-    // const [values, setValues] = React.useState({
-    //     email: "",
-    //     password: "",
-    // });
+    const { values, handleChange, errors, isValid, setValues } = useFormValidation();
 
     const history = useHistory();
-
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setValues((prevState) => ({
-    //         ...prevState,
-    //         [name]: value,
-    //     }));
-    // };
 
     function handleAuthorize(e) {
         e.preventDefault();
@@ -32,15 +19,13 @@ const { values, handleChange, errors, isValid, setValues } = useFormValidation()
                 if (res.jwt) {
                     console.log(res);
                     setValues({
-                        //обновить стейт при успешной запросе поля формы очистятся и
                         email: "",
                         password: "",
                     });
-                    localStorage.setItem("jwt", res.jwt); // то мы должны локал сторедж записать джвт и рес джвт / запись токенов в локал сторедж
-                    props.handleLogin(); // вызывется колбэк который зpадан снаружи в случа успешной регистрации и после этого редирект
+                    localStorage.setItem("jwt", res.jwt);
+                    props.handleLogin();
                     history.push("/movies");
                 }
-
             })
             .catch((err) => {
                 console.log("Error at logIn", err);
@@ -71,7 +56,6 @@ const { values, handleChange, errors, isValid, setValues } = useFormValidation()
                         />
                         <span className="login__errors">{errors.email}</span>
                     </label>
-                    
 
                     <label className="login__label">
                         Пароль
