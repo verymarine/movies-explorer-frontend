@@ -73,7 +73,7 @@ function Profile(props) {
 
                     {props.isUpdate
                         ? <p className="profile__edited">Данные профиля обновлены&#10003;</p>
-                        : ""
+                        : <></>
                     }
 
                     <button

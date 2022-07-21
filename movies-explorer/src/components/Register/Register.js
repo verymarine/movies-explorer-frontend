@@ -25,7 +25,6 @@ function Register(props) {
                                 email: "",
                                 password: "",
                             });
-
                             localStorage.setItem("jwt", res.jwt);
                             props.handleLogin();
                             history.push("/movies");
@@ -49,7 +48,10 @@ function Register(props) {
         <>
             <HeaderAuth />
             <div className="register">
-                <form className="register__form" onSubmit={handleSubmit}>
+                <form
+                 className="register__form"
+                  onSubmit={handleSubmit}
+                  >
                     <label className="register__label">
                         Имя
                         <input

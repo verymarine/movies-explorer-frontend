@@ -4,6 +4,7 @@ import {
     Switch,
     withRouter,
     useHistory,
+    useLocation,
 } from "react-router-dom";
 import "./App.css";
 import Main from "../Main/Main";
@@ -67,6 +68,9 @@ function App() {
     // используем для сохранения/удаления данных об вошедшем пользователе
     const history = useHistory();
 
+    //
+    const location = useLocation();
+
     // получаем информацию о текущем пользователе
     useEffect(() => {
         if (loggedIn) {
@@ -106,18 +110,18 @@ function App() {
     //   }, [favourites]);
 
     function handleLogin() {
-        // setLoggedIn(true);
+        setLoggedIn(true);
         handleTokenCheck();
     }
 
-    const handleTokenCheck = () => {
+    const handleTokenCheck = (pathname) => {
         const jwt = localStorage.getItem("jwt");
         if (jwt) {
             auth
                 .checkToken(jwt)
                 .then(() => {
                     setLoggedIn(true);
-                    history.push("/movies");
+                    history.push(pathname);
                 })
                 .catch((err) => console.log(err));
         }
@@ -125,15 +129,16 @@ function App() {
 
     //
     useEffect(() => {
-        handleTokenCheck();
+        handleTokenCheck(location.pathname);
     }, []);
 
     // ф-я выхода 
     function handleLogout(evt) {
         // evt.preventDefault();
-        localStorage.removeItem("jwt");
-        localStorage.removeItem("checkedFilter");
-        localStorage.removeItem("searchResult");
+        // localStorage.removeItem("jwt");
+        // localStorage.removeItem("checkedFilter");
+        // localStorage.removeItem("searchResult");
+        localStorage.clear();
         setLoggedIn(false);
         setCurrentUser({});
         history.push("/");
@@ -180,168 +185,202 @@ function App() {
         }
     }, [searchQuery, isChecked]);
 
-    // ф-я поиска фильмов
-    function handleInputChange(e) {
-        e.preventDefault();
-        console.log(e.target.value);
-        setSearchQuery(e.target.value);
-    }
 
-    // ф-я сабмита поиска фильмов
-    function handleFormSubmit(e) {
-        e.preventDefault();
-    }
 
-    const filteredMovies = movies.filter(movie => {
-        return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-    })
 
-    // ф-я чекида короткометражек
-    function handleCheckbox(e) {
-        //  e.target.checked
-        // console.log(e.target.value);
-        // setShortFilmsFilter(movies.filter((movie) => movie.duration <= 40));
-        // // setSearchQuery(e.target.value);
-        setIsChecked(e.target.checked);
-    }
 
-    // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
-    function addFavouriteMovie(movie) {
-        api.postFavoriteMovie(movie)
-            .then(newFavouriteList => {
-                setFavourites([...favourites, newFavouriteList])
-            })
-            .catch((err) => console.log("Ошибка", err));
-    }
+    useEffect(() => {
+        setButtonSearch(true);
+        if (searchQuery !== '') {
+            setButtonSearch(false);
+            setIsLoadding(true);
+               const searchFavourites = favourites.filter((favourite)=> favourite)
 
-    // useEffect(() => {
-    //     setFavourites([...favourites])
-    // }, [favourites])
-
-    function removeFavouriteMovie(movie) {
-        api.deleteFavoriteMovie(movie._id)
-            .then(() => {
-                setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
-            })
-            .catch((err) => console.log("Ошибка", err));
-    }
-
-    // useEffect(() => {
-    //     removeFavouriteMovie()
-    // }, [favourites])
-
-    // ф-я редактирования профиля
-    function handleUpdateProfile(user) {
-        api.patchUserInfo(user).then((userData) => {
-            setButtonUpdate(true);
-            setCurrentUser(userData);
-            setTimeout(setIsUpdate(true), 4000);
+            setMovies(movies);
+            if (isChecked) {
+                const checkedFilter = favourites.filter((movie) => movie.duration <= 40);
+                setFavourites(checkedFilter);
+                return;
+            }
         })
-            .catch((err) => {
-                setButtonUpdate(false);
-                setIsUpdate(false);
-                console.log("ERORR", err)
-            });
-    }
+        .catch((err) => console.log(err.status))
+        .finally(() => setIsLoadding(false))
+} else if (searchQuery === '') {
+    setButtonSearch(true);
 
-    // useEffect(() => {
-    //     handleUpdateProfile(currentUser)
-    // }, [isUpdate, currentUser])
+}
+    }, [searchQuery, isChecked]);
 
-    // Обработчик открытия навигации
-    function handleNavigationClick() {
-        setIsNavigationOpen(true);
-    }
 
-    function closeNavigation() {
-        setIsNavigationOpen(false);
-    }
 
-    setTimeout(closeNavigation, 7000);
 
-    return (
-        <div className="page">
-            <CurrentUserContext.Provider value={currentUser}>
-                <Switch>
-                    <Route exact path="/">
-                        <Main
-                            loggedIn={loggedIn}
-                            onClick={handleNavigationClick}
-                        />
-                    </Route>
-                    <ProtectedRoute loggedIn={loggedIn}
-                        component={Movies}
-                        path="/movies"
-                        movies={movies}
-                        buttonSearch={buttonSearch}
-                        isChecked={isChecked}
-                        isLoadding={isLoadding}
-                        filteredMovies={filteredMovies}
-                        handleFormSubmit={handleFormSubmit}
-                        handleCheckbox={handleCheckbox}
-                        handleInputChange={handleInputChange}
+
+
+
+
+
+// ф-я поиска фильмов
+function handleInputChange(e) {
+    e.preventDefault();
+    console.log(e.target.value);
+    setSearchQuery(e.target.value);
+}
+
+// ф-я сабмита поиска фильмов
+function handleFormSubmit(e) {
+    e.preventDefault();
+}
+
+const filteredMovies = movies.filter(movie => {
+    return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+})
+
+// ф-я чекида короткометражек
+function handleCheckbox(e) {
+    //  e.target.checked
+    // console.log(e.target.value);
+    // setShortFilmsFilter(movies.filter((movie) => movie.duration <= 40));
+    // // setSearchQuery(e.target.value);
+    setIsChecked(e.target.checked);
+}
+
+// БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
+function addFavouriteMovie(movie) {
+    api.postFavoriteMovie(movie)
+        .then(newFavouriteList => {
+            setFavourites([...favourites, newFavouriteList])
+        })
+        .catch((err) => console.log("Ошибка", err));
+}
+
+// useEffect(() => {
+//     setFavourites([...favourites])
+// }, [favourites])
+
+function removeFavouriteMovie(movie) {
+    api.deleteFavoriteMovie(movie._id)
+        .then(() => {
+            setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
+        })
+        .catch((err) => console.log("Ошибка", err));
+}
+
+// useEffect(() => {
+//     removeFavouriteMovie()
+// }, [favourites])
+
+// ф-я редактирования профиля
+function handleUpdateProfile(user) {
+    api.patchUserInfo(user).then((userData) => {
+        setButtonUpdate(true);
+        setCurrentUser(userData);
+        setTimeout(setIsUpdate(true), 4000);
+    })
+        .catch((err) => {
+            setButtonUpdate(false);
+            setIsUpdate(false);
+            console.log("ERORR", err)
+        });
+}
+
+// useEffect(() => {
+//     handleUpdateProfile(currentUser)
+// }, [isUpdate, currentUser])
+
+// Обработчик открытия навигации
+function handleNavigationClick() {
+    setIsNavigationOpen(true);
+}
+
+function closeNavigation() {
+    setIsNavigationOpen(false);
+}
+
+setTimeout(closeNavigation, 7000);
+
+return (
+    <div className="page">
+        <CurrentUserContext.Provider value={currentUser}>
+            <Switch>
+                <Route exact path="/">
+                    <Main
+                        loggedIn={loggedIn}
                         onClick={handleNavigationClick}
-                        handleFouviretsClick={addFavouriteMovie}
-                        removeFavouriteMovie={removeFavouriteMovie}
                     />
+                </Route>
+                <ProtectedRoute loggedIn={loggedIn}
+                    component={Movies}
+                    path="/movies"
+                    movies={movies}
+                    buttonSearch={buttonSearch}
+                    isChecked={isChecked}
+                    isLoadding={isLoadding}
+                    filteredMovies={filteredMovies}
+                    handleFormSubmit={handleFormSubmit}
+                    handleCheckbox={handleCheckbox}
+                    handleInputChange={handleInputChange}
+                    onClick={handleNavigationClick}
+                    handleFouviretsClick={addFavouriteMovie}
+                    removeFavouriteMovie={removeFavouriteMovie}
+                />
 
-                    <ProtectedRoute loggedIn={loggedIn}
-                        component={Profile}
-                        path="/profile"
-                        exit={handleLogout}
-                        onClick={handleNavigationClick}
-                        onUpdateProfile={handleUpdateProfile}
-                        isUpdate={isUpdate}
-                        buttonUpdate={buttonUpdate}
-                        setCurrentUser={setCurrentUser}
-                        handleUpdateProfile={handleUpdateProfile}
+                <ProtectedRoute loggedIn={loggedIn}
+                    component={Profile}
+                    path="/profile"
+                    exit={handleLogout}
+                    onClick={handleNavigationClick}
+                    onUpdateProfile={handleUpdateProfile}
+                    isUpdate={isUpdate}
+                    buttonUpdate={buttonUpdate}
+                    setCurrentUser={setCurrentUser}
+                    handleUpdateProfile={handleUpdateProfile}
+                    unactiveButton={unactiveButton}
+                    setUnactiveButton={setUnactiveButton}
+                />
+
+                <ProtectedRoute loggedIn={loggedIn}
+                    component={SavedMovies}
+                    path="/saved-movies"
+                    favourites={favourites}
+                    setFavourites={setFavourites}
+                    filteredMovies={filteredMovies}
+                    buttonSearch={buttonSearch}
+                    isChecked={isChecked}
+                    isLoadding={isLoadding}
+                    handleFormSubmit={handleFormSubmit}
+                    handleCheckbox={handleCheckbox}
+                    handleInputChange={handleInputChange}
+                    onClick={handleNavigationClick}
+                    removeFavouriteMovie={removeFavouriteMovie}
+                />
+
+                <Route path="/signin">
+                    <Login
+                        handleLogin={handleLogin}
                         unactiveButton={unactiveButton}
                         setUnactiveButton={setUnactiveButton}
                     />
+                </Route>
 
-                    <ProtectedRoute loggedIn={loggedIn}
-                        component={SavedMovies}
-                        path="/saved-movies"
-                        favourites={favourites}
-                        setFavourites={setFavourites}
-                        filteredMovies={filteredMovies}
-                        buttonSearch={buttonSearch}
-                        isChecked={isChecked}
-                        isLoadding={isLoadding}
-                        handleFormSubmit={handleFormSubmit}
-                        handleCheckbox={handleCheckbox}
-                        handleInputChange={handleInputChange}
-                        onClick={handleNavigationClick}
-                        removeFavouriteMovie={removeFavouriteMovie}
+                <Route path="/signup">
+                    <Register
+                        handleLogin={handleLogin}
+                        unactiveButton={unactiveButton}
+                        setUnactiveButton={setUnactiveButton}
                     />
+                </Route>
 
-                    <Route path="/signin">
-                        <Login
-                            handleLogin={handleLogin}
-                            unactiveButton={unactiveButton}
-                            setUnactiveButton={setUnactiveButton}
-                        />
-                    </Route>
-
-                    <Route path="/signup">
-                        <Register
-                            handleLogin={handleLogin}
-                            unactiveButton={unactiveButton}
-                            setUnactiveButton={setUnactiveButton}
-                        />
-                    </Route>
-
-                    <Route path="*">
-                        <NotFound />
-                    </Route>
-                </Switch>
-                <Navigation
-                    isOpen={isNavigationOpen}
-                    onClose={closeNavigation}
-                />
-            </CurrentUserContext.Provider>
-        </div>
-    );
+                <Route path="*">
+                    <NotFound />
+                </Route>
+            </Switch>
+            <Navigation
+                isOpen={isNavigationOpen}
+                onClose={closeNavigation}
+            />
+        </CurrentUserContext.Provider>
+    </div>
+);
 }
 
 export default withRouter(App);
