@@ -189,27 +189,25 @@ function App() {
 
 
 
-    useEffect(() => {
-        setButtonSearch(true);
-        if (searchQuery !== '') {
-            setButtonSearch(false);
-            setIsLoadding(true);
-               const searchFavourites = favourites.filter((favourite)=> favourite)
 
-            setMovies(movies);
-            if (isChecked) {
-                const checkedFilter = favourites.filter((movie) => movie.duration <= 40);
-                setFavourites(checkedFilter);
-                return;
-            }
-        })
-        .catch((err) => console.log(err.status))
-        .finally(() => setIsLoadding(false))
-} else if (searchQuery === '') {
-    setButtonSearch(true);
+    // useEffect(() => {
+    //     setButtonSearch(true);
+    //     if (searchQuery !== '') {
+    //         setButtonSearch(false);
+    //         setIsLoadding(true);
+    //            const movies = favourites.filter((favourite)=> favourite)
 
-}
-    }, [searchQuery, isChecked]);
+    //         setFavourites(movies);
+    //         if (isChecked) {
+    //             const checkedFilter = favourites.filter((movie) => movie.duration <= 40);
+    //             setFavourites(checkedFilter);
+    //             return;
+    //         } else if (searchQuery === '') {
+    //             setButtonSearch(true);
+            
+    //         }
+    //     }
+    // }, [searchQuery, isChecked, favourites]);
 
 
 
@@ -234,6 +232,14 @@ function handleFormSubmit(e) {
 const filteredMovies = movies.filter(movie => {
     return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
 })
+
+const filteredFavouriteMovies = favourites.filter(favourite => {
+    return favourite.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+})
+
+console.log(favourites, "favourites");
+console.log(filteredMovies, "filteredMovies");
+console.log(filteredFavouriteMovies, 'filteredFavouriteMovies');
 
 // ф-я чекида короткометражек
 function handleCheckbox(e) {
