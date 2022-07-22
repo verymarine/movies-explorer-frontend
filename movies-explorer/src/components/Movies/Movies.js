@@ -23,6 +23,8 @@ function Movies(props) {
             setShowMovies(5);
             setMoreMovies(2);
         }
+        setShowMovies(12);
+        setMoreMovies(3);
     }, [width]);
 
     // const onSubscribe = () => {
@@ -82,6 +84,7 @@ function Movies(props) {
                     handleShowMoreMovies={handleShowMoreMovies}
                     handleFouviretsClick={props.handleFouviretsClick}
                     removeFavouriteMovie={props.removeFavouriteMovie}
+                    
                 />
             </main>
             <Footer />
