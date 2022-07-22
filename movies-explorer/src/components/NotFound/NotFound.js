@@ -1,6 +1,5 @@
 import "./NotFound.css";
-
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function NotFound(props) {
     return (

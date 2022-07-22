@@ -51,6 +51,17 @@
     color: #FF4062;
 }
 
+.register__errors {
+    color: rgb(255, 64, 98);
+    display: block;
+    top: 50px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+}
+
 .register__button {
     padding: 0;
     margin: 134px auto 0 auto;
@@ -72,6 +83,25 @@
 
 .register__button:hover {
     opacity: .6;
+}
+
+.register__button-unactive {
+    padding: 0;
+    margin: 134px auto 0 auto;
+    cursor: pointer;
+    display: block;
+    width: 396px;
+    height: 45px;
+    border: none;
+    border-radius: 2px;
+    background: #F2F2F2;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #A0A0A0;
 }
 
 .register__signin {

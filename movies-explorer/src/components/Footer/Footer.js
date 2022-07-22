@@ -19,7 +19,6 @@ function Footer(props) {
                     </li>
                 </ul>
             </div>
-
         </footer>
     );
 }
