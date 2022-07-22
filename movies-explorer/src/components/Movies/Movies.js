@@ -12,6 +12,15 @@ function Movies(props) {
     const [moreMovies, setMoreMovies] = useState(0);
     const [width, setWidth] = useState(window.innerWidth);
 
+
+    const moviesList = props.filteredMovies.slice(0, showMovies);
+
+    const moviesLength = moviesList.length;
+
+    const result = props.movies.slice(0, showMovies).length;
+
+    const filteredMoviesLength = props.filteredMovies.length;
+
     useEffect(() => {
         if (width >= 1023) {
             setShowMovies(16);
@@ -51,14 +60,6 @@ function Movies(props) {
     function handleShowMoreMovies() {
         setShowMovies(showMovies + moreMovies);
     }
-
-    const moviesList = props.filteredMovies.slice(0, showMovies);
-
-    const moviesLength = moviesList.length;
-
-    const result = props.movies.slice(0, showMovies).length;
-
-    const filteredMoviesLength = props.filteredMovies.length;
 
     return (
         <>

@@ -7,11 +7,19 @@ import SearchForm from "../Movies/SearchForm/SearchForm";
 import "./SavedMovies.css";
 
 function SavedMovies(props) {
+    
     const [showMovies, setShowMovies] = useState(16);
-
     const [moreMovies, setMoreMovies] = useState(4);
-
     const [width, setWidth] = useState(window.innerWidth);
+
+    //
+    const favouritesList = props.favourites.slice(0, showMovies);
+
+    //
+    const favouritesLength = favouritesList.length;
+
+    //
+    const result = props.movies.slice(0, showMovies).length;
 
     useEffect(() => {
         if (width >= 1023) {
@@ -43,13 +51,6 @@ function SavedMovies(props) {
     function handleShowMoreMovies() {
         setShowMovies(showMovies + moreMovies);
     }
-
-    const favouritesList = props.favourites.slice(0, showMovies);
-
-    const result = favouritesList;
-
-    const favouritesLength = favouritesList.length;
-
     return (
         <>
             <Header

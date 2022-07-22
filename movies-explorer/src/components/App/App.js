@@ -352,6 +352,7 @@ return (
                 <ProtectedRoute loggedIn={loggedIn}
                     component={SavedMovies}
                     path="/saved-movies"
+                    movies={movies}
                     favourites={favourites}
                     setFavourites={setFavourites}
                     filteredMovies={filteredMovies}
