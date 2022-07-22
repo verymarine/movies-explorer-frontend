@@ -48,17 +48,17 @@ class MainApi {
             headers: this._headers,
 
             body: JSON.stringify({
-                country: data.country,
-                director: data.director,
-                duration: data.duration,
-                year: data.year,
-                description: data.description,
-                image: data.image,
-                nameRU: data.nameRU,
-                nameEN: data.nameEN,
-                thumbnail: data.thumbnail,
-                movieId: data.movieId,
-                trailerLink: data.trailerLink,
+                country: data.country || "нет данных",
+                director: data.director || "нет данных",
+                duration: data.duration || "нет данных",
+                year: data.year || "нет данных",
+                description: data.description || "нет данных",
+                image: data.image || "нет данных",
+                nameRU: data.nameRU || "нет данных",
+                nameEN: data.nameEN || "нет данных",
+                thumbnail: data.thumbnail || "нет данных",
+                movieId: data.movieId || "нет данных",
+                trailerLink: data.trailerLink || "нет данных",
             }),
         }).then(response);
     }
