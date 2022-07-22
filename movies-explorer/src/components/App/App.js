@@ -77,12 +77,16 @@ function App() {
             api.getUserInfo()
                 .then(data => {
                     setCurrentUser(data)
+                    console.log(data, "dat");
                 })
                 .catch((err) => {
                     console.log(err)
                 })
         }
     }, [loggedIn]);
+
+    console.log(loggedIn, 'loggedin');
+
 
     // получаем ифнормацию о любимых фильмах залогиненного пользователя
     useEffect(() => {
@@ -250,6 +254,7 @@ function handleCheckbox(e) {
     setIsChecked(e.target.checked);
 }
 
+
 // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
 function addFavouriteMovie(movie) {
     api.postFavoriteMovie(movie)
@@ -271,8 +276,8 @@ function removeFavouriteMovie(movie) {
         })
         .catch((err) => console.log("Ошибка", err));
 }
-console.log(favourites, 'сохраненные ');
-console.log();
+// console.log(favourites, 'сохраненные ');
+// console.log();
 
 // useEffect(() => {
 //     removeFavouriteMovie()
@@ -307,7 +312,7 @@ function closeNavigation() {
 
 setTimeout(closeNavigation, 7000);
 
-console.log(filteredMovies.length);
+// console.log(filteredMovies.length);
 
 return (
     <div className="page">
