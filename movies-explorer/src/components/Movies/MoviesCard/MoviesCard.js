@@ -7,7 +7,7 @@ function MoviesCard(props) {
   // стейт в котором меняется значения лайка
   const [like, setLike] = React.useState(false);
   // console.log(props.movie._id, 'movie._id');
-  // console.log(props.movie, 'movie');
+  // console.log(props.movie, 'movie moviescard');
 
   return (
     <article className="movies-card">
@@ -36,7 +36,7 @@ function MoviesCard(props) {
               ></button>
               : <button
                 className="movies-card__like"
-                onClick={() => props.handleFouviretsClick(props.movie, setLike(true))}
+                onClick={() => props.handleFavouriteClick(props.movie, setLike(true))}
                 type="button"
               ></button>
             }

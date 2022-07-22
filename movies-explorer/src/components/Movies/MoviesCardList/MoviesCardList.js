@@ -31,7 +31,7 @@ function MoviesCardList(props) {
                                     nameEN={item.nameEN}
                                     thumbnail={item.thumbnail}
                                     trailerLink={item.trailerLink}
-                                    handleFouviretsClick={props.handleFouviretsClick}
+                                    handleFavouriteClick={props.handleFavouriteClick}
                                     removeFavouriteMovie={props.removeFavouriteMovie}
                                 />
                             )}
@@ -61,7 +61,7 @@ function MoviesCardList(props) {
                                     nameEN={item.nameEN}
                                     thumbnail={item.thumbnail}
                                     trailerLink={item.trailerLink}
-                                    handleFouviretsClick={props.handleFouviretsClick}
+                                    handleFavouriteClick={props.handleFavouriteClick}
                                     removeFavouriteMovie={props.removeFavouriteMovie}
                                 />
                             )}

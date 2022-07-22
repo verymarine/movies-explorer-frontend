@@ -92,6 +92,8 @@ function App() {
         api.getFavoriteMovies()
             .then(data => {
                 setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
+                console.log(data, "пользователь который сохраняет")
+                console.log(currentUser._id, "currentUser");
             })
             .catch((err) => {
                 console.log(err)
@@ -348,19 +350,18 @@ function App() {
         api.postFavoriteMovie(movie)
             .then(newFavouriteList => {
                 setFavourites([...favourites, newFavouriteList])
+                console.log(favourites, "сохраненный фильм");
             })
             .catch((err) => console.log("Ошибка", err));
     }
 
-    // useEffect(() => {
-    //     setFavourites([...favourites])
-    // }, [favourites])
 
     function removeFavouriteMovie(movie) {
         api.deleteFavoriteMovie(movie._id)
 
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
+                console.log(favourites, "delete фильм");
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -420,7 +421,7 @@ function App() {
                         handleCheckbox={handleCheckbox}
                         handleInputChange={handleInputChange}
                         onClick={handleNavigationClick}
-                        handleFouviretsClick={addFavouriteMovie}
+                        handleFavouriteClick={addFavouriteMovie}
                         removeFavouriteMovie={removeFavouriteMovie}
                     />
 

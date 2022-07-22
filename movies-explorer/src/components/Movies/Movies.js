@@ -86,7 +86,7 @@ function Movies(props) {
                     result={result}
                     filteredMovies={props.filteredMovies}
                     handleShowMoreMovies={handleShowMoreMovies}
-                    handleFouviretsClick={props.handleFouviretsClick}
+                    handleFavouriteClick={props.handleFavouriteClick}
                     removeFavouriteMovie={props.removeFavouriteMovie}
                     
                 />
