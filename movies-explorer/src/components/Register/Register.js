@@ -59,6 +59,8 @@ function Register(props) {
                             id="name"
                             name="name"
                             type="text"
+                            minLength="2"
+                            maxLength="12"
                             required
                             value={values.name || ''}
                             onChange={handleChange}

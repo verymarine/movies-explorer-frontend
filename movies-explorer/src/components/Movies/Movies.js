@@ -67,6 +67,7 @@ function Movies(props) {
                     handleInputChange={props.handleInputChange}
                     handleFormSubmit={props.handleFormSubmit}
                     buttonSearch={props.buttonSearch}
+                    filteredMovies={props.filteredMovies}
                 />
                 <FilterCheckbox
                     handleCheckbox={props.handleCheckbox}

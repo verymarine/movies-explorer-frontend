@@ -233,13 +233,13 @@ const filteredMovies = movies.filter(movie => {
     return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
 })
 
-const filteredFavouriteMovies = favourites.filter(favourite => {
-    return favourite.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-})
+// const filteredFavouriteMovies = favourites.filter(favourite => {
+//     return favourite.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+// })
 
-console.log(favourites, "favourites");
-console.log(filteredMovies, "filteredMovies");
-console.log(filteredFavouriteMovies, 'filteredFavouriteMovies');
+// console.log(favourites, "favourites");
+// console.log(filteredMovies, "filteredMovies");
+// console.log(filteredFavouriteMovies, 'filteredFavouriteMovies');
 
 // ф-я чекида короткометражек
 function handleCheckbox(e) {
@@ -303,6 +303,8 @@ function closeNavigation() {
 }
 
 setTimeout(closeNavigation, 7000);
+
+console.log(filteredMovies.length);
 
 return (
     <div className="page">

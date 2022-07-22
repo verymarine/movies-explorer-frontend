@@ -92,6 +92,18 @@ input[type="search"] {
     opacity: .6;
 }
 
+.serach-form__info {
+    margin: 20px auto 20px auto;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    /* color: #000000; */
+    color: #FF4062;
+    text-align: center;
+}
+
 @media screen and (max-width: 1023px) {
     .search-form__form {
         margin-left: auto;
