@@ -61,6 +61,7 @@ function SavedMovies(props) {
                     handleInputChange={props.handleInputChange}
                     handleFormSubmit={props.handleFormSubmit}
                     buttonSearch={props.buttonSearch}
+                    favouritesLength={favouritesLength}
                 />
                 <FilterCheckbox
                     handleCheckbox={props.handleCheckbox}

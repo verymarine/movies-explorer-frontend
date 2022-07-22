@@ -58,6 +58,8 @@ function Movies(props) {
 
     const result = props.movies.slice(0, showMovies).length;
 
+    const filteredMoviesLength = props.filteredMovies.length;
+
     return (
         <>
             <Header
@@ -70,6 +72,7 @@ function Movies(props) {
                     handleFormSubmit={props.handleFormSubmit}
                     buttonSearch={props.buttonSearch}
                     filteredMovies={props.filteredMovies}
+                    filteredMoviesLength={filteredMoviesLength}
                 />
                 <FilterCheckbox
                     handleCheckbox={props.handleCheckbox}

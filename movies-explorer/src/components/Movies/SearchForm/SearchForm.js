@@ -23,16 +23,16 @@ function SearchForm(props) {
                         ? <p className="serach-form__info">Нужно ввести ключевое слово</p>
                         : <></>
                     }
-                    {/* {(props.filteredMovies.length === 0 && props.buttonSearch === false)
+                    {(props.filteredMoviesLength === 0 && props.buttonSearch === false)
                         ? <p className="serach-form__info">Ничего не найдено</p>
                         : <></>
-                    } */}
+                    }
                 </Route>
                 <Route path="/saved-movies">
-                    {/* {(props.favouritesLength === 0 && props.buttonSearch === false)
+                    {(props.favouritesLength === 0 && props.buttonSearch === false)
                         ? <p className="serach-form__info">Ничего не найдено</p>
                         : <></>
-                    } */}
+                    }
                 </Route>
             </Switch>
 
