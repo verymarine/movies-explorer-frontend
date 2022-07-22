@@ -265,11 +265,14 @@ function addFavouriteMovie(movie) {
 
 function removeFavouriteMovie(movie) {
     api.deleteFavoriteMovie(movie._id)
+    
         .then(() => {
             setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
         })
         .catch((err) => console.log("Ошибка", err));
 }
+console.log(favourites, 'сохраненные ');
+console.log();
 
 // useEffect(() => {
 //     removeFavouriteMovie()

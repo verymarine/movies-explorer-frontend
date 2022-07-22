@@ -6,6 +6,8 @@ function MoviesCard(props) {
 
   // стейт в котором меняется значения лайка
   const [like, setLike] = React.useState(false);
+  console.log(props.movie._id, 'movie._id');
+  console.log(props.movie, 'movie');
 
   return (
     <article className="movies-card">

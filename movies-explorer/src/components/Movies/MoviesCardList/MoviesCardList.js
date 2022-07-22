@@ -5,6 +5,7 @@ import Preloader from "../Preloader/Preloader";
 import "./MoviesCardList.css";
 
 function MoviesCardList(props) {
+
     return (
         <>
             <Switch>
