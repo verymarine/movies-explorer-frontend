@@ -14,7 +14,7 @@ function Register(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         props.setUnactiveButton(true);
-        // if (values.name || values.email || values.password) {
+        if (values.name || values.email || values.password) {
         auth.register(values.name, values.email, values.password)
             .then((res) => { 
                 if (res) {
@@ -42,7 +42,7 @@ function Register(props) {
             .catch((err) => {
                 console.log("Error at register", err);
             })
-        // }
+        }
     }
 
     return (

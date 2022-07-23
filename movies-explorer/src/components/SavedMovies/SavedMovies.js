@@ -14,6 +14,7 @@ function SavedMovies(props) {
 
     //
     const favouritesList = props.favourites.slice(0, showMovies);
+    console.log(favouritesList, "favouritesList");
 
     //
     const favouritesLength = favouritesList.length;

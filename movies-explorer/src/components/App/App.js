@@ -356,13 +356,25 @@ function App() {
 
     // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
     function addFavouriteMovie(movie) {
+        if((favourites) => favourites.filter((favourite) => favourite.movieId !== movie.movieId)){
         api.postFavoriteMovie(movie)
             .then(newFavouriteList => {
-                // setFavourites([...favourites, newFavouriteList])
-                setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
+                setFavourites([...favourites, newFavouriteList])
+                // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
+                console.log(favourites, "FAV");
             })
             .catch((err) => console.log("Ошибка", err));
+}
+
+            // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)])
+            // console.log(favourites, "FAV");
+            // console.log(newFavouriteList, 'newFavouriteList');
+            // console.log(movie, 'movie');
+
+
+
     }
+
 
 
     function removeFavouriteMovie(movie) {

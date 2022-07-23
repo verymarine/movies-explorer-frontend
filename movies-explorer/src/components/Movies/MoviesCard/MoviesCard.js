@@ -6,7 +6,7 @@ import "./MoviesCard.css";
 function MoviesCard(props) {
 
   // стейт в котором меняется значения лайка
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(localStorage.getItem("like") || false);
 
   return (
     <article className="movies-card">
@@ -30,7 +30,7 @@ function MoviesCard(props) {
             {like === true
               ? <button
                 className="movies-card__liked"
-                onClick={() => props.removeFavouriteMovie(props.movie, setLike(false))}
+                onClick={() => props.removeFavouriteMovie(props.movie, setLike(false), localStorage.setItem("like", like))}
                 type="button"
               ></button>
               : <button
