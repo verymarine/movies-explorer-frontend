@@ -31,7 +31,7 @@ function App() {
     const [movies, setMovies] = useState([]); // 1
 
     // Стейт, в котором содержится значение текста поиска
-    const [searchQuery, setSearchQuery] = useState( localStorage.getItem('searchResult') || ''); // 2
+    const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchResult') || ''); // 2
 
     // Стейт, в котором содержится значение состояния Прелоудера
     const [isLoadding, setIsLoadding] = useState(false); // 3
@@ -297,6 +297,26 @@ function App() {
 
 
 
+
+
+    // useEffect(() => {
+    //     setButtonSearch(true);
+    //     if (searchQuery !== '') {
+    //         setButtonSearch(false);
+    //         setIsLoadding(true);
+    //         setFavourites()
+    //         if (isChecked) {
+    //             const checkedFilter = favourites.filter((favourite) => favourite.duration <= 40);
+    //             setFavourites(checkedFilter);
+    //             return;
+    //         }
+    //     } else if (searchQuery === '') {
+    //         setButtonSearch(true);
+    //     }
+    // }, [searchQuery, isChecked, favourites]);
+
+
+
     // useEffect(() => {
     //     setButtonSearch(true);
     //     if (searchQuery !== '') {
@@ -356,20 +376,20 @@ function App() {
 
     // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
     function addFavouriteMovie(movie) {
-        if((favourites) => favourites.filter((favourite) => favourite.movieId !== movie.movieId)){
-        api.postFavoriteMovie(movie)
-            .then(newFavouriteList => {
-                setFavourites([...favourites, newFavouriteList])
-                // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
-                console.log(favourites, "FAV");
-            })
-            .catch((err) => console.log("Ошибка", err));
-}
+        if ((favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)) {
+            api.postFavoriteMovie(movie)
+                .then(newFavouriteList => {
+                    setFavourites([...favourites, newFavouriteList])
+                    // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
+                    console.log(favourites, "FAV");
+                })
+                .catch((err) => console.log("Ошибка", err));
+        }
 
-            // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)])
-            // console.log(favourites, "FAV");
-            // console.log(newFavouriteList, 'newFavouriteList');
-            // console.log(movie, 'movie');
+        // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)])
+        // console.log(favourites, "FAV");
+        // console.log(newFavouriteList, 'newFavouriteList');
+        // console.log(movie, 'movie');
 
 
 
@@ -395,6 +415,8 @@ function App() {
         api.patchUserInfo(user).then((userData) => {
             setButtonUpdate(true);
             setCurrentUser(userData);
+
+            console.log(userData, 'userdata');
             setTimeout(setIsUpdate(true), 4000);
         })
             .catch((err) => {
@@ -403,6 +425,7 @@ function App() {
                 console.log("ERORR", err)
             });
     }
+    console.log(currentUser, 'current user');
 
     // useEffect(() => {
     //     handleUpdateProfile(currentUser)
