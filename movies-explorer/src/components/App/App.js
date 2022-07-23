@@ -32,13 +32,13 @@ function App() {
     const [movies, setMovies] = React.useState([]); // 1
 
     // Стейт, в котором содержится значение текста поиска
-    const [searchQuery, setSearchQuery] = React.useState(''); // 2
+    const [searchQuery, setSearchQuery] = React.useState( localStorage.getItem('searchResult') || ''); // 2
 
     // Стейт, в котором содержится значение состояния Прелоудера
     const [isLoadding, setIsLoadding] = React.useState(false); // 3
 
     // Стейт, в котором содержится значение состояния Чекбокса Короткометражек
-    const [isChecked, setIsChecked] = React.useState(false); // 4
+    const [isChecked, setIsChecked] = React.useState( localStorage.getItem('checkedFilter') || false); // 4
 
     // Стейт, в котором содержится значение состояния кнопки поиска
     const [buttonSearch, setButtonSearch] = React.useState(false);
@@ -73,6 +73,15 @@ function App() {
     // console.log(currentUser, "app current")
     //
     const location = useLocation();
+
+
+    // useEffect(() => {
+    //     if (loggedIn) {
+    //         localStorage.getItem('searchResult', searchQuery);
+    //         localStorage.getItem('checkedFilter', isChecked);
+    //     }
+
+    // }, [loggedIn, searchQuery, isChecked])
 
     // получаем информацию о текущем пользователе
     useEffect(() => {
@@ -122,7 +131,7 @@ function App() {
     const handleTokenCheck = (pathname) => {
         const jwt = localStorage.getItem("jwt");
         // const jwt = document.cookie('jwt');
-        
+
         if (jwt) {
             auth
                 .checkToken(jwt)
@@ -151,138 +160,140 @@ function App() {
         history.push("/");
     }
 
+
+    // рвбочий вариант приема фильмов 
+    // useEffect(() => {
+    //     moviesApi.getMovies() 
+    //         .then(data => {
+    //             const movies = data.map(item => {
+    //                 return {
+    //                     country: item.country,
+    //                     director: item.director,
+    //                     duration: item.duration,
+    //                     year: item.year,
+    //                     description: item.description,
+    //                     image: item.image.url,
+    //                     nameRU: item.nameRU,
+    //                     nameEN: item.nameEN,
+    //                     thumbnail: item.image.formats.thumbnail.url,
+    //                     movieId: item.id,
+    //                     trailerLink: item.trailerLink,
+    //                 }
+    //             })
+    //             setMovies(movies);
+    //         }
+    //         )
+
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    // }, []);
+
+
+    // ТЕСТ
+    // useEffect(() => {
+    //     setButtonSearch(true);
+    //     if (searchQuery !== '') {
+    //         setButtonSearch(false);
+    //         setIsLoadding(true);
+    //         moviesApi.getMovies()
+    //             .then(data => {
+    //                 const movies = data.map(item => {
+    //                     return {
+    //                         country: item.country,
+    //                         director: item.director,
+    //                         duration: item.duration,
+    //                         year: item.year,
+    //                         description: item.description,
+    //                         image: item.image.url,
+    //                         nameRU: item.nameRU,
+    //                         nameEN: item.nameEN,
+    //                         thumbnail: item.image.formats.thumbnail.url,
+    //                         movieId: item.id,
+    //                         trailerLink: item.trailerLink
+    //                     }
+    //                 })
+    //                 setMovies(movies);
+    //                 localStorage.setItem('searchResult', searchQuery);
+    //                 if (isChecked) {
+    //                     const checkedFilter = movies.filter((movie) => movie.duration <= 40);
+    //                     setMovies(checkedFilter);
+    //                     localStorage.setItem('checkedFilter', isChecked);
+    //                     return;
+    //                 }
+    //             })
+    //             .catch((err) => console.log(err.status))
+    //             .finally(() => setIsLoadding(false))
+    //     } else if (searchQuery === '') {
+    //         setMovies([]);
+    //         setButtonSearch(true);
+
+    //     }
+    // }, [searchQuery, isChecked]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
     useEffect(() => {
-        moviesApi.getMovies() 
-            .then(data => {
-                const movies = data.map(item => {
-                    return {
-                        country: item.country,
-                        director: item.director,
-                        duration: item.duration,
-                        year: item.year,
-                        description: item.description,
-                        image: item.image.url,
-                        nameRU: item.nameRU,
-                        nameEN: item.nameEN,
-                        thumbnail: item.image.formats.thumbnail.url,
-                        movieId: item.id,
-                        trailerLink: item.trailerLink,
+        setButtonSearch(true);
+        if (searchQuery !== '') {
+            setButtonSearch(false);
+            setIsLoadding(true);
+            moviesApi.getMovies()
+                .then(data => {
+                    const movies = data.map(item => {
+                        return {
+                            country: item.country,
+                            director: item.director,
+                            duration: item.duration,
+                            year: item.year,
+                            description: item.description,
+                            image: item.image.url,
+                            nameRU: item.nameRU,
+                            nameEN: item.nameEN,
+                            thumbnail: item.image.formats.thumbnail.url,
+                            movieId: item.id,
+                            trailerLink: item.trailerLink
+                        }
+                    })
+                    setMovies(movies);
+                    localStorage.setItem('searchResult', searchQuery);
+                    if (isChecked) {
+                        const checkedFilter = movies.filter((movie) => movie.duration <= 40);
+                        setMovies(checkedFilter);
+                        localStorage.setItem('checkedFilter', isChecked);
+                        return;
                     }
                 })
-                setMovies(movies);
-            }
-            )
+                .catch((err) => console.log(err.status))
+                .finally(() => setIsLoadding(false))
+        } else if (searchQuery === '') {
+            setMovies([]);
+            setButtonSearch(true);
 
-            .catch((err) => {
-                console.log(err)
-            })
-    }, []);
-
-
-    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
-    // useEffect(() => {
-    //     setButtonSearch(true);
-    //     if (searchQuery !== '') {
-    //         setButtonSearch(false);
-    //         setIsLoadding(true);
-    //         moviesApi.getMovies()
-    //             .then(data => {
-    //                 const movies = data.map(item => {
-    //                     return {
-    //                         country: item.country,
-    //                         director: item.director,
-    //                         duration: item.duration,
-    //                         year: item.year,
-    //                         description: item.description,
-    //                         image: item.image.url,
-    //                         nameRU: item.nameRU,
-    //                         nameEN: item.nameEN,
-    //                         thumbnail: item.image.formats.thumbnail.url,
-    //                         movieId: item.id,
-    //                         trailerLink: item.trailerLink
-    //                     }
-    //                 })
-    //                 setMovies(movies);
-    //                 localStorage.setItem('searchResult', searchQuery);
-    //                 if (isChecked) {
-    //                     const checkedFilter = movies.filter((movie) => movie.duration <= 40);
-    //                     setMovies(checkedFilter);
-    //                     localStorage.setItem('checkedFilter', isChecked);
-    //                     return;
-    //                 }
-    //             })
-    //             .catch((err) => console.log(err.status))
-    //             .finally(() => setIsLoadding(false))
-    //     } else if (searchQuery === '') {
-    //         setMovies([]);
-    //         setButtonSearch(true);
-
-    //     }
-    // }, [searchQuery, isChecked]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
-    // useEffect(() => {
-    //     setButtonSearch(true);
-    //     if (searchQuery !== '') {
-    //         setButtonSearch(false);
-    //         setIsLoadding(true);
-    //         moviesApi.getMovies()
-    //             .then(data => {
-    //                 const movies = data.map(item => {
-    //                     return {
-    //                         country: item.country,
-    //                         director: item.director,
-    //                         duration: item.duration,
-    //                         year: item.year,
-    //                         description: item.description,
-    //                         image: item.image.url,
-    //                         nameRU: item.nameRU,
-    //                         nameEN: item.nameEN,
-    //                         thumbnail: item.image.formats.thumbnail.url,
-    //                         movieId: item.id,
-    //                         trailerLink: item.trailerLink
-    //                     }
-    //                 })
-    //                 setMovies(movies);
-    //                 localStorage.setItem('searchResult', searchQuery);
-    //                 if (isChecked) {
-    //                     const checkedFilter = movies.filter((movie) => movie.duration <= 40);
-    //                     setMovies(checkedFilter);
-    //                     localStorage.setItem('checkedFilter', isChecked);
-    //                     return;
-    //                 }
-    //             })
-    //             .catch((err) => console.log(err.status))
-    //             .finally(() => setIsLoadding(false))
-    //     } else if (searchQuery === '') {
-    //         setMovies([]);
-    //         setButtonSearch(true);
-
-    //     }
-    // }, [searchQuery, isChecked]);
+        }
+    }, [searchQuery, isChecked]);
 
 
 
@@ -355,7 +366,7 @@ function App() {
         api.postFavoriteMovie(movie)
             .then(newFavouriteList => {
                 // setFavourites([...favourites, newFavouriteList])
-                setFavourites([newFavouriteList, (favourites )=> favourites.filter((favourite) => favourite._id !== movie._id)])
+                setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
                 console.log(favourites, "сохраненный фильм");
             })
             .catch((err) => console.log("Ошибка", err));

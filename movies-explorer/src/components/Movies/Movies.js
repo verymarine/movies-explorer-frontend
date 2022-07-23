@@ -32,8 +32,8 @@ function Movies(props) {
             setShowMovies(5);
             setMoreMovies(2);
         }
-        setShowMovies(12);
-        setMoreMovies(3);
+        // setShowMovies(16);
+        // setMoreMovies(4);
     }, [width]);
 
     // const onSubscribe = () => {
