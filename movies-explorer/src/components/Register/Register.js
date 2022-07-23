@@ -16,8 +16,9 @@ function Register(props) {
         props.setUnactiveButton(true);
         // if (values.name || values.email || values.password) {
         auth.register(values.name, values.email, values.password)
-            .then((res) => {
+            .then((res) => { 
                 if (res) {
+                    console.log(res, 'res')
                     auth.authorize(values.email, values.password).then((res) => {
                         if (res.jwt) {
                             console.log(res);

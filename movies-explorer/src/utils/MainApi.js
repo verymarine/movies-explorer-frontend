@@ -26,7 +26,7 @@ class MainApi {
         }).then(response);
     }
 
-    patchUserInfo(data) { //
+    patchUserInfo(data) { 
         return fetch(`${this._url}/users/me`, {
             method: "PATCH",
 
@@ -74,8 +74,8 @@ class MainApi {
 }
 
 const api = new MainApi({
-    url: 'https://api.moviehub.nomoredomains.xyz',
-    // url: 'http://localhost:3000',
+    // url: 'https://api.moviehub.nomoredomains.xyz',
+    url: 'http://localhost:3000',
     headers: {
         // authorization: localStorage.getItem("jwt"),
         "Content-Type": `application/json`,

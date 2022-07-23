@@ -7,33 +7,37 @@ import { useFormValidation } from "../UseFormValidation";
 
 function Profile(props) {
     const currentUser = useContext(CurrentUserContext);
-
+    console.log(currentUser, 'current');
+    
     const nameRef = useRef("")
     const emailRef = useRef("")
 
-    const { values, handleChange, errors, isValid, resetForm } = useFormValidation({
+    const { handleChange, errors, isValid, resetForm } = useFormValidation({
         name: nameRef.current.value,
         email: emailRef.current.value
     });
+    //
+    // const [isSameData, setIsSameData] = useState(true);
 
-    const [isSameData, setIsSameData] = useState(true);
-
-    useEffect(() => {
-        setIsSameData(nameRef.current.value === currentUser.name && emailRef.current.value === currentUser.email);
-    }, [values.name, values.email, currentUser.name, currentUser.email]);
+    // useEffect(() => {
+    //     setIsSameData(nameRef.current.value === currentUser.name && emailRef.current.value === currentUser.email);
+    // }, [values.name, values.email, currentUser.name, currentUser.email]);
 
     function handleSubmit(e) {
         e.preventDefault();
 
         const name = nameRef.current.value;
         const email = emailRef.current.value;
+        console.log(name, 'name submit');
+        console.log(email, 'email submit');
 
         props.handleUpdateProfile({ name, email });
-        props.setCurrentUser(name, email);
+        props.setCurrentUser({name, email});
+        console.log(currentUser, 'current submit');
         resetForm();
     }
 
-    
+
     return (
         <>
             <Header
@@ -79,8 +83,14 @@ function Profile(props) {
 
                     <button
                         type="submit"
-                        className={`profile__button ${(isSameData || !isValid) && "profile__button-unactive"}`}
-                        disabled={isSameData || !isValid}
+                        className={`profile__button ${(
+                            //
+                            // isSameData ||
+                            !isValid) && "profile__button-unactive"}`}
+                        disabled={
+                            //
+                            // isSameData || 
+                            !isValid}
                     >
                         Редактировать
                     </button>

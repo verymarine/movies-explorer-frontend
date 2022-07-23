@@ -26,6 +26,7 @@ function App() {
 
     // Стейт, в котором содержится значение Пользователя
     const [currentUser, setCurrentUser] = useState({}); // data:{}
+    console.log(currentUser, 'current app');
 
     // Стейт, в котором содержится значение Фильмов
     const [movies, setMovies] = React.useState([]); // 1
@@ -68,6 +69,8 @@ function App() {
     // используем для сохранения/удаления данных об вошедшем пользователе
     const history = useHistory();
 
+
+    // console.log(currentUser, "app current")
     //
     const location = useLocation();
 
@@ -92,8 +95,8 @@ function App() {
         api.getFavoriteMovies()
             .then(data => {
                 setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
-                console.log(data, "пользователь который сохраняет")
-                console.log(currentUser._id, "currentUser");
+                console.log(data.owner, "пользователь который сохраняет")
+                // console.log(currentUser._id, "currentUser");
             })
             .catch((err) => {
                 console.log(err)
@@ -118,6 +121,8 @@ function App() {
 
     const handleTokenCheck = (pathname) => {
         const jwt = localStorage.getItem("jwt");
+        // const jwt = document.cookie('jwt');
+        
         if (jwt) {
             auth
                 .checkToken(jwt)
@@ -147,7 +152,7 @@ function App() {
     }
 
     useEffect(() => {
-        moviesApi.getMovies()
+        moviesApi.getMovies() 
             .then(data => {
                 const movies = data.map(item => {
                     return {
@@ -161,7 +166,7 @@ function App() {
                         nameEN: item.nameEN,
                         thumbnail: item.image.formats.thumbnail.url,
                         movieId: item.id,
-                        trailerLink: item.trailerLink
+                        trailerLink: item.trailerLink,
                     }
                 })
                 setMovies(movies);
@@ -349,7 +354,8 @@ function App() {
     function addFavouriteMovie(movie) {
         api.postFavoriteMovie(movie)
             .then(newFavouriteList => {
-                setFavourites([...favourites, newFavouriteList])
+                // setFavourites([...favourites, newFavouriteList])
+                setFavourites([newFavouriteList, (favourites )=> favourites.filter((favourite) => favourite._id !== movie._id)])
                 console.log(favourites, "сохраненный фильм");
             })
             .catch((err) => console.log("Ошибка", err));
@@ -362,6 +368,7 @@ function App() {
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
                 console.log(favourites, "delete фильм");
+                console.log(movie, "movie")
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -374,7 +381,8 @@ function App() {
     function handleUpdateProfile(user) {
         api.patchUserInfo(user).then((userData) => {
             setButtonUpdate(true);
-            // setCurrentUser(userData);
+            setCurrentUser(userData);
+            console.log(userData, "userdata app")
             setTimeout(setIsUpdate(true), 4000);
         })
             .catch((err) => {
