@@ -1,5 +1,5 @@
-export const BASE_URL = 'https://api.moviehub.nomoredomains.xyz';
-// export const BASE_URL = 'http://localhost:3000';
+// export const BASE_URL = 'https://api.moviehub.nomoredomains.xyz';
+export const BASE_URL = 'http://localhost:3000';
 
 
 export const register = (name, email, password) => {

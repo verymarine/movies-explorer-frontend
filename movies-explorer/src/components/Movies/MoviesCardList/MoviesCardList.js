@@ -5,10 +5,6 @@ import Preloader from "../Preloader/Preloader";
 import "./MoviesCardList.css";
 
 function MoviesCardList(props) {
-    // console.log(props.favouritesLength, 'props.favouritesLength');
-    // console.log(props.result, 'props.result');
-    console.log(props.movies, 'kinoooooooo');
-
     return (
         <>
             <Switch>

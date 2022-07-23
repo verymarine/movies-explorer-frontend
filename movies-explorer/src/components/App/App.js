@@ -29,19 +29,19 @@ function App() {
     console.log(currentUser, 'current app');
 
     // Стейт, в котором содержится значение Фильмов
-    const [movies, setMovies] = React.useState([]); // 1
+    const [movies, setMovies] = useState([]); // 1
 
     // Стейт, в котором содержится значение текста поиска
-    const [searchQuery, setSearchQuery] = React.useState( localStorage.getItem('searchResult') || ''); // 2
+    const [searchQuery, setSearchQuery] = useState( localStorage.getItem('searchResult') || ''); // 2
 
     // Стейт, в котором содержится значение состояния Прелоудера
-    const [isLoadding, setIsLoadding] = React.useState(false); // 3
+    const [isLoadding, setIsLoadding] = useState(false); // 3
 
     // Стейт, в котором содержится значение состояния Чекбокса Короткометражек
-    const [isChecked, setIsChecked] = React.useState( localStorage.getItem('checkedFilter') || false); // 4
+    const [isChecked, setIsChecked] = useState( localStorage.getItem('checkedFilter') || false); // 4
 
     // Стейт, в котором содержится значение состояния кнопки поиска
-    const [buttonSearch, setButtonSearch] = React.useState(false);
+    const [buttonSearch, setButtonSearch] = useState(false);
 
     // Стейт, в котором содержится значение навигации
     const [isNavigationOpen, setIsNavigationOpen] = useState(false);

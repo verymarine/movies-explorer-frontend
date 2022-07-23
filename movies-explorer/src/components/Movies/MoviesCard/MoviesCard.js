@@ -1,13 +1,12 @@
 import React from "react";
+import { useState } from "react";
 import { Route } from "react-router-dom";
 import "./MoviesCard.css";
 
 function MoviesCard(props) {
 
   // стейт в котором меняется значения лайка
-  const [like, setLike] = React.useState(false);
-  // console.log(props.movie._id, 'movie._id');
-  // console.log(props.movie, 'movie moviescard');
+  const [like, setLike] = useState(false);
 
   return (
     <article className="movies-card">
