@@ -28,12 +28,9 @@ function Profile(props) {
 
         const name = nameRef.current.value;
         const email = emailRef.current.value;
-        console.log(name, 'name submit');
-        console.log(email, 'email submit');
 
         props.handleUpdateProfile({ name, email });
         props.setCurrentUser({name, email});
-        console.log(currentUser, 'current submit');
         resetForm();
     }
 

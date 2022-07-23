@@ -35,7 +35,7 @@ function MoviesCard(props) {
               ></button>
               : <button
                 className="movies-card__like"
-                onClick={() => props.handleFavouriteClick(props.movie, setLike(true), console.log(props.movie))}
+                onClick={() => props.handleFavouriteClick(props.movie, setLike(true))}
                 type="button"
               ></button>
             }

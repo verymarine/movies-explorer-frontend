@@ -26,7 +26,6 @@ function App() {
 
     // Стейт, в котором содержится значение Пользователя
     const [currentUser, setCurrentUser] = useState({}); // data:{}
-    console.log(currentUser, 'current app');
 
     // Стейт, в котором содержится значение Фильмов
     const [movies, setMovies] = useState([]); // 1
@@ -38,7 +37,7 @@ function App() {
     const [isLoadding, setIsLoadding] = useState(false); // 3
 
     // Стейт, в котором содержится значение состояния Чекбокса Короткометражек
-    const [isChecked, setIsChecked] = useState( localStorage.getItem('checkedFilter') || false); // 4
+    const [isChecked, setIsChecked] = useState(JSON.parse(localStorage.getItem('checkedFilter') || false)); // 4
 
     // Стейт, в котором содержится значение состояния кнопки поиска
     const [buttonSearch, setButtonSearch] = useState(false);
@@ -69,9 +68,6 @@ function App() {
     // используем для сохранения/удаления данных об вошедшем пользователе
     const history = useHistory();
 
-
-    // console.log(currentUser, "app current")
-    //
     const location = useLocation();
 
 
@@ -104,8 +100,6 @@ function App() {
         api.getFavoriteMovies()
             .then(data => {
                 setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
-                console.log(data.owner, "пользователь который сохраняет")
-                // console.log(currentUser._id, "currentUser");
             })
             .catch((err) => {
                 console.log(err)
@@ -287,7 +281,10 @@ function App() {
                     }
                 })
                 .catch((err) => console.log(err.status))
-                .finally(() => setIsLoadding(false))
+                .finally(() => {
+                    setIsLoadding(false);
+                    localStorage.setItem('checkedFilter', isChecked);
+                })
         } else if (searchQuery === '') {
             setMovies([]);
             setButtonSearch(true);
@@ -347,10 +344,6 @@ function App() {
     //     return favourite.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
     // })
 
-    // console.log(favourites, "favourites");
-    // console.log(filteredMovies, "filteredMovies");
-    // console.log(filteredFavouriteMovies, 'filteredFavouriteMovies');
-
     // ф-я чекида короткометражек
     function handleCheckbox(e) {
         //  e.target.checked
@@ -367,7 +360,6 @@ function App() {
             .then(newFavouriteList => {
                 // setFavourites([...favourites, newFavouriteList])
                 setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
-                console.log(favourites, "сохраненный фильм");
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -378,8 +370,6 @@ function App() {
 
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
-                console.log(favourites, "delete фильм");
-                console.log(movie, "movie")
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -393,7 +383,6 @@ function App() {
         api.patchUserInfo(user).then((userData) => {
             setButtonUpdate(true);
             setCurrentUser(userData);
-            console.log(userData, "userdata app")
             setTimeout(setIsUpdate(true), 4000);
         })
             .catch((err) => {
