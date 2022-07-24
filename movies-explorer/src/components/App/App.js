@@ -60,6 +60,9 @@ function App() {
     // Стейт, в котором содержится значение неактивной кнопки
     const [unactiveButton, setUnactiveButton] = useState(false);
 
+    //
+    const [like, setLike] = useState(localStorage.getItem("like") || false);
+
     // const debouncedSearch = useCallback()
 
     // используем для сохранения/удаления данных об вошедшем пользователе
@@ -165,14 +168,11 @@ function App() {
 
     useEffect(() => {
         const result = movies.map(movie => {
-          console.log(movies, 'movies');
-          console.log(favourites, 'favourites');
           const favouriteList = favourites.find(x => movie.id === x.movieId);
           movie.id = movie.movieId;
           movie._id = favouriteList?._id;
           return movie;
         });
-    
         setMovies(result);
       }, [favourites]);
 
@@ -362,7 +362,8 @@ function App() {
         // if ((favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)) {
             api.postFavoriteMovie(movie)
                 .then(newFavouriteList => {
-                    setFavourites([...favourites, newFavouriteList])
+                    setFavourites([...favourites, newFavouriteList]);
+                    setLike(true);
                     // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
                 })
                 .catch((err) => console.log("Ошибка", err));
@@ -381,6 +382,7 @@ function App() {
         api.deleteFavoriteMovie(movie._id)
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
+                setLike(false);
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -444,6 +446,7 @@ function App() {
                         onClick={handleNavigationClick}
                         handleFavouriteClick={addFavouriteMovie}
                         removeFavouriteMovie={removeFavouriteMovie}
+                        like={like}
                     />
 
                     <ProtectedRoute loggedIn={loggedIn}
