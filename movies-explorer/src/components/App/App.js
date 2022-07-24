@@ -60,15 +60,16 @@ function App() {
     // Стейт, в котором содержится значение неактивной кнопки
     const [unactiveButton, setUnactiveButton] = useState(false);
 
-    //
-    const [like, setLike] = useState(false);
+    // Стейт, в котором содержится значения лайка карточки
+    // const [like, setLike] = useState(false);
+
 
     // const debouncedSearch = useCallback()
 
     // используем для сохранения/удаления данных об вошедшем пользователе
     const history = useHistory();
 
-    // 
+    // хук, который возвращает значение текущего path
     const location = useLocation();
 
     // получаем информацию о текущем пользователе
@@ -98,13 +99,13 @@ function App() {
             })
     }, [currentUser, loggedIn]);
 
-    //
+    // 
     function handleLogin() {
         // setLoggedIn(true);
         handleTokenCheck();
     }
 
-    //
+    // ф-я проверки токена
     const handleTokenCheck = (pathname) => {
         const jwt = localStorage.getItem("jwt");
         // const jwt = document.cookie('jwt');
@@ -120,7 +121,7 @@ function App() {
         }
     };
 
-    //
+    // хук, который применяет проверку токена в зависимости от path
     useEffect(() => {
         handleTokenCheck(location.pathname);
     }, []);
@@ -137,22 +138,13 @@ function App() {
         history.push("/");
     }
 
-
-    // рвбочий вариант приема фильмов 
-    // useEffect(() => {
-    //     moviesApi.getMovies()
-    //         .then(setMovies)
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-    // }, []);
-    // console.log(movies)
-
+    // хук, с помощью которого мы расширяем значения фильма и добавляем новое значение id по которому будем сравнивать и удалять
     useEffect(() => {
         const result = movies.map(movie => {
           const favouriteList = favourites.find(x => movie.id === x.movieId);
           movie.id = movie.movieId;
           movie._id = favouriteList?._id;
+        //   movie.like = false;
           return movie;
         });
         setMovies(result);
@@ -203,7 +195,6 @@ function App() {
     }, [searchQuery, isChecked]);
 
 
-
     // useEffect(() => {
     //     setButtonSearch(true);
     //     if (searchQuery !== '') {
@@ -244,6 +235,19 @@ function App() {
 
 
 
+    // рвбочий вариант приема фильмов 
+    // useEffect(() => {
+    //     moviesApi.getMovies()
+    //         .then(setMovies)
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    // }, []);
+    // console.log(movies)
+
+
+
+
 
     // ф-я поиска фильмов
     function handleInputChange(e) {
@@ -257,7 +261,7 @@ function App() {
         e.preventDefault();
     }
 
-    //
+    // ф-я условия фильтрации фильмов
     const filteredMovies = movies.filter(movie => {
         return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
     })
@@ -275,23 +279,23 @@ function App() {
         setIsChecked(e.target.checked);
     }
 
-    // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
+    // ф-я добавления фильма в любимые
     function addFavouriteMovie(movie) {
             api.postFavoriteMovie(movie)
                 .then(newFavouriteList => {
                     setFavourites([...favourites, newFavouriteList]);
-                    setLike(true);
+                    // setLike(true);
                     // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
                 })
                 .catch((err) => console.log("Ошибка", err));
     }
 
-    //
+    // ф-я удаления фильма из любимых
     function removeFavouriteMovie(movie) {
         api.deleteFavoriteMovie(movie._id)
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
-                setLike(false);
+                // setLike(false);
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -318,6 +322,7 @@ function App() {
         setIsNavigationOpen(true);
     }
 
+    // обработчик закрытия навигации
     function closeNavigation() {
         setIsNavigationOpen(false);
     }
@@ -348,7 +353,6 @@ function App() {
                         onClick={handleNavigationClick}
                         handleFavouriteClick={addFavouriteMovie}
                         removeFavouriteMovie={removeFavouriteMovie}
-                        like={like}
                     />
 
                     <ProtectedRoute loggedIn={loggedIn}

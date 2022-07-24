@@ -8,6 +8,9 @@ function MoviesCard(props) {
   // стейт в котором меняется значения лайка
   const [like, setLike] = useState(localStorage.getItem("like") || false);
 
+  // // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  // const isLiked = props.favourites.some((favourite) => favourite.movieId === props.movie.movieId);
+
   return (
     <article className="movies-card">
       <a className="movies-card__video-link"

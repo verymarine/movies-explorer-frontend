@@ -1,7 +1,7 @@
 # movies-explorer-frontend
 
 # публичный ip
-62.84.115.54
+51.250.88.115
 
 # домен фронта
 moviehub.nomoredomains.xyz
