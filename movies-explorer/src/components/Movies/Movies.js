@@ -14,17 +14,14 @@ function Movies(props) {
 
 
     const moviesList = props.filteredMovies.slice(0, showMovies);
-    // console.log(moviesList, 'moviesList');
 
     const moviesLength = moviesList.length;
-    // console.log(moviesLength, 'moviesLength');
 
     const result = props.movies.slice(0, showMovies).length;
-    // console.log(result, 'result');
 
     const filteredMoviesLength = props.filteredMovies.length;
-    // console.log(filteredMoviesLength, 'filteredMoviesLength');
 
+    //
     useEffect(() => {
         if (width >= 1023) {
             setShowMovies(16);
@@ -36,17 +33,9 @@ function Movies(props) {
             setShowMovies(5);
             setMoreMovies(2);
         }
-        // setShowMovies(16);
-        // setMoreMovies(4);
     }, [width]);
 
-    // const onSubscribe = () => {
-    //     window.addEventListener('resize', setwidth)
-    //    }
-
-    // const offSubscribe = () =>
-    //     window.removeEventListener('resize', setwidth)
-
+    //
     useEffect(() => {
         window.addEventListener("resize", () => setTimeout(() => {
             handleResize();
@@ -55,12 +44,14 @@ function Movies(props) {
         return window.removeEventListener("resize", handleResize());
     }, [width]);
 
+    //
     const handleResize = () => {
         setWidth(
             window.innerWidth,
         )
     };
 
+    //
     function handleShowMoreMovies() {
         setShowMovies(showMovies + moreMovies);
     }

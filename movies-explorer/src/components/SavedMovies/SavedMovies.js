@@ -14,7 +14,6 @@ function SavedMovies(props) {
 
     //
     const favouritesList = props.favourites.slice(0, showMovies);
-    // console.log(favouritesList, "favouritesList");
 
     //
     const favouritesLength = favouritesList.length;
@@ -22,6 +21,7 @@ function SavedMovies(props) {
     //
     const result = props.movies.slice(0, showMovies).length;
 
+    //
     useEffect(() => {
         if (width >= 1023) {
             setShowMovies(16);
@@ -35,6 +35,7 @@ function SavedMovies(props) {
         }
     }, [width]);
 
+    //
     useEffect(() => {
         window.addEventListener("resize", () => setTimeout(() => {
             handleResize();
@@ -43,12 +44,14 @@ function SavedMovies(props) {
         return window.removeEventListener("resize", handleResize());
     }, [width]);
 
+    //
     const handleResize = () => {
         setWidth(
             window.innerWidth,
         )
     };
 
+    //
     function handleShowMoreMovies() {
         setShowMovies(showMovies + moreMovies);
     }

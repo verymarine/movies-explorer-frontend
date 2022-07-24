@@ -71,15 +71,6 @@ function App() {
     // 
     const location = useLocation();
 
-
-    // useEffect(() => {
-    //     if (loggedIn) {
-    //         localStorage.getItem('searchResult', searchQuery);
-    //         localStorage.getItem('checkedFilter', isChecked);
-    //     }
-
-    // }, [loggedIn, searchQuery, isChecked])
-
     // получаем информацию о текущем пользователе
     useEffect(() => {
         if (loggedIn) {
@@ -107,22 +98,13 @@ function App() {
             })
     }, [currentUser, loggedIn]);
 
-    //   useEffect(() => {
-    //     const result = favourites.map(movie => {
-    //       const favouriteMovie = favourites.find(favourite => movie.id === favourite.movieId);
-    //       movie.movieId = movie.id;
-    //       movie._id = favouriteMovie?._id;
-    //       movie.saved = !!favouriteMovie;
-    //       return movie;
-    //     });
-    //     setFavourites(result);
-    //   }, [favourites]);
-
+    //
     function handleLogin() {
         // setLoggedIn(true);
         handleTokenCheck();
     }
 
+    //
     const handleTokenCheck = (pathname) => {
         const jwt = localStorage.getItem("jwt");
         // const jwt = document.cookie('jwt');
@@ -175,71 +157,6 @@ function App() {
         });
         setMovies(result);
       }, [favourites]);
-
-
-    // ТЕСТ
-    // useEffect(() => {
-    //     setButtonSearch(true);
-    //     if (searchQuery !== '') {
-    //         setButtonSearch(false);
-    //         setIsLoadding(true);
-    //         moviesApi.getMovies()
-    //             .then(data => {
-    //                 const movies = data.map(item => {
-    //                     return {
-    //                         country: item.country,
-    //                         director: item.director,
-    //                         duration: item.duration,
-    //                         year: item.year,
-    //                         description: item.description,
-    //                         image: item.image.url,
-    //                         nameRU: item.nameRU,
-    //                         nameEN: item.nameEN,
-    //                         thumbnail: item.image.formats.thumbnail.url,
-    //                         movieId: item.id,
-    //                         trailerLink: item.trailerLink
-    //                     }
-    //                 })
-    //                 setMovies(movies);
-    //                 localStorage.setItem('searchResult', searchQuery);
-    //                 if (isChecked) {
-    //                     const checkedFilter = movies.filter((movie) => movie.duration <= 40);
-    //                     setMovies(checkedFilter);
-    //                     localStorage.setItem('checkedFilter', isChecked);
-    //                     return;
-    //                 }
-    //             })
-    //             .catch((err) => console.log(err.status))
-    //             .finally(() => setIsLoadding(false))
-    //     } else if (searchQuery === '') {
-    //         setMovies([]);
-    //         setButtonSearch(true);
-
-    //     }
-    // }, [searchQuery, isChecked]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
     useEffect(() => {
@@ -340,6 +257,7 @@ function App() {
         e.preventDefault();
     }
 
+    //
     const filteredMovies = movies.filter(movie => {
         return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
     })
@@ -359,7 +277,6 @@ function App() {
 
     // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
     function addFavouriteMovie(movie) {
-        // if ((favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)) {
             api.postFavoriteMovie(movie)
                 .then(newFavouriteList => {
                     setFavourites([...favourites, newFavouriteList]);
@@ -367,17 +284,9 @@ function App() {
                     // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
                 })
                 .catch((err) => console.log("Ошибка", err));
-        // }
-
-        // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)])
-        // console.log(favourites, "FAV");
-        // console.log(newFavouriteList, 'newFavouriteList');
-        // console.log(movie, 'movie');
-
-
-
     }
 
+    //
     function removeFavouriteMovie(movie) {
         api.deleteFavoriteMovie(movie._id)
             .then(() => {
@@ -387,10 +296,6 @@ function App() {
             .catch((err) => console.log("Ошибка", err));
     }
 
-    // useEffect(() => {
-    //     removeFavouriteMovie()
-    // }, [])
-
     // ф-я редактирования профиля
     function handleUpdateProfile(user) {
         api.patchUserInfo(user).then((userData) => {
@@ -399,7 +304,7 @@ function App() {
 
             console.log(userData, 'userdata');
             setIsUpdate(true)
-            setTimeout(setIsUpdate, 2000);
+            setTimeout(setIsUpdate, 4000);
         })
             .catch((err) => {
                 setButtonUpdate(false);
@@ -407,10 +312,6 @@ function App() {
                 console.log("ERORR", err)
             });
     }
-
-    // useEffect(() => {
-    //     handleUpdateProfile(currentUser)
-    // }, [isUpdate, currentUser])
 
     // Обработчик открытия навигации
     function handleNavigationClick() {
