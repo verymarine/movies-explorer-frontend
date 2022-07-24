@@ -16,7 +16,7 @@ function MoviesCard(props) {
       >
         <img
           className="movies-card__video"
-          src={`https://api.nomoreparties.co/${props.image}`}
+          src={`https://api.nomoreparties.co/${props.image}`} // добавила  url
           alt="картинка промо видео"
         />
       </a>

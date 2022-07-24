@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
 import { Link, useHistory } from "react-router-dom";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
@@ -8,6 +8,8 @@ import { useFormValidation } from "../UseFormValidation";
 function Register(props) {
 
     const { values, handleChange, errors, isValid, setValues } = useFormValidation();
+
+    const [isSuccessed, setIsSuccessed] = useState(false);
 
     const history = useHistory();
 
@@ -32,6 +34,7 @@ function Register(props) {
                         }
                     })
                         .catch((err) => {
+                            setIsSuccessed(true);
                             console.log("Error at logIn", err);
                         })
                         .finally(() => {
@@ -40,6 +43,7 @@ function Register(props) {
                 }
             })
             .catch((err) => {
+                setIsSuccessed(true);
                 console.log("Error at register", err);
             })
         }
@@ -97,6 +101,10 @@ function Register(props) {
                     </label>
                     <span className="register__errors">{errors.password}</span>
 
+                    {isSuccessed === true
+                        ? <p className="register__status">Ошибка при регистрации</p>
+                        : <></>
+                    }
                     <button
                         type="submit"
                         className={`register__button ${!isValid && "register__button-unactive"}`}

@@ -14,7 +14,7 @@ function Movies(props) {
 
 
     const moviesList = props.filteredMovies.slice(0, showMovies);
-    console.log(moviesList, 'moviesList');
+    // console.log(moviesList, 'moviesList');
 
     const moviesLength = moviesList.length;
     // console.log(moviesLength, 'moviesLength');
@@ -23,7 +23,7 @@ function Movies(props) {
     // console.log(result, 'result');
 
     const filteredMoviesLength = props.filteredMovies.length;
-    console.log(filteredMoviesLength, 'filteredMoviesLength');
+    // console.log(filteredMoviesLength, 'filteredMoviesLength');
 
     useEffect(() => {
         if (width >= 1023) {

@@ -45,9 +45,6 @@ function App() {
     // Стейт, в котором содержится значение навигации
     const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
-    // Стейт, в котором содержится значение Email Пользователя
-    // const [userEmail, setUserEmail] = useState('');
-
     // Стейт, в котором содержится значение loggin
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -68,6 +65,7 @@ function App() {
     // используем для сохранения/удаления данных об вошедшем пользователе
     const history = useHistory();
 
+    // 
     const location = useLocation();
 
 
@@ -157,31 +155,26 @@ function App() {
 
     // рвбочий вариант приема фильмов 
     // useEffect(() => {
-    //     moviesApi.getMovies() 
-    //         .then(data => {
-    //             const movies = data.map(item => {
-    //                 return {
-    //                     country: item.country,
-    //                     director: item.director,
-    //                     duration: item.duration,
-    //                     year: item.year,
-    //                     description: item.description,
-    //                     image: item.image.url,
-    //                     nameRU: item.nameRU,
-    //                     nameEN: item.nameEN,
-    //                     thumbnail: item.image.formats.thumbnail.url,
-    //                     movieId: item.id,
-    //                     trailerLink: item.trailerLink,
-    //                 }
-    //             })
-    //             setMovies(movies);
-    //         }
-    //         )
-
+    //     moviesApi.getMovies()
+    //         .then(setMovies)
     //         .catch((err) => {
     //             console.log(err)
     //         })
     // }, []);
+    // console.log(movies)
+
+    useEffect(() => {
+        const result = movies.map(movie => {
+          console.log(movies, 'movies');
+          console.log(favourites, 'favourites');
+          const favouriteList = favourites.find(x => movie.id === x.movieId);
+          movie.id = movie.movieId;
+          movie._id = favouriteList?._id;
+          return movie;
+        });
+    
+        setMovies(result);
+      }, [favourites]);
 
 
     // ТЕСТ
@@ -248,7 +241,7 @@ function App() {
 
 
 
-    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
+   // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
     useEffect(() => {
         setButtonSearch(true);
         if (searchQuery !== '') {
@@ -294,11 +287,6 @@ function App() {
 
 
 
-
-
-
-
-
     // useEffect(() => {
     //     setButtonSearch(true);
     //     if (searchQuery !== '') {
@@ -340,10 +328,6 @@ function App() {
 
 
 
-
-
-
-
     // ф-я поиска фильмов
     function handleInputChange(e) {
         e.preventDefault();
@@ -373,18 +357,16 @@ function App() {
         setIsChecked(e.target.checked);
     }
 
-
     // БЛОК ГДЕ СОХРАНЯЕТСЯ ЛЮБИМЫЙ ФИЛЬМ
     function addFavouriteMovie(movie) {
-        if ((favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)) {
+        // if ((favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)) {
             api.postFavoriteMovie(movie)
                 .then(newFavouriteList => {
                     setFavourites([...favourites, newFavouriteList])
                     // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
-                    console.log(favourites, "FAV");
                 })
                 .catch((err) => console.log("Ошибка", err));
-        }
+        // }
 
         // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite.movieId === movie.movieId)])
         // console.log(favourites, "FAV");
@@ -395,11 +377,8 @@ function App() {
 
     }
 
-
-
     function removeFavouriteMovie(movie) {
         api.deleteFavoriteMovie(movie._id)
-
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
             })
@@ -425,7 +404,6 @@ function App() {
                 console.log("ERORR", err)
             });
     }
-    console.log(currentUser, 'current user');
 
     // useEffect(() => {
     //     handleUpdateProfile(currentUser)
