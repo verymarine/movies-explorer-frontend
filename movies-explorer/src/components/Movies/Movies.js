@@ -92,7 +92,7 @@ function Movies(props) {
                     handleShowMoreMovies={handleShowMoreMovies}
                     handleFavouriteClick={props.handleFavouriteClick}
                     removeFavouriteMovie={props.removeFavouriteMovie}
-                    like={props.like}
+                    // like={props.like}
                     
                 />
             </main>

@@ -61,7 +61,7 @@ function App() {
     const [unactiveButton, setUnactiveButton] = useState(false);
 
     //
-    const [like, setLike] = useState(localStorage.getItem("like") || false);
+    // const [like, setLike] = useState(localStorage.getItem("like") || false);
 
     // const debouncedSearch = useCallback()
 
@@ -363,7 +363,7 @@ function App() {
             api.postFavoriteMovie(movie)
                 .then(newFavouriteList => {
                     setFavourites([...favourites, newFavouriteList]);
-                    setLike(true);
+                    // setLike(true);
                     // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
                 })
                 .catch((err) => console.log("Ошибка", err));
@@ -382,7 +382,7 @@ function App() {
         api.deleteFavoriteMovie(movie._id)
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
-                setLike(false);
+                // setLike(false);
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -446,7 +446,7 @@ function App() {
                         onClick={handleNavigationClick}
                         handleFavouriteClick={addFavouriteMovie}
                         removeFavouriteMovie={removeFavouriteMovie}
-                        like={like}
+                        // like={like}
                     />
 
                     <ProtectedRoute loggedIn={loggedIn}

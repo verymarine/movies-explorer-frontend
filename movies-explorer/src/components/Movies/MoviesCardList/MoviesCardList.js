@@ -60,7 +60,7 @@ function MoviesCardList(props) {
                                     trailerLink={item.trailerLink}
                                     handleFavouriteClick={props.handleFavouriteClick}
                                     removeFavouriteMovie={props.removeFavouriteMovie}
-                                    like={props.like}
+                                    // like={props.like}
                                 />
                             )}
                         </section>
