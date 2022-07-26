@@ -5,21 +5,21 @@ import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import SearchForm from "./SearchForm/SearchForm";
 import React, { useEffect, useState } from "react";
 import "./Movies.css";
+import { useLocation } from "react-router-dom";
 
 function Movies(props) {
-
     const [showMovies, setShowMovies] = useState(0);
     const [moreMovies, setMoreMovies] = useState(0);
     const [width, setWidth] = useState(window.innerWidth);
 
 
-    const moviesList = props.filteredMovies.slice(0, showMovies);
+    const moviesList = props.filteredMovies.slice(0, showMovies); // вынести в константы
 
-    const moviesLength = moviesList.length;
+    const moviesLength = moviesList.length; // вынести в константы
 
-    const result = props.movies.slice(0, showMovies).length;
+    const result = props.movies.slice(0, showMovies).length; // вынести в константы
 
-    const filteredMoviesLength = props.filteredMovies.length;
+    const filteredMoviesLength = props.filteredMovies.length; // вынести в константы
 
     //
     useEffect(() => {
@@ -83,8 +83,7 @@ function Movies(props) {
                     handleShowMoreMovies={handleShowMoreMovies}
                     handleFavouriteClick={props.handleFavouriteClick}
                     removeFavouriteMovie={props.removeFavouriteMovie}
-                    like={props.like}
-                    
+
                 />
             </main>
             <Footer />

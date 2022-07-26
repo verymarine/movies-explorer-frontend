@@ -5,6 +5,10 @@ import Preloader from "../Preloader/Preloader";
 import "./MoviesCardList.css";
 
 function MoviesCardList(props) {
+
+    // const isLiked = pmovie.some(f => f.movieId === propsfavourites.movieId);
+    // console.log(props.favourites, " FAVOURITES AT CARD");
+    // console.log(props.movie, "MOVIE AT CARD");
     
     return (
         <>
@@ -19,12 +23,13 @@ function MoviesCardList(props) {
                                     key={item.movieId}
                                     _id={item._id}
                                     movie={item}
+                                    like={item.like}
                                     country={item.country}
                                     director={item.director}
                                     duration={item.duration}
                                     year={item.year}
                                     description={item.description}
-                                    image={item.image}
+                                    image={item.image.url}
                                     nameRU={item.nameRU}
                                     nameEN={item.nameEN}
                                     thumbnail={item.thumbnail}

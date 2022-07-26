@@ -6,23 +6,28 @@ import "./Profile.css";
 import { useFormValidation } from "../UseFormValidation";
 
 function Profile(props) {
+    //
     const currentUser = useContext(CurrentUserContext);
-    console.log(currentUser, 'current');
-    
+
+    //
     const nameRef = useRef("")
     const emailRef = useRef("")
 
-    const { handleChange, errors, isValid, resetForm } = useFormValidation({
+    //
+    const { handleChange, errors, isValid, resetForm, values } = useFormValidation({
         name: nameRef.current.value,
         email: emailRef.current.value
     });
+
     //
-    // const [isSameData, setIsSameData] = useState(true);
+    const [isSameData, setIsSameData] = useState(false);
 
-    // useEffect(() => {
-    //     setIsSameData(nameRef.current.value === currentUser.name && emailRef.current.value === currentUser.email);
-    // }, [values.name, values.email, currentUser.name, currentUser.email]);
+    //
+    useEffect(() => {
+        setIsSameData(nameRef.current.value === currentUser.name && emailRef.current.value === currentUser.email);
+    }, [currentUser, values.name, values.email]);
 
+    //
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -30,11 +35,9 @@ function Profile(props) {
         const email = emailRef.current.value;
 
         props.handleUpdateProfile({ name, email });
-        props.setCurrentUser({name, email});
+        props.setCurrentUser({ name, email });
         resetForm();
     }
-
-
     return (
         <>
             <Header
@@ -80,14 +83,13 @@ function Profile(props) {
 
                     <button
                         type="submit"
-                        className={`profile__button ${(
-                            //
-                            // isSameData ||
+                        className={`profile__button 
+                        ${(
+                            isSameData === true || 
                             !isValid) && "profile__button-unactive"}`}
                         disabled={
-                            //
-                            // isSameData || 
-                            !isValid}
+                            isSameData === true ||
+                             !isValid}
                     >
                         Редактировать
                     </button>

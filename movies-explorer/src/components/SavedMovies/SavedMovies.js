@@ -13,13 +13,13 @@ function SavedMovies(props) {
     const [width, setWidth] = useState(window.innerWidth);
 
     //
-    const favouritesList = props.favourites.slice(0, showMovies);
+    const favouritesList = props.favourites.slice(0, showMovies); // вынести в константы
 
     //
-    const favouritesLength = favouritesList.length;
+    const favouritesLength = favouritesList.length; //вынести в константы
 
     //
-    const result = props.movies.slice(0, showMovies).length;
+    const result = props.movies.slice(0, showMovies).length; // вынести в константы
 
     //
     useEffect(() => {
@@ -55,6 +55,7 @@ function SavedMovies(props) {
     function handleShowMoreMovies() {
         setShowMovies(showMovies + moreMovies);
     }
+    
     return (
         <>
             <Header

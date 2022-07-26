@@ -6,10 +6,21 @@ import "./MoviesCard.css";
 function MoviesCard(props) {
 
   // стейт в котором меняется значения лайка
-  const [like, setLike] = useState(localStorage.getItem("like") || false);
+  const [like, setLike] = useState(false);
 
-  // // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+ // // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   // const isLiked = props.favourites.some((favourite) => favourite.movieId === props.movie.movieId);
+  // console.log(props.favourites, " FAVOURITES AT CARD");
+  // console.log(props.movie, "MOVIE AT CARD");
+
+//   const checkLikeStatus = () => {
+//     props.movies.includes(props.movie) ? setLike(true) : setLike(false);
+// }
+
+// useEffect(checkLikeStatus, [props.favourites, props.movie])
+
+
+
 
   return (
     <article className="movies-card">
@@ -33,7 +44,7 @@ function MoviesCard(props) {
             {like === true
               ? <button
                 className="movies-card__liked"
-                onClick={() => props.removeFavouriteMovie(props.movie, setLike(false), localStorage.setItem("like", like))}
+                onClick={() => props.removeFavouriteMovie(props.movie, setLike(false))}
                 type="button"
               ></button>
               : <button

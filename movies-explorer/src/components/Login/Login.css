@@ -23,8 +23,8 @@
     /* identical to box height */
 
 
-    /* color: #000000; */
-/* } */ 
+/* color: #000000; */
+/* } */
 
 .login__form {
     margin: 40px 0 0 0;
@@ -75,9 +75,9 @@
 
 .login__input_check_invalid {
     color: #FF4062;
-  }
+}
 
-  .login__errors {
+.login__errors {
     color: rgb(255, 64, 98);
     display: block;
     top: 50px;
@@ -86,6 +86,18 @@
     font-weight: 500;
     font-size: 11px;
     line-height: 13px;
+}
+
+.login__status {
+    margin: 20px auto 20px auto;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    /* color: #000000; */
+    color: #FF4062;
+    text-align: center;
 }
 
 .login__button {
@@ -159,7 +171,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-text-decoration: none;
+    text-decoration: none;
     color: #000000;
 }
 

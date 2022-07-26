@@ -15,37 +15,40 @@ function Register(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.setUnactiveButton(true);
+        // props.setUnactiveButton(true);
         if (values.name || values.email || values.password) {
-        auth.register(values.name, values.email, values.password)
-            .then((res) => { 
-                if (res) {
-                    console.log(res, 'res')
-                    auth.authorize(values.email, values.password).then((res) => {
-                        if (res.jwt) {
-                            console.log(res);
-                            setValues({
-                                email: "",
-                                password: "",
-                            });
-                            localStorage.setItem("jwt", res.jwt);
-                            props.handleLogin();
-                            history.push("/movies");
-                        }
-                    })
-                        .catch((err) => {
-                            setIsSuccessed(true);
-                            console.log("Error at logIn", err);
+            auth.register(values.name, values.email, values.password)
+                .then((res) => {
+                    if (res.email) {
+                        console.log(res, 'res')
+                        auth.authorize(values.email, values.password).then((res) => {
+                            console.log(res.jwt, 'res.jwt');
+                            if (res.jwt) {
+                                console.log(res);
+                                setValues({
+                                    email: "",
+                                    password: "",
+                                });
+                                localStorage.setItem("jwt", res.jwt);
+                                props.handleLogin();
+                                history.push("/movies");
+                            }
                         })
-                        .finally(() => {
-                            props.setUnactiveButton(false);
-                        });
-                }
-            })
-            .catch((err) => {
-                setIsSuccessed(true);
-                console.log("Error at register", err);
-            })
+                            .catch((err) => {
+                                setIsSuccessed(true);
+                                console.log("Error at logIn", err);
+                            })
+                        // .finally(() => {
+                        //     props.setUnactiveButton(false);
+                        // });
+                    }
+                    setIsSuccessed(true);
+                    setTimeout(setIsSuccessed, 3000);
+                })
+                .catch((err) => {
+                    setIsSuccessed(true);
+                    console.log("Error at register", err);
+                })
         }
     }
 
@@ -54,9 +57,9 @@ function Register(props) {
             <HeaderAuth />
             <div className="register">
                 <form
-                 className="register__form"
-                  onSubmit={handleSubmit}
-                  >
+                    className="register__form"
+                    onSubmit={handleSubmit}
+                >
                     <label className="register__label">
                         Имя
                         <input
@@ -80,6 +83,7 @@ function Register(props) {
                             id="email"
                             name="email"
                             type="email"
+                            pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
                             required
                             value={values.email || ''}
                             onChange={handleChange}
@@ -107,8 +111,8 @@ function Register(props) {
                     }
                     <button
                         type="submit"
-                        className={`register__button ${!isValid && "register__button-unactive"}`}
-                        disabled={props.unactiveButton}
+                        className={`register__button ${(!isValid || props.unactiveButton) && "register__button-unactive"}`}
+                        disabled={!isValid || props.unactiveButton}
                     >
                         Зарегистрироваться
                     </button>

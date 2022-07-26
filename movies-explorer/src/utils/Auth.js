@@ -24,10 +24,11 @@ export const register = (name, email, password) => {
 export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
-    credentials: 'include',
+    // credentials: 'include',
     headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
+
     },
     body: JSON.stringify({ email, password })
   })
@@ -46,7 +47,7 @@ export const checkToken = (jwt) => {
       "Accept": "application/json",
       "Content-Type": "application/json",
       // authorization: localStorage.jwt,
-      // authorization: jwt,
+      authorization: jwt,
     }
   })
     .then(res => res.json())

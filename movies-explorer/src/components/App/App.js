@@ -21,23 +21,30 @@ import * as auth from "../../utils/Auth.js";
 import api from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute";
 import moviesApi from "../../utils/MoviesApi";
+import ProtectedRouteAuth from "../ProtectedRouteAuth";
 
 function App() {
 
     // Стейт, в котором содержится значение Пользователя
-    const [currentUser, setCurrentUser] = useState({}); // data:{}
+    const [currentUser, setCurrentUser] = useState({});
 
-    // Стейт, в котором содержится значение Фильмов
-    const [movies, setMovies] = useState([]); // 1
+    // Стейт, в котором содержится значение Фильмов которые мы получили со стороннего апи
+    const [movies, setMovies] = useState([]);
+
+    // Стейт, в котором мы задаем фильмы после поиска
+    const [isMovies, setIsMovies] = useState([])
+
+    // Стейт с помощью которого на странице Муви пустота
+    const [isBlankPage, setIsBlankPage] = useState(false);
 
     // Стейт, в котором содержится значение текста поиска
-    const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchResult') || ''); // 2
+    const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchResult') || '');
 
     // Стейт, в котором содержится значение состояния Прелоудера
-    const [isLoadding, setIsLoadding] = useState(false); // 3
+    const [isLoadding, setIsLoadding] = useState(false);
 
     // Стейт, в котором содержится значение состояния Чекбокса Короткометражек
-    const [isChecked, setIsChecked] = useState(JSON.parse(localStorage.getItem('checkedFilter') || false)); // 4
+    const [isChecked, setIsChecked] = useState(JSON.parse(localStorage.getItem('checkedFilter') || false));
 
     // Стейт, в котором содержится значение состояния кнопки поиска
     const [buttonSearch, setButtonSearch] = useState(false);
@@ -61,7 +68,7 @@ function App() {
     const [unactiveButton, setUnactiveButton] = useState(false);
 
     // Стейт, в котором содержится значения лайка карточки
-    // const [like, setLike] = useState(false);
+    const [like, setLike] = useState(false);
 
 
     // const debouncedSearch = useCallback()
@@ -85,39 +92,50 @@ function App() {
         }
     }, [loggedIn]);
 
+    // console.log(loggedIn, " loggedIn")
+
     // получаем ифнормацию о любимых фильмах залогиненного пользователя
     useEffect(() => {
-        if (!loggedIn) {
-            return;
+        // if (!loggedIn) {
+        //     return;
+        // }
+        if (loggedIn) {
+            api.getFavoriteMovies()
+                .then(data => {
+                    setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         }
-        api.getFavoriteMovies()
-            .then(data => {
-                setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+
     }, [currentUser, loggedIn]);
 
     // 
     function handleLogin() {
-        // setLoggedIn(true);
+        setLoggedIn(true); // 
         handleTokenCheck();
     }
 
     // ф-я проверки токена
     const handleTokenCheck = (pathname) => {
-        const jwt = localStorage.getItem("jwt");
-        // const jwt = document.cookie('jwt');
+        if (localStorage.getItem("jwt")) {
+            // const jwt = JSON.parse(localStorage.getItem("jwt"));
+           const jwt = localStorage.getItem("jwt");
 
-        if (jwt) {
-            auth
-                .checkToken(jwt)
-                .then(() => {
-                    setLoggedIn(true);
-                    history.push(pathname);
-                })
-                .catch((err) => console.log(err));
+            if (jwt) {
+                auth
+                    .checkToken(jwt)
+                    .then(() => {
+                        setLoggedIn(true);
+                        history.push(pathname);
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        localStorage.removeItem('jwt');
+                    })
+            }
         }
     };
 
@@ -129,9 +147,6 @@ function App() {
     // ф-я выхода 
     function handleLogout(evt) {
         // evt.preventDefault();
-        // localStorage.removeItem("jwt");
-        // localStorage.removeItem("checkedFilter");
-        // localStorage.removeItem("searchResult");
         localStorage.clear();
         setLoggedIn(false);
         setCurrentUser({});
@@ -141,58 +156,60 @@ function App() {
     // хук, с помощью которого мы расширяем значения фильма и добавляем новое значение id по которому будем сравнивать и удалять
     useEffect(() => {
         const result = movies.map(movie => {
-          const favouriteList = favourites.find(x => movie.id === x.movieId);
-          movie.id = movie.movieId;
-          movie._id = favouriteList?._id;
-        //   movie.like = false;
-          return movie;
+            const favouriteList = favourites.find(x => movie.id === x.movieId);
+            movie.movieId = movie.id;
+            movie._id = favouriteList?._id;
+            movie.like = !!favouriteList;
+            return movie;
         });
         setMovies(result);
-      }, [favourites]);
+        // console.log(result, 'result');
+    }, [favourites]);
 
-   // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
-    useEffect(() => {
-        setButtonSearch(true);
-        if (searchQuery !== '') {
-            setButtonSearch(false);
-            setIsLoadding(true);
-            moviesApi.getMovies()
-                .then(data => {
-                    const movies = data.map(item => {
-                        return {
-                            country: item.country,
-                            director: item.director,
-                            duration: item.duration,
-                            year: item.year,
-                            description: item.description,
-                            image: item.image.url,
-                            nameRU: item.nameRU,
-                            nameEN: item.nameEN,
-                            thumbnail: item.image.formats.thumbnail.url,
-                            movieId: item.id,
-                            trailerLink: item.trailerLink
-                        }
-                    })
-                    setMovies(movies);
-                    localStorage.setItem('searchResult', searchQuery);
-                    if (isChecked) {
-                        const checkedFilter = movies.filter((movie) => movie.duration <= 40);
-                        setMovies(checkedFilter);
-                        localStorage.setItem('checkedFilter', isChecked);
-                        return;
-                    }
-                })
-                .catch((err) => console.log(err.status))
-                .finally(() => {
-                    setIsLoadding(false);
-                    localStorage.setItem('checkedFilter', isChecked);
-                })
-        } else if (searchQuery === '') {
-            setMovies([]);
-            setButtonSearch(true);
 
-        }
-    }, [searchQuery, isChecked]);
+    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
+    // useEffect(() => {
+    //     setButtonSearch(true);
+    //     if (searchQuery !== '') {
+    //         setButtonSearch(false);
+    //         setIsLoadding(true);
+    //         moviesApi.getMovies()
+    //             .then(data => {
+    //                 const movies = data.map(item => {
+    //                     return {
+    //                         country: item.country,
+    //                         director: item.director,
+    //                         duration: item.duration,
+    //                         year: item.year,
+    //                         description: item.description,
+    //                         image: item.image.url,
+    //                         nameRU: item.nameRU,
+    //                         nameEN: item.nameEN,
+    //                         thumbnail: item.image.formats.thumbnail.url,
+    //                         movieId: item.id,
+    //                         trailerLink: item.trailerLink
+    //                     }
+    //                 })
+    //                 setMovies(movies);
+    //                 localStorage.setItem('searchResult', searchQuery);
+    //                 if (isChecked) {
+    //                     const checkedFilter = movies.filter((movie) => movie.duration <= 40);
+    //                     setMovies(checkedFilter);
+    //                     localStorage.setItem('checkedFilter', isChecked);
+    //                     return;
+    //                 }
+    //             })
+    //             .catch((err) => console.log(err.status))
+    //             .finally(() => {
+    //                 setIsLoadding(false);
+    //                 localStorage.setItem('checkedFilter', isChecked);
+    //             })
+    //     } else if (searchQuery === '') {
+    //         setMovies([]);
+    //         setButtonSearch(true);
+
+    //     }
+    // }, [searchQuery, isChecked]);
 
 
     // useEffect(() => {
@@ -212,41 +229,115 @@ function App() {
     // }, [searchQuery, isChecked, favourites]);
 
 
-
+    //
     // useEffect(() => {
     //     setButtonSearch(true);
     //     if (searchQuery !== '') {
     //         setButtonSearch(false);
-    //         setIsLoadding(true);
-    //            const movies = favourites.filter((favourite)=> favourite)
+    //         // setIsLoadding(true);
+    //         // const searchMovies = movies.filter((favourite) => favourite)
+    //         const searchMovies = movies.filter(movie => {
+    //             return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+    //         })
+    //         localStorage.setItem(`searchResult ${location.pathname}`, searchMovies);
+    //         console.log(localStorage, 'localstorae');
 
-    //         setFavourites(movies);
-    //         if (isChecked) {
-    //             const checkedFilter = favourites.filter((movie) => movie.duration <= 40);
-    //             setFavourites(checkedFilter);
+    //         setMovies(searchMovies);
+    //         console.log(movies);
+    //         if (isChecked === true) {
+    //             const checkedFilter = movies.filter((movie) => movie.duration <= 40);
+    //             // localStorage.setItem('checkedFilter', isChecked);
+    //             setMovies(checkedFilter);
     //             return;
     //         } else if (searchQuery === '') {
     //             setButtonSearch(true);
-
     //         }
+    //     } else if (searchQuery === '') {
+    //         setMovies([]);
+    //         setButtonSearch(true);
     //     }
-    // }, [searchQuery, isChecked, favourites]);
 
+    //     console.log(searchQuery);
+    // }, [searchQuery, isChecked, location.pathname]);
+
+    // console.log(movies);
+
+
+
+    useEffect(() => {
+        const searchMovies = localStorage.getItem("searchResult")
+
+        if (searchMovies) {
+            setMovies(searchMovies);
+        }
+    }, [])
+
+
+
+    useEffect(() => {
+        setButtonSearch(true);
+        if (searchQuery !== '') {
+            setButtonSearch(false);
+            // setIsLoadding(true);
+            // const searchMovies = favourites.filter((favourite) => favourite)
+
+            const searchMovies = favourites.filter(movie => {
+                return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+            })
+            // localStorage.setItem(`searchResult ${location.pathname}`, searchQuery);
+            console.log(localStorage, 'localstorae');
+
+            setFavourites(searchMovies);
+            if (isChecked === true) {
+                const checkedFilter = favourites.filter((movie) => movie.duration <= 40);
+                // localStorage.setItem('checkedFilter', isChecked);
+                setFavourites(checkedFilter);
+                return;
+            }
+            localStorage.setItem(`searchResult ${location.pathname}`, searchQuery);
+        } else if (searchQuery === '') {
+            setButtonSearch(true);
+        }
+        // console.log(favourites);
+        // console.log(searchQuery);
+    }, [searchQuery, isChecked]);
 
 
 
     // рвбочий вариант приема фильмов 
-    // useEffect(() => {
-    //     moviesApi.getMovies()
-    //         .then(setMovies)
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-    // }, []);
+    useEffect(() => {
+        moviesApi.getMovies()
+            .then((res) => setMovies(res))
+            .catch((err) => {
+                console.log(err)
+            })
+    }, []);
     // console.log(movies)
 
+    // ф-я условия фильтрации фильмов
+    const filteredMovies = movies.filter(movie => {
+        return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
+    })
 
+    // useEffect(() => {
+    //     let result = isBlankPage ? [] : [...movies];
 
+    //     if (searchQuery) {
+    //         result = filteredMovies;
+    //         setIsMovies(result);
+    //     }
+    //     if (isChecked === true) {
+    //        const checked= movies.filter((movie) => movie.duration <= 40);
+    //         // localStorage.setItem('checkedFilter', isChecked);
+    //         // return;
+    //         setIsMovies(checked);
+    //     }
+
+    //     setIsMovies(result);
+    //     // localStorage.setItem("foundMovies", JSON.stringify(result));
+    // }, []);
+
+    // console.log(isChecked)
 
 
     // ф-я поиска фильмов
@@ -261,10 +352,7 @@ function App() {
         e.preventDefault();
     }
 
-    // ф-я условия фильтрации фильмов
-    const filteredMovies = movies.filter(movie => {
-        return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-    })
+
 
     // const filteredFavouriteMovies = favourites.filter(favourite => {
     //     return favourite.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
@@ -281,21 +369,26 @@ function App() {
 
     // ф-я добавления фильма в любимые
     function addFavouriteMovie(movie) {
-            api.postFavoriteMovie(movie)
-                .then(newFavouriteList => {
-                    setFavourites([...favourites, newFavouriteList]);
-                    // setLike(true);
-                    // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
-                })
-                .catch((err) => console.log("Ошибка", err));
+
+        //   const isLiked = movies.some((m) => m.movieId === );
+        //   console.log(isLiked);
+
+        api.postFavoriteMovie(movie)
+            .then(newFavouriteList => {
+                setFavourites([...favourites, newFavouriteList]);
+                console.log(favourites, 'favourites');
+                // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
+            })
+            .catch((err) => console.log("Ошибка", err));
     }
+    // console.log(favourites, 'favourites');
+
 
     // ф-я удаления фильма из любимых
     function removeFavouriteMovie(movie) {
         api.deleteFavoriteMovie(movie._id)
             .then(() => {
                 setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
-                // setLike(false);
             })
             .catch((err) => console.log("Ошибка", err));
     }
@@ -353,6 +446,11 @@ function App() {
                         onClick={handleNavigationClick}
                         handleFavouriteClick={addFavouriteMovie}
                         removeFavouriteMovie={removeFavouriteMovie}
+
+
+                        setButtonSearch={setButtonSearch}
+                        searchQuery={searchQuery}
+                        setMovies={setMovies}
                     />
 
                     <ProtectedRoute loggedIn={loggedIn}
@@ -386,21 +484,23 @@ function App() {
                         removeFavouriteMovie={removeFavouriteMovie}
                     />
 
-                    <Route path="/signin">
-                        <Login
-                            handleLogin={handleLogin}
-                            unactiveButton={unactiveButton}
-                            setUnactiveButton={setUnactiveButton}
-                        />
-                    </Route>
+                    <ProtectedRouteAuth
+                        component={Login}
+                        path="/signin"
+                        loggedIn={loggedIn}
+                        handleLogin={handleLogin}
+                        unactiveButton={unactiveButton}
+                        setUnactiveButton={setUnactiveButton}
+                    />
 
-                    <Route path="/signup">
-                        <Register
-                            handleLogin={handleLogin}
-                            unactiveButton={unactiveButton}
-                            setUnactiveButton={setUnactiveButton}
-                        />
-                    </Route>
+                    <ProtectedRouteAuth
+                        component={Register}
+                        path="/signup"
+                        loggedIn={loggedIn}
+                        handleLogin={handleLogin}
+                        unactiveButton={unactiveButton}
+                        setUnactiveButton={setUnactiveButton}
+                    />
 
                     <Route path="*">
                         <NotFound />

@@ -13,7 +13,6 @@ class MainApi {
 
             credentials: 'include',
             headers: this._headers,
-            // authorization : jwt,
             // cookie: jwt,
         }).then(response);
     }
@@ -26,7 +25,7 @@ class MainApi {
         }).then(response);
     }
 
-    patchUserInfo(data) { 
+    patchUserInfo(data) { //
         return fetch(`${this._url}/users/me`, {
             method: "PATCH",
 
@@ -53,11 +52,11 @@ class MainApi {
                 duration: data.duration || "нет данных",
                 year: data.year || "нет данных",
                 description: data.description || "нет данных",
-                image: data.image || "нет данных",
+                image: data.image.url,// data.image || "нет данных", `https://api.nomoreparties.co${data.image.url}`
                 nameRU: data.nameRU || "нет данных",
                 nameEN: data.nameEN || "нет данных",
-                thumbnail: data.thumbnail || "нет данных",
-                movieId: data.movieId || "нет данных",
+                thumbnail: data.image.formats.thumbnail.url,// data.thumbnail || "нет данных",
+                movieId: data.id || "нет данных",
                 trailerLink: data.trailerLink || "нет данных",
             }),
         }).then(response);
@@ -77,7 +76,8 @@ const api = new MainApi({
     // url: 'https://api.moviehub.nomoredomains.xyz',
     url: 'http://localhost:3000',
     headers: {
-        // authorization: localStorage.getItem("jwt"),
+        // authorization: JSON.parse(localStorage.getItem("jwt")),
+        // "authorization": localStorage.getItem("jwt"),
         "Content-Type": `application/json`,
     },
 });

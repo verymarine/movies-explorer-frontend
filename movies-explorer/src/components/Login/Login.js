@@ -2,11 +2,13 @@ import "./Login.css";
 import { Link, useHistory } from "react-router-dom";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import * as auth from "../../utils/Auth";
-import React from "react";
+import React, { useState } from "react";
 import { useFormValidation } from "../UseFormValidation";
 
 function Login(props) {
     const { values, handleChange, errors, isValid, setValues } = useFormValidation();
+
+    const [isSuccessed, setIsSuccessed] = useState(false);
 
     const history = useHistory();
 
@@ -17,15 +19,19 @@ function Login(props) {
             .authorize(values.email, values.password)
             .then((res) => {
                 if (res.jwt) {
-                    console.log(res);
+                    console.log(res, "res res res");
                     setValues({
                         email: "",
                         password: "",
                     });
+                    // localStorage.setItem("jwt", JSON.stringify(res.jwt));
                     localStorage.setItem("jwt", res.jwt);
                     props.handleLogin();
-                    history.push("/movies");
+                    // history.push("/movies");
+
                 }
+                setIsSuccessed(true);
+                setTimeout(setIsSuccessed, 3000);
             })
             .catch((err) => {
                 console.log("Error at logIn", err);
@@ -50,6 +56,7 @@ function Login(props) {
                             id="email"
                             name="email"
                             type="email"
+                            pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
                             required
                             value={values.email || ''}
                             onChange={handleChange}
@@ -70,6 +77,11 @@ function Login(props) {
                         />
                     </label>
                     <span className="login__errors">{errors.password}</span>
+
+                    {isSuccessed === true
+                        ? <p className="login__status">Ошибка при входе</p>
+                        : <></>
+                    }
 
                     <button
                         type="submit"
