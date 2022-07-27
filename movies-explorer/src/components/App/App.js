@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    Route,
-    Switch,
-    withRouter,
-    useHistory,
-    useLocation,
-} from "react-router-dom";
+import { Route, Switch, withRouter, useHistory } from "react-router-dom";
 import "./App.css";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -15,7 +9,7 @@ import NotFound from "../NotFound/NotFound";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import Navigation from "../Navigation/Navigation";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 import * as auth from "../../utils/Auth.js";
 import api from "../../utils/MainApi";
@@ -24,495 +18,258 @@ import moviesApi from "../../utils/MoviesApi";
 import ProtectedRouteAuth from "../ProtectedRouteAuth";
 
 function App() {
+  // Стейт, в котором содержится значения лайка карточки
+  // const [like, setLike] = useState(false);
+  // Стейт, в котором мы задаем фильмы после поиска
+  // const [isMovies, setIsMovies] = useState([])
 
-    // Стейт, в котором содержится значение Пользователя
-    const [currentUser, setCurrentUser] = useState({});
+  // Стейт с помощью которого на странице Муви пустота
+  // const [isBlankPage, setIsBlankPage] = useState(false);
 
-    // Стейт, в котором содержится значение Фильмов которые мы получили со стороннего апи
-    const [movies, setMovies] = useState([]);
+  // хук, который возвращает значение текущего path
+  // const location = useLocation();
 
-    // Стейт, в котором мы задаем фильмы после поиска
-    const [isMovies, setIsMovies] = useState([])
+  // Стейт, в котором содержится значение Пользователя
+  const [currentUser, setCurrentUser] = useState({});
 
-    // Стейт с помощью которого на странице Муви пустота
-    const [isBlankPage, setIsBlankPage] = useState(false);
+  // Стейт, в котором содержится значение Фильмов которые мы получили со стороннего апи
+  const [movies, setMovies] = useState([]);
 
-    // Стейт, в котором содержится значение текста поиска
-    const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchResult') || '');
+  // Стейт, в котором содержится значение состояния Прелоудера
+  const [isLoadding, setIsLoadding] = useState(false);
 
-    // Стейт, в котором содержится значение состояния Прелоудера
-    const [isLoadding, setIsLoadding] = useState(false);
+  // Стейт, в котором содержится значение навигации
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
-    // Стейт, в котором содержится значение состояния Чекбокса Короткометражек
-    const [isChecked, setIsChecked] = useState(JSON.parse(localStorage.getItem('checkedFilter') || false));
+  // Стейт, в котором содержится значение loggin
+  const [loggedIn, setLoggedIn] = useState(undefined);
 
-    // Стейт, в котором содержится значение состояния кнопки поиска
-    const [buttonSearch, setButtonSearch] = useState(false);
+  // Стейт, в котором содержится значение Любимых фильмов Пользователя
+  const [favourites, setFavourites] = useState([]);
 
-    // Стейт, в котором содержится значение навигации
-    const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  // Стейт, в котором содержится значение изменения профиля
+  const [isUpdate, setIsUpdate] = useState(false);
 
-    // Стейт, в котором содержится значение loggin
-    const [loggedIn, setLoggedIn] = useState(false);
+  // Стейт, в котором содержится значение состояния кнопки редактирования
+  const [buttonUpdate, setButtonUpdate] = useState(false);
 
-    // Стейт, в котором содержится значение Любимых фильмов Пользователя
-    const [favourites, setFavourites] = useState([]);
+  // Стейт, в котором содержится значение неактивной кнопки
+  const [unactiveButton, setUnactiveButton] = useState(false);
 
-    // Стейт, в котором содержится значение изменения профиля
-    const [isUpdate, setIsUpdate] = useState(false);
+  // используем для сохранения/удаления данных об вошедшем пользователе
+  const history = useHistory();
 
-    // Стейт, в котором содержится значение состояния кнопки редактирования
-    const [buttonUpdate, setButtonUpdate] = useState(false);
-
-    // Стейт, в котором содержится значение неактивной кнопки
-    const [unactiveButton, setUnactiveButton] = useState(false);
-
-    // Стейт, в котором содержится значения лайка карточки
-    const [like, setLike] = useState(false);
-
-
-    // const debouncedSearch = useCallback()
-
-    // используем для сохранения/удаления данных об вошедшем пользователе
-    const history = useHistory();
-
-    // хук, который возвращает значение текущего path
-    const location = useLocation();
-
-    // получаем информацию о текущем пользователе
-    useEffect(() => {
-        if (loggedIn) {
-            api.getUserInfo()
-                .then(data => {
-                    setCurrentUser(data)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-    }, [loggedIn]);
-
-    // console.log(loggedIn, " loggedIn")
-
-    // получаем ифнормацию о любимых фильмах залогиненного пользователя
-    useEffect(() => {
-        // if (!loggedIn) {
-        //     return;
-        // }
-        if (loggedIn) {
-            api.getFavoriteMovies()
-                .then(data => {
-                    setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-
-    }, [currentUser, loggedIn]);
-
-    // 
-    function handleLogin() {
-        setLoggedIn(true); // 
-        handleTokenCheck();
-    }
-
-    // ф-я проверки токена
-    const handleTokenCheck = (pathname) => {
-        if (localStorage.getItem("jwt")) {
-            // const jwt = JSON.parse(localStorage.getItem("jwt"));
-           const jwt = localStorage.getItem("jwt");
-
-            if (jwt) {
-                auth
-                    .checkToken(jwt)
-                    .then(() => {
-                        setLoggedIn(true);
-                        history.push(pathname);
-
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        localStorage.removeItem('jwt');
-                    })
-            }
-        }
-    };
-
-    // хук, который применяет проверку токена в зависимости от path
-    useEffect(() => {
-        handleTokenCheck(location.pathname);
-    }, []);
-
-    // ф-я выхода 
-    function handleLogout(evt) {
-        // evt.preventDefault();
-        localStorage.clear();
-        setLoggedIn(false);
-        setCurrentUser({});
-        history.push("/");
-    }
-
-    // хук, с помощью которого мы расширяем значения фильма и добавляем новое значение id по которому будем сравнивать и удалять
-    useEffect(() => {
-        const result = movies.map(movie => {
-            const favouriteList = favourites.find(x => movie.id === x.movieId);
-            movie.movieId = movie.id;
-            movie._id = favouriteList?._id;
-            movie.like = !!favouriteList;
-            return movie;
-        });
-        setMovies(result);
-        // console.log(result, 'result');
-    }, [favourites]);
-
-
-    // БЛОК ГДЕ ОТОБРАЖАЮТСЯ ФИЛЬМЫ 
-    // useEffect(() => {
-    //     setButtonSearch(true);
-    //     if (searchQuery !== '') {
-    //         setButtonSearch(false);
-    //         setIsLoadding(true);
-    //         moviesApi.getMovies()
-    //             .then(data => {
-    //                 const movies = data.map(item => {
-    //                     return {
-    //                         country: item.country,
-    //                         director: item.director,
-    //                         duration: item.duration,
-    //                         year: item.year,
-    //                         description: item.description,
-    //                         image: item.image.url,
-    //                         nameRU: item.nameRU,
-    //                         nameEN: item.nameEN,
-    //                         thumbnail: item.image.formats.thumbnail.url,
-    //                         movieId: item.id,
-    //                         trailerLink: item.trailerLink
-    //                     }
-    //                 })
-    //                 setMovies(movies);
-    //                 localStorage.setItem('searchResult', searchQuery);
-    //                 if (isChecked) {
-    //                     const checkedFilter = movies.filter((movie) => movie.duration <= 40);
-    //                     setMovies(checkedFilter);
-    //                     localStorage.setItem('checkedFilter', isChecked);
-    //                     return;
-    //                 }
-    //             })
-    //             .catch((err) => console.log(err.status))
-    //             .finally(() => {
-    //                 setIsLoadding(false);
-    //                 localStorage.setItem('checkedFilter', isChecked);
-    //             })
-    //     } else if (searchQuery === '') {
-    //         setMovies([]);
-    //         setButtonSearch(true);
-
-    //     }
-    // }, [searchQuery, isChecked]);
-
-
-    // useEffect(() => {
-    //     setButtonSearch(true);
-    //     if (searchQuery !== '') {
-    //         setButtonSearch(false);
-    //         setIsLoadding(true);
-    //         setFavourites()
-    //         if (isChecked) {
-    //             const checkedFilter = favourites.filter((favourite) => favourite.duration <= 40);
-    //             setFavourites(checkedFilter);
-    //             return;
-    //         }
-    //     } else if (searchQuery === '') {
-    //         setButtonSearch(true);
-    //     }
-    // }, [searchQuery, isChecked, favourites]);
-
-
-    //
-    // useEffect(() => {
-    //     setButtonSearch(true);
-    //     if (searchQuery !== '') {
-    //         setButtonSearch(false);
-    //         // setIsLoadding(true);
-    //         // const searchMovies = movies.filter((favourite) => favourite)
-    //         const searchMovies = movies.filter(movie => {
-    //             return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-    //         })
-    //         localStorage.setItem(`searchResult ${location.pathname}`, searchMovies);
-    //         console.log(localStorage, 'localstorae');
-
-    //         setMovies(searchMovies);
-    //         console.log(movies);
-    //         if (isChecked === true) {
-    //             const checkedFilter = movies.filter((movie) => movie.duration <= 40);
-    //             // localStorage.setItem('checkedFilter', isChecked);
-    //             setMovies(checkedFilter);
-    //             return;
-    //         } else if (searchQuery === '') {
-    //             setButtonSearch(true);
-    //         }
-    //     } else if (searchQuery === '') {
-    //         setMovies([]);
-    //         setButtonSearch(true);
-    //     }
-
-    //     console.log(searchQuery);
-    // }, [searchQuery, isChecked, location.pathname]);
-
-    // console.log(movies);
-
-
-
-    useEffect(() => {
-        const searchMovies = localStorage.getItem("searchResult")
-
-        if (searchMovies) {
-            setMovies(searchMovies);
-        }
-    }, [])
-
-
-
-    useEffect(() => {
-        setButtonSearch(true);
-        if (searchQuery !== '') {
-            setButtonSearch(false);
-            // setIsLoadding(true);
-            // const searchMovies = favourites.filter((favourite) => favourite)
-
-            const searchMovies = favourites.filter(movie => {
-                return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-            })
-            // localStorage.setItem(`searchResult ${location.pathname}`, searchQuery);
-            console.log(localStorage, 'localstorae');
-
-            setFavourites(searchMovies);
-            if (isChecked === true) {
-                const checkedFilter = favourites.filter((movie) => movie.duration <= 40);
-                // localStorage.setItem('checkedFilter', isChecked);
-                setFavourites(checkedFilter);
-                return;
-            }
-            localStorage.setItem(`searchResult ${location.pathname}`, searchQuery);
-        } else if (searchQuery === '') {
-            setButtonSearch(true);
-        }
-        // console.log(favourites);
-        // console.log(searchQuery);
-    }, [searchQuery, isChecked]);
-
-
-
-    // рвбочий вариант приема фильмов 
-    useEffect(() => {
-        moviesApi.getMovies()
-            .then((res) => setMovies(res))
-            .catch((err) => {
-                console.log(err)
-            })
-    }, []);
-    // console.log(movies)
-
-    // ф-я условия фильтрации фильмов
-    const filteredMovies = movies.filter(movie => {
-        return movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-    })
-
-    // useEffect(() => {
-    //     let result = isBlankPage ? [] : [...movies];
-
-    //     if (searchQuery) {
-    //         result = filteredMovies;
-    //         setIsMovies(result);
-    //     }
-    //     if (isChecked === true) {
-    //        const checked= movies.filter((movie) => movie.duration <= 40);
-    //         // localStorage.setItem('checkedFilter', isChecked);
-    //         // return;
-    //         setIsMovies(checked);
-    //     }
-
-    //     setIsMovies(result);
-    //     // localStorage.setItem("foundMovies", JSON.stringify(result));
-    // }, []);
-
-    // console.log(isChecked)
-
-
-    // ф-я поиска фильмов
-    function handleInputChange(e) {
-        e.preventDefault();
-        console.log(e.target.value);
-        setSearchQuery(e.target.value);
-    }
-
-    // ф-я сабмита поиска фильмов
-    function handleFormSubmit(e) {
-        e.preventDefault();
-    }
-
-
-
-    // const filteredFavouriteMovies = favourites.filter(favourite => {
-    //     return favourite.nameRU.toLowerCase().includes(searchQuery.toLowerCase());
-    // })
-
-    // ф-я чекида короткометражек
-    function handleCheckbox(e) {
-        //  e.target.checked
-        // console.log(e.target.value);
-        // setShortFilmsFilter(movies.filter((movie) => movie.duration <= 40));
-        // // setSearchQuery(e.target.value);
-        setIsChecked(e.target.checked);
-    }
-
-    // ф-я добавления фильма в любимые
-    function addFavouriteMovie(movie) {
-
-        //   const isLiked = movies.some((m) => m.movieId === );
-        //   console.log(isLiked);
-
-        api.postFavoriteMovie(movie)
-            .then(newFavouriteList => {
-                setFavourites([...favourites, newFavouriteList]);
-                console.log(favourites, 'favourites');
-                // setFavourites([newFavouriteList, (favourites) => favourites.filter((favourite) => favourite._id !== movie._id)])
-            })
-            .catch((err) => console.log("Ошибка", err));
-    }
-    // console.log(favourites, 'favourites');
-
-
-    // ф-я удаления фильма из любимых
-    function removeFavouriteMovie(movie) {
-        api.deleteFavoriteMovie(movie._id)
-            .then(() => {
-                setFavourites((favourites) => favourites.filter((favourite) => favourite._id !== movie._id));
-            })
-            .catch((err) => console.log("Ошибка", err));
-    }
-
-    // ф-я редактирования профиля
-    function handleUpdateProfile(user) {
-        api.patchUserInfo(user).then((userData) => {
-            setButtonUpdate(true);
-            setCurrentUser(userData);
-
-            console.log(userData, 'userdata');
-            setIsUpdate(true)
-            setTimeout(setIsUpdate, 4000);
+  // получаем информацию о текущем пользователе
+  useEffect(() => {
+    if (loggedIn) {
+      api
+        .getUserInfo()
+        .then((data) => {
+          setCurrentUser(data);
         })
-            .catch((err) => {
-                setButtonUpdate(false);
-                setIsUpdate(false);
-                console.log("ERORR", err)
-            });
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
+
+  // получаем ифнормацию о любимых фильмах залогиненного пользователя, добавляем значения лайк
+  useEffect(() => {
+    if (!loggedIn || !movies) {
+      return;
     }
 
-    // Обработчик открытия навигации
-    function handleNavigationClick() {
-        setIsNavigationOpen(true);
+    api
+      .getFavoriteMovies()
+      .then((data) => {
+        const moviesMap = new Map(movies.map((x) => [x.id, x]));
+
+        data = data.map((item) => {
+          const movie = moviesMap.get(item.movieId);
+          movie.like = true;
+
+          return movie;
+        });
+
+        setFavourites(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [loggedIn, movies]);
+
+  //
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+
+  // ф-я проверки токена
+  function handleTokenCheck() {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then(() => {
+          setLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          localStorage.removeItem("jwt");
+          setLoggedIn(false);
+        });
+    } else {
+      setLoggedIn(false);
     }
+  }
 
-    // обработчик закрытия навигации
-    function closeNavigation() {
-        setIsNavigationOpen(false);
-    }
+  // хук, который применяет проверку токена
+  useEffect(() => {
+    handleTokenCheck();
+  }, []);
 
-    setTimeout(closeNavigation, 7000);
+  // рвбочий вариант приема фильмов
+  useEffect(() => {
+    moviesApi
+      .getMovies()
+      .then((res) => setMovies(res))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-    return (
-        <div className="page">
-            <CurrentUserContext.Provider value={currentUser}>
-                <Switch>
-                    <Route exact path="/">
-                        <Main
-                            loggedIn={loggedIn}
-                            onClick={handleNavigationClick}
-                        />
-                    </Route>
-                    <ProtectedRoute loggedIn={loggedIn}
-                        component={Movies}
-                        path="/movies"
-                        movies={movies}
-                        buttonSearch={buttonSearch}
-                        isChecked={isChecked}
-                        isLoadding={isLoadding}
-                        filteredMovies={filteredMovies}
-                        handleFormSubmit={handleFormSubmit}
-                        handleCheckbox={handleCheckbox}
-                        handleInputChange={handleInputChange}
-                        onClick={handleNavigationClick}
-                        handleFavouriteClick={addFavouriteMovie}
-                        removeFavouriteMovie={removeFavouriteMovie}
+  // ф-я добавления фильма в любимые
+  function addFavouriteMovie(movie) {
+    api
+      .postFavoriteMovie(movie)
+      .then((newFavourite) => {
+        movie.like = true;
+        setFavourites([...favourites, movie]);
+      })
+      .catch((err) => console.log("Ошибка", err));
+  }
 
+  // ф-я удаления фильма из любимых
+  function removeFavouriteMovie(movie) {
+    api
+      .deleteFavoriteMovie(movie.id)
+      .then(() => {
+        delete movie.like;
+        setFavourites((favourites) =>
+          favourites.filter((favourite) => favourite.id !== movie.id)
+        );
+      })
+      .catch((err) => console.log("Ошибка", err));
+  }
 
-                        setButtonSearch={setButtonSearch}
-                        searchQuery={searchQuery}
-                        setMovies={setMovies}
-                    />
+  // ф-я редактирования профиля
+  function handleUpdateProfile(user) {
+    api
+      .patchUserInfo(user)
+      .then((userData) => {
+        setButtonUpdate(true);
+        setCurrentUser(userData);
 
-                    <ProtectedRoute loggedIn={loggedIn}
-                        component={Profile}
-                        path="/profile"
-                        exit={handleLogout}
-                        onClick={handleNavigationClick}
-                        onUpdateProfile={handleUpdateProfile}
-                        isUpdate={isUpdate}
-                        buttonUpdate={buttonUpdate}
-                        setCurrentUser={setCurrentUser}
-                        handleUpdateProfile={handleUpdateProfile}
-                        unactiveButton={unactiveButton}
-                        setUnactiveButton={setUnactiveButton}
-                    />
+        console.log(userData, "userdata");
+        setIsUpdate(true);
+        setTimeout(setIsUpdate, 4000);
+      })
+      .catch((err) => {
+        setButtonUpdate(false);
+        setIsUpdate(false);
+        console.log("ERORR", err);
+      });
+  }
 
-                    <ProtectedRoute loggedIn={loggedIn}
-                        component={SavedMovies}
-                        path="/saved-movies"
-                        movies={movies}
-                        favourites={favourites}
-                        setFavourites={setFavourites}
-                        filteredMovies={filteredMovies}
-                        buttonSearch={buttonSearch}
-                        isChecked={isChecked}
-                        isLoadding={isLoadding}
-                        handleFormSubmit={handleFormSubmit}
-                        handleCheckbox={handleCheckbox}
-                        handleInputChange={handleInputChange}
-                        onClick={handleNavigationClick}
-                        removeFavouriteMovie={removeFavouriteMovie}
-                    />
+  // ф-я выхода
+  function handleLogout(evt) {
+    localStorage.clear();
+    setLoggedIn(false);
+    setCurrentUser({});
+    history.push("/");
+  }
 
-                    <ProtectedRouteAuth
-                        component={Login}
-                        path="/signin"
-                        loggedIn={loggedIn}
-                        handleLogin={handleLogin}
-                        unactiveButton={unactiveButton}
-                        setUnactiveButton={setUnactiveButton}
-                    />
+  // Обработчик открытия навигации
+  function handleNavigationClick() {
+    setIsNavigationOpen(true);
+  }
 
-                    <ProtectedRouteAuth
-                        component={Register}
-                        path="/signup"
-                        loggedIn={loggedIn}
-                        handleLogin={handleLogin}
-                        unactiveButton={unactiveButton}
-                        setUnactiveButton={setUnactiveButton}
-                    />
+  // обработчик закрытия навигации
+  function closeNavigation() {
+    setIsNavigationOpen(false);
+  }
 
-                    <Route path="*">
-                        <NotFound />
-                    </Route>
-                </Switch>
-                <Navigation
-                    isOpen={isNavigationOpen}
-                    onClose={closeNavigation}
-                />
-            </CurrentUserContext.Provider>
-        </div>
-    );
+  // таймер закрытия нав окна
+  setTimeout(closeNavigation, 7000);
+
+  return (
+    <div className="page">
+      <CurrentUserContext.Provider value={currentUser}>
+        <Switch>
+          <Route exact path="/">
+            <Main loggedIn={loggedIn} onClick={handleNavigationClick} />
+          </Route>
+          <ProtectedRoute
+            loggedIn={loggedIn}
+            component={Movies}
+            path="/movies"
+            movies={movies}
+            isLoadding={isLoadding}
+            onClick={handleNavigationClick}
+            handleFavouriteClick={addFavouriteMovie}
+            removeFavouriteMovie={removeFavouriteMovie}
+          />
+
+          <ProtectedRoute
+            loggedIn={loggedIn}
+            component={Profile}
+            path="/profile"
+            exit={handleLogout}
+            onClick={handleNavigationClick}
+            onUpdateProfile={handleUpdateProfile}
+            isUpdate={isUpdate}
+            buttonUpdate={buttonUpdate}
+            setCurrentUser={setCurrentUser}
+            handleUpdateProfile={handleUpdateProfile}
+            unactiveButton={unactiveButton}
+            setUnactiveButton={setUnactiveButton}
+          />
+
+          <ProtectedRoute
+            loggedIn={loggedIn}
+            component={SavedMovies}
+            path="/saved-movies"
+            movies={favourites}
+            isLoadding={isLoadding}
+            onClick={handleNavigationClick}
+            removeFavouriteMovie={removeFavouriteMovie}
+          />
+
+          <ProtectedRouteAuth
+            component={Login}
+            path="/signin"
+            loggedIn={loggedIn}
+            handleLogin={handleLogin}
+            unactiveButton={unactiveButton}
+            setUnactiveButton={setUnactiveButton}
+          />
+
+          <ProtectedRouteAuth
+            component={Register}
+            path="/signup"
+            loggedIn={loggedIn}
+            handleLogin={handleLogin}
+            unactiveButton={unactiveButton}
+            setUnactiveButton={setUnactiveButton}
+          />
+
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+        <Navigation isOpen={isNavigationOpen} onClose={closeNavigation} />
+      </CurrentUserContext.Provider>
+    </div>
+  );
 }
 
 export default withRouter(App);

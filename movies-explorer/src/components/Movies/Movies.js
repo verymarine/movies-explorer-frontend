@@ -1,94 +1,72 @@
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import FilterCheckbox from "./FilterCheckbox/FilterCheckbox";
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import SearchForm from "./SearchForm/SearchForm";
 import React, { useEffect, useState } from "react";
 import "./Movies.css";
-import { useLocation } from "react-router-dom";
 
 function Movies(props) {
-    const [showMovies, setShowMovies] = useState(0);
-    const [moreMovies, setMoreMovies] = useState(0);
-    const [width, setWidth] = useState(window.innerWidth);
+  // Стейт, в котором содержится значение параметров поиска
+  const [search, setSearch] = useState(getDefaultSearch());
 
+  // эффект с помощью котого мы сохранияем значения тек. поиска в локалстордж
+  useEffect(() => {
+    localStorage.setItem("search", JSON.stringify(search));
+  }, [search]);
 
-    const moviesList = props.filteredMovies.slice(0, showMovies); // вынести в константы
-
-    const moviesLength = moviesList.length; // вынести в константы
-
-    const result = props.movies.slice(0, showMovies).length; // вынести в константы
-
-    const filteredMoviesLength = props.filteredMovies.length; // вынести в константы
-
-    //
-    useEffect(() => {
-        if (width >= 1023) {
-            setShowMovies(16);
-            setMoreMovies(4);
-        } else if (width >= 768) {
-            setShowMovies(8);
-            setMoreMovies(2);
-        } else {
-            setShowMovies(5);
-            setMoreMovies(2);
-        }
-    }, [width]);
-
-    //
-    useEffect(() => {
-        window.addEventListener("resize", () => setTimeout(() => {
-            handleResize();
-        }, 500));
-
-        return window.removeEventListener("resize", handleResize());
-    }, [width]);
-
-    //
-    const handleResize = () => {
-        setWidth(
-            window.innerWidth,
-        )
-    };
-
-    //
-    function handleShowMoreMovies() {
-        setShowMovies(showMovies + moreMovies);
+  // ф-я проверки наличия значений в локалстордж и определение состояния поиска
+  function getDefaultSearch() {
+    const search = localStorage.getItem("search");
+    if (search) {
+      try {
+        return JSON.parse(search);
+      } catch (e) {}
     }
 
-    return (
-        <>
-            <Header
-                openNavigation={props.onClick}
-                className="header"
-            />
-            <main className="main">
-                <SearchForm
-                    handleInputChange={props.handleInputChange}
-                    handleFormSubmit={props.handleFormSubmit}
-                    buttonSearch={props.buttonSearch}
-                    filteredMovies={props.filteredMovies}
-                    filteredMoviesLength={filteredMoviesLength}
-                />
-                <FilterCheckbox
-                    handleCheckbox={props.handleCheckbox}
-                    isChecked={props.isChecked}
-                />
-                <MoviesCardList
-                    isLoadding={props.isLoadding}
-                    movies={moviesList}
-                    moviesLength={moviesLength}
-                    result={result}
-                    filteredMovies={props.filteredMovies}
-                    handleShowMoreMovies={handleShowMoreMovies}
-                    handleFavouriteClick={props.handleFavouriteClick}
-                    removeFavouriteMovie={props.removeFavouriteMovie}
+    return {
+      query: "",
+      short: false,
+    };
+  }
 
-                />
-            </main>
-            <Footer />
-        </>
-    )
+  // ф-я условия фильтрации фильмов
+  const filteredMovies = props.movies.filter((movie) => {
+    return (
+      search.query &&
+      movie.nameRU.toLowerCase().includes(search.query.toLowerCase()) &&
+      (!search.short || movie.duration <= 40)
+    );
+  });
+
+  return (
+    <>
+      <Header openNavigation={props.onClick} className="header" />
+      <main className="main">
+        <SearchForm
+          onSearch={setSearch}
+          query={search.query}
+          short={search.short}
+        />
+        {filteredMovies.length === 0 && !search.query ? (
+          <p className="serach-form__info">Нужно ввести ключевое слово</p>
+        ) : (
+          <></>
+        )}
+        {filteredMovies.length === 0 && search.query ? (
+          <p className="serach-form__info">Ничего не найдено</p>
+        ) : (
+          <></>
+        )}
+        <MoviesCardList
+          isLoadding={props.isLoadding}
+          movies={filteredMovies}
+          handleFavouriteClick={props.handleFavouriteClick}
+          removeFavouriteMovie={props.removeFavouriteMovie}
+        />
+      </main>
+      <Footer />
+    </>
+  );
 }
 
 export default Movies;

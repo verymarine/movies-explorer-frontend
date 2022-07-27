@@ -1,36 +1,18 @@
 import React from "react";
-import { useState } from "react";
 import { Route } from "react-router-dom";
 import "./MoviesCard.css";
 
 function MoviesCard(props) {
-
-  // стейт в котором меняется значения лайка
-  const [like, setLike] = useState(false);
-
- // // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-  // const isLiked = props.favourites.some((favourite) => favourite.movieId === props.movie.movieId);
-  // console.log(props.favourites, " FAVOURITES AT CARD");
-  // console.log(props.movie, "MOVIE AT CARD");
-
-//   const checkLikeStatus = () => {
-//     props.movies.includes(props.movie) ? setLike(true) : setLike(false);
-// }
-
-// useEffect(checkLikeStatus, [props.favourites, props.movie])
-
-
-
-
   return (
     <article className="movies-card">
-      <a className="movies-card__video-link"
+      <a
+        className="movies-card__video-link"
         href={props.trailerLink}
         target="blank"
       >
         <img
           className="movies-card__video"
-          src={`https://api.nomoreparties.co/${props.image}`} // добавила  url
+          src={`https://api.nomoreparties.co/${props.image}`}
           alt="картинка промо видео"
         />
       </a>
@@ -41,18 +23,19 @@ function MoviesCard(props) {
         </div>
         <div className="movies-card__like-area">
           <Route path="/movies">
-            {like === true
-              ? <button
+            {props.movie.like === true ? (
+              <button
                 className="movies-card__liked"
-                onClick={() => props.removeFavouriteMovie(props.movie, setLike(false))}
+                onClick={() => props.removeFavouriteMovie(props.movie)}
                 type="button"
               ></button>
-              : <button
+            ) : (
+              <button
                 className="movies-card__like"
-                onClick={() => props.handleFavouriteClick(props.movie, setLike(true))}
+                onClick={() => props.handleFavouriteClick(props.movie)}
                 type="button"
               ></button>
-            }
+            )}
           </Route>
 
           <Route path="/saved-movies">
@@ -62,7 +45,6 @@ function MoviesCard(props) {
               type="button"
             ></button>
           </Route>
-
         </div>
       </div>
     </article>

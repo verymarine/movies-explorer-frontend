@@ -10,21 +10,22 @@ import "./HeaderMain/HeaderMain.css";
 import "../Header/Header.css";
 
 function Main(props) {
-    return (
-        <div >
-            {props.loggedIn
-                ? <Header className="header-main" openNavigation={props.onClick} />
-                : <HeaderMain />
-            }
-            <section className="main">
-                <Promo />
-                <AboutProject />
-                <Techs />
-                <AboutMe />
-                <Portfolio />
-            </section>
-            <Footer />
-        </div>
-    );
+  return (
+    <div>
+      {props.loggedIn ? (
+        <Header className="header-main" openNavigation={props.onClick} />
+      ) : (
+        <HeaderMain loading={props.loggedIn === undefined} />
+      )}
+      <section className="main">
+        <Promo />
+        <AboutProject />
+        <Techs />
+        <AboutMe />
+        <Portfolio />
+      </section>
+      <Footer />
+    </div>
+  );
 }
 export default Main;

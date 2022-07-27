@@ -1,43 +1,71 @@
-import React, { useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import React from "react";
+import { useState } from "react";
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
 function SearchForm(props) {
+  // значение поиска
+  const [query, setQuery] = useState(props.query);
 
-    return (
-        <section className="search-form">
-            <form className="search-form__form" action="" method="get" onSubmit={props.handleFormSubmit}>
-                <input className="search-form__input" name="movie" placeholder="Фильм" type="search"
-                    onChange={props.handleInputChange}
-                />
-                <button
-                    className={`search-form__button ${props.buttonSearch ? "search-form__button-unactive" : ""} `}
-                    type="submit"
-                    disabled={props.buttonSearch}
-                >Найти</button>
-            </form>
+  // значение короткометражек
+  const [short, setShort] = useState(props.short);
 
-            <Switch>
-                <Route path="/movies">
-                    {props.buttonSearch
-                        ? <p className="serach-form__info">Нужно ввести ключевое слово</p>
-                        : <></>
-                    }
-                    {(props.filteredMoviesLength === 0 && props.buttonSearch === false)
-                        ? <p className="serach-form__info">Ничего не найдено</p>
-                        : <></>
-                    }
-                </Route>
-                <Route path="/saved-movies">
-                    {(props.favouritesLength === 0 && props.buttonSearch === false)
-                        ? <p className="serach-form__info">Ничего не найдено</p>
-                        : <></>
-                    }
-                </Route>
-            </Switch>
+  // ф-я сабмита поиска
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    props.onSearch({
+      query,
+      short,
+    });
+  }
 
+  // ф-я чекида короткометражек
+  function handleCheckbox(e) {
+    const value = e.target.checked;
+    setShort(value);
 
-        </section>
-    );
+    props.onSearch({
+      query,
+      short: value,
+    });
+  }
+
+  // ф-я установки значения поиска в стейт
+  function handleInputChange(e) {
+    setQuery(e.target.value);
+  }
+
+  return (
+    <>
+      <section className="search-form">
+        <form
+          className="search-form__form"
+          action=""
+          method="get"
+          onSubmit={handleFormSubmit}
+        >
+          <input
+            className="search-form__input"
+            name="movie"
+            placeholder="Фильм"
+            type="search"
+            value={query}
+            onChange={handleInputChange}
+          />
+          <button
+            className={`search-form__button ${
+              query ? "" : "search-form__button-unactive"
+            } `}
+            type="submit"
+            disabled={!query}
+            onClick={handleFormSubmit}
+          >
+            Найти
+          </button>
+        </form>
+      </section>
+      <FilterCheckbox handleCheckbox={handleCheckbox} isChecked={short} />
+    </>
+  );
 }
 export default SearchForm;
