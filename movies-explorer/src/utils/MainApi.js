@@ -80,8 +80,8 @@ class MainApi {
 }
 
 const api = new MainApi({
-  // url: 'https://api.moviehub.nomoredomains.xyz',
-  url: "http://localhost:3000",
+  url: 'https://api.moviehub.nomoredomains.xyz',
+  // url: "http://localhost:3000",
   headers: {
     "Content-Type": `application/json`,
   },

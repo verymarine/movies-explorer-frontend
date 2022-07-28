@@ -75,28 +75,34 @@ function App() {
 
   // получаем ифнормацию о любимых фильмах залогиненного пользователя, добавляем значения лайк
   useEffect(() => {
-    if (!loggedIn || !movies) {
+    if (
+      !loggedIn
+      // || !movies
+    ) {
       return;
     }
 
     api
       .getFavoriteMovies()
-      .then((data) => {
-        const moviesMap = new Map(movies.map((x) => [x.id, x]));
+      .then((data) =>
+        // {setFavourites((data) = data.filter((f) => f.owner._id === currentUser._id));}
+        {
+          const moviesMap = new Map(movies.map((x) => [x.id, x]));
 
-        data = data.map((item) => {
-          const movie = moviesMap.get(item.movieId);
-          movie.like = true;
-
-          return movie;
-        });
-
-        setFavourites(data);
-      })
+          data = data
+            .filter((f) => f.owner._id === currentUser._id)
+            .map((item) => {
+              const movie = moviesMap.get(item.movieId);
+              movie.like = true;
+              return movie;
+            });
+          setFavourites(data);
+        }
+      )
       .catch((err) => {
         console.log(err);
       });
-  }, [loggedIn, movies]);
+  }, [loggedIn, movies, currentUser]);
 
   //
   function handleLogin() {

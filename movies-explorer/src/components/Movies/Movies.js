@@ -4,6 +4,7 @@ import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import SearchForm from "./SearchForm/SearchForm";
 import React, { useEffect, useState } from "react";
 import "./Movies.css";
+import Preloader from "./Preloader/Preloader";
 
 function Movies(props) {
   // Стейт, в котором содержится значение параметров поиска
@@ -20,7 +21,8 @@ function Movies(props) {
     if (search) {
       try {
         return JSON.parse(search);
-      } catch (e) {}
+      } catch (e) {
+      }
     }
 
     return {
