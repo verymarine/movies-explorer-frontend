@@ -1,66 +1,130 @@
+import React, { useState } from "react";
 import "./Register.css";
-import logo from "../../images/logo.svg";
-import { Link, Route } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
+import * as auth from "../../utils/Auth";
+import { useFormValidation } from "../UseFormValidation";
 
 function Register(props) {
-    return (
-        <>
-            <HeaderAuth />
-            <div className="register">
-                {/* <img className="register__logo" src={logo} alt="логотип в виде круга" />
-            <h2 className="register__title">Добро пожаловать!</h2> */}
-                <form className="register__form">
-                    <label className="register__label">
-                        Имя
-                        <input
-                            className="register__input"
-                            // placeholder="Имя"
-                            id="name"
-                            name="name"
-                            type="text"
-                            required
-                        />
-                    </label>
-                    <label className="register__label">
-                        E-mail
-                        <input
-                            className="register__input"
-                            // placeholder="E-mail"
-                            id="email"
-                            name="email"
-                            type="email"
-                            required
-                        />
-                    </label>
+  const { values, handleChange, errors, isValid, setValues } =
+    useFormValidation();
 
-                    <label className="register__label">
-                        Пароль
-                        <input
-                            className="register__input"
-                            // placeholder="Пароль"
-                            id="password"
-                            name="password"
-                            type="password"
-                            required
-                        />
-                    </label>
+  const [isSuccessed, setIsSuccessed] = useState(false);
 
-                    <button
-                        type="submit"
-                        className="register__button"
-                    >
-                        Зарегистрироваться
-                    </button>
-                </form>
-                <div className="register__signin">
-                    <p className="register__text">Уже зарегистрированы?</p>
-                    <Link to="/signin" className="register__link">Войти</Link>
-                </div>
-            </div>
-        </>
+  // const history = useHistory();
 
-    );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (values.name || values.email || values.password) {
+      auth
+        .register(values.name, values.email, values.password)
+        .then((res) => {
+          if (res.email) {
+            console.log(res, "res");
+            auth
+              .authorize(values.email, values.password)
+              .then((res) => {
+                console.log(res.jwt, "res.jwt");
+                if (res.jwt) {
+                  console.log(res);
+                  setValues({
+                    email: "",
+                    password: "",
+                  });
+                  localStorage.setItem("jwt", res.jwt);
+                  props.handleLogin();
+                  // history.push("/movies");
+                }
+              })
+              .catch((err) => {
+                setIsSuccessed(true);
+                console.log("Error at logIn", err);
+              });
+          }
+          setIsSuccessed(true);
+          setTimeout(setIsSuccessed, 3000);
+        })
+        .catch((err) => {
+          setIsSuccessed(true);
+          console.log("Error at register", err);
+        });
+    }
+  };
+
+  return (
+    <>
+      <HeaderAuth />
+      <div className="register">
+        <form className="register__form" onSubmit={handleSubmit}>
+          <label className="register__label">
+            Имя
+            <input
+              className="register__input"
+              id="name"
+              name="name"
+              type="text"
+              minLength="2"
+              maxLength="12"
+              required
+              value={values.name || ""}
+              onChange={handleChange}
+            />
+          </label>
+          <span className="register__errors">{errors.name}</span>
+
+          <label className="register__label">
+            E-mail
+            <input
+              className="register__input"
+              id="email"
+              name="email"
+              type="email"
+              pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
+              required
+              value={values.email || ""}
+              onChange={handleChange}
+            />
+          </label>
+          <span className="register__errors">{errors.email}</span>
+
+          <label className="register__label">
+            Пароль
+            <input
+              className="register__input"
+              id="password"
+              name="password"
+              type="password"
+              required
+              value={values.password || ""}
+              onChange={handleChange}
+            />
+          </label>
+          <span className="register__errors">{errors.password}</span>
+
+          {isSuccessed === true ? (
+            <p className="register__status">Ошибка при регистрации</p>
+          ) : (
+            <></>
+          )}
+          <button
+            type="submit"
+            className={`register__button ${
+              (!isValid || props.unactiveButton) && "register__button-unactive"
+            }`}
+            disabled={!isValid || props.unactiveButton}
+          >
+            Зарегистрироваться
+          </button>
+        </form>
+        <div className="register__signin">
+          <p className="register__text">Уже зарегистрированы?</p>
+          <Link to="/signin" className="register__link">
+            Войти
+          </Link>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Register;

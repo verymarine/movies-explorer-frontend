@@ -1,29 +1,54 @@
+import React from "react";
+import { Route } from "react-router-dom";
 import "./MoviesCard.css";
-import video from "../../../images/video.svg";
 
 function MoviesCard(props) {
-    return (
-        <article className="movies-card">
+  return (
+    <article className="movies-card">
+      <a
+        className="movies-card__video-link"
+        href={props.trailerLink}
+        target="blank"
+      >
         <img
           className="movies-card__video"
-          src={video}
+          src={`https://api.nomoreparties.co/${props.image}`}
           alt="картинка промо видео"
         />
-        <div className="movies-card__info">
-          <div className="movies-card__test">
+      </a>
+      <div className="movies-card__info">
+        <div className="movies-card__test">
+          <h2 className="movies-card__title">{props.nameRU}</h2>
+          <h3 className="movies-card__duration">{props.duration}</h3>
+        </div>
+        <div className="movies-card__like-area">
+          <Route path="/movies">
+            {props.movie.like === true ? (
+              <button
+                className="movies-card__liked"
+                onClick={() => props.removeFavouriteMovie(props.movie)}
+                type="button"
+              ></button>
+            ) : (
+              <button
+                className="movies-card__like"
+                onClick={() => props.handleFavouriteClick(props.movie)}
+                type="button"
+              ></button>
+            )}
+          </Route>
 
-          <h2 className="movies-card__title">33 слова о дизайне</h2>
-          <h3 className="movies-card__duration">1ч42м</h3>
-          </div>
-          <div className="movies-card__like-area">
+          <Route path="/saved-movies">
             <button
-              className={props.className}
+              className="movies-card__delete"
+              onClick={() => props.removeFavouriteMovie(props.movie)}
               type="button"
             ></button>
-          </div>
+          </Route>
         </div>
-      </article>
-    );
+      </div>
+    </article>
+  );
 }
 
 export default MoviesCard;

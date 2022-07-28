@@ -51,6 +51,7 @@
 .navigation__main {
     margin: 159px auto 0 auto;
     padding: 0;
+    width: 80px;
     display: block;
     font-family: 'Inter';
     font-style: normal;
@@ -62,9 +63,14 @@
     color: #000000;
 }
 
+.navigation__main:active {
+    border-bottom: 1px solid #000000;
+}
+
 .navigation__movies {
     margin: 28px auto 0 auto;
     padding: 0;
+    width: 80px;
     display: block;
     font-family: 'Inter';
     font-style: normal;
@@ -74,12 +80,18 @@
     text-align: center;
     text-decoration: none;
     color: #000000;
+    box-sizing: border-box;
+}
+
+.navigation__movies:active {
+    border-bottom: 1px solid #000000;
 }
 
 .navigation__saved-movies {
     margin: 28px auto 0 auto;
     padding: 0;
     display: block;
+    width: 200px;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -88,6 +100,10 @@
     text-align: center;
     text-decoration: none;
     color: #000000;
+}
+
+.navigation__saved-movies:active {
+    border-bottom: 1px solid #000000;
 }
 
 .navigation__profile {
